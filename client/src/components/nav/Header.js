@@ -13,7 +13,7 @@ import {
 
 import { Link } from "react-router-dom";
 import firebase from "firebase/compat/app";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const { SubMenu, Item } = Menu; //Menu.SubMenu
@@ -23,6 +23,7 @@ const Header = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { user } = useSelector((state) => ({ ...state }));
 
   const handleClick = (e) => {
     //console.log(e.key);
@@ -41,22 +42,32 @@ const Header = () => {
   return (
     <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
       <Item key="home" icon={<HomeOutlined />}>
-        <Link to="/">Home</Link>
+        <Link to="/">Home </Link>
       </Item>
-      <SubMenu key="username" icon={<SettingOutlined />} title="Username">
-        <Item key="option1">Option 1</Item>
-        <Item key="option2">Option 2</Item>
-        <Item icon={<LogoutOutlined />} onClick={logout}>
-          Logout
+      {user && (
+        <SubMenu
+          key="username"
+          icon={<SettingOutlined />}
+          title={user.email && user.email.split("@")[0]}
+          className="float-right"
+        >
+          <Item key="option1">Option 1</Item>
+          <Item key="option2">Option 2</Item>
+          <Item icon={<LogoutOutlined />} onClick={logout}>
+            Logout
+          </Item>
+        </SubMenu>
+      )}
+      {!user && (
+        <Item key="register" icon={<UserAddOutlined />} className="float-right">
+          <Link to="/register">Register</Link>
         </Item>
-      </SubMenu>
-
-      <Item key="register" icon={<UserAddOutlined />} className="float-right">
-        <Link to="/register">Register</Link>
-      </Item>
-      <Item key="login" icon={<UsbOutlined />} className="float-right">
-        <Link to="/login">Login</Link>
-      </Item>
+      )}
+      {!user && (
+        <Item key="login" icon={<UsbOutlined />} className="float-right">
+          <Link to="/login">Login</Link>
+        </Item>
+      )}
     </Menu>
   );
 };
