@@ -7,7 +7,9 @@ import { Button } from "antd";
 const RegisterComplete = ({ history }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const navigate = useNavigate();
+  
   useEffect(() => {
     setEmail(window.localStorage.getItem("emailForRegistration"));
     // console.log("EMAIL: ", window.localStorage.getItem("emailForRegistration"));
