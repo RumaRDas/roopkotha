@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { auth } from "../../firebase";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { Button } from "antd";
 
 const RegisterComplete = ({ history }) => {
   const [email, setEmail] = useState("");
@@ -54,20 +55,31 @@ const RegisterComplete = ({ history }) => {
 
   const CompleteRegistrationForm = () => (
     <form onSubmit={handleSubmit}>
-      <input type="email" className="form-control" value={email} disabled />
-      <br />
-      <input
-        type="password"
-        className="form-control"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-        autoFocus
-      />
-      <br />
-      <button type="submit" className="btn btn-raised">
+      <div className="form-group">
+        <input type="email" className="form-control" value={email} disabled />
+      </div>
+
+      <div className="form-group">
+        <input
+          type="password"
+          className="form-control"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+          autoFocus
+        />
+      </div>
+      <Button
+        onClick={handleSubmit}
+        type="primary"
+        className="mb-3"
+        block
+        shape="round"
+        size="large"
+        disabled={!email || password.length < 6}
+      >
         Complete Register
-      </button>
+      </Button>
     </form>
   );
   return (
