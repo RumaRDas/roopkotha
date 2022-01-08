@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { auth } from "../../firebase";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { Button } from "antd";
 
 const RegisterComplete = ({ history }) => {
@@ -9,12 +10,15 @@ const RegisterComplete = ({ history }) => {
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
-  
+
+  const { user } = useSelector((state) => ({ ...state }));
+
   useEffect(() => {
     setEmail(window.localStorage.getItem("emailForRegistration"));
+    if (user && user.token) navigate("/"); //if userlogedin redirectiong to home page
     // console.log("EMAIL: ", window.localStorage.getItem("emailForRegistration"));
     // console.log("LOCATION: ", window.location.href);
-  }, []);
+  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

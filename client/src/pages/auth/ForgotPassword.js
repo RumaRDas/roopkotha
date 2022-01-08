@@ -11,6 +11,12 @@ const ForgotPassword = () => {
 
   const navigate = useNavigate();
 
+  const { user } = useSelector((state) => ({ ...state }));
+
+  useEffect(() => {
+    if (user && user.token) navigate("/"); //if userlogedin redirectiong to home page
+  }, [user]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
