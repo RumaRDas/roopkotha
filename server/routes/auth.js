@@ -1,9 +1,16 @@
 const express = require("express");
 const router = express.Router();
 
-//import
+//import middlewares
+const {authCheck} =require('../middlewares/auth')
+
+//controllers
 const {createOrUpdateUser} = require('../controllers/auth')
 
-router.get("/create-or-update-user", createOrUpdateUser);
+const mymiddleware=(req,res,next)=>{
+console.log("I am a middleware")
+    next()
+}
+router.post("/create-or-update-user", authCheck, createOrUpdateUser);
 
 module.exports = router;
