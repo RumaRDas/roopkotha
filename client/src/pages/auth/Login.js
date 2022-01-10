@@ -18,6 +18,15 @@ const Login = () => {
 
   const { user } = useSelector((state) => ({ ...state }));
 
+  //redirecting user to page according to role
+  const roleBasedRedirect = (res) => {
+    if (res.data.role === "admin") {
+      navigate("/admin/dashboard");
+    } else {
+      navigate("/user/history");
+    }
+  };
+
   useEffect(() => {
     //if userlogedin redirectiong to home page
     if (user && user.token) navigate("/");
@@ -46,10 +55,11 @@ const Login = () => {
               _id: res.data._id,
             },
           });
+          roleBasedRedirect(res);
         })
         .catch();
 
-      navigate("/");
+      //  navigate("/");
     } catch (error) {
       console.log(error);
       toast.error(error.message);
@@ -75,9 +85,10 @@ const Login = () => {
                 _id: res.data._id,
               },
             });
+            roleBasedRedirect(res);
           })
           .catch((err) => console.log(err));
-        navigate("/");
+       // navigate("/");
       })
       .catch((error) => {
         console.log(error);
