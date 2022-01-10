@@ -62,7 +62,7 @@ const RegisterComplete = ({ history }) => {
               },
             });
           })
-          .catch();
+          .catch((err) => console.log(err));
         navigate("/");
       }
     } catch (error) {
