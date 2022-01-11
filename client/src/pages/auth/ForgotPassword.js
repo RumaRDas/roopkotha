@@ -2,19 +2,20 @@ import React, { useState, useEffect } from "react";
 import { auth } from "../../firebase";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import { Button } from "antd";
 
-const ForgotPassword = () => {
+const ForgotPassword = ({history}) => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
-    if (user && user.token) navigate("/"); //if userlogedin redirectiong to home page
+    if (user && user.token) history.push('/')
+    //navigate("/"); 
   }, [user]);
 
   const handleSubmit = async (e) => {

@@ -3,17 +3,17 @@ import { auth } from "../../firebase";
 import { toast } from "react-toastify";
 import { Button } from "antd";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 
-const Register = () => {
+const Register = ({history}) => {
   const [email, setEmail] = useState("");
 
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
-    if (user && user.token) navigate("/"); //if userlogedin redirectiong to home page
+    if (user && user.token) history("/")// navigate("/"); //if userlogedin redirectiong to home page
   }, [user]);
 
   const handleSubmit = async (e) => {

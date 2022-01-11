@@ -4,16 +4,16 @@ import { toast } from "react-toastify";
 import { Button } from "antd";
 import { GoogleOutlined, MailOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { createOrUpdateUser } from "../../functions/auth";
 
-const Login = () => {
+const Login = ({history}) => {
   const [email, setEmail] = useState("nnowmi@hotmail.com");
   const [password, setPassword] = useState("123456");
   const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => ({ ...state }));
@@ -21,15 +21,18 @@ const Login = () => {
   //redirecting user to page according to role
   const roleBasedRedirect = (res) => {
     if (res.data.role === "admin") {
-      navigate("/admin/dashboard");
+     // navigate("/admin/dashboard");
+     history.push("/admin/dashboard")
     } else {
-      navigate("/user/history");
+     // navigate("/user/history");
+     history.push("/user/history")
     }
   };
 
   useEffect(() => {
     //if userlogedin redirectiong to home page
-    if (user && user.token) navigate("/");
+    if (user && user.token)history.push("/") 
+    //navigate("/");
   }, [user]);
 
   //login with firebase email and password

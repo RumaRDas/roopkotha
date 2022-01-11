@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { auth } from "../../firebase";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "antd";
 import {createOrUpdateUser} from '../../functions/auth'
@@ -10,14 +10,14 @@ const RegisterComplete = ({ history }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
     setEmail(window.localStorage.getItem("emailForRegistration"));
-    if (user && user.token) navigate("/"); //if userlogedin redirectiong to home page
+    if (user && user.token)history.push("/")// navigate("/"); //if userlogedin redirectiong to home page
     // console.log("EMAIL: ", window.localStorage.getItem("emailForRegistration"));
     // console.log("LOCATION: ", window.location.href);
   }, [user]);
@@ -63,7 +63,8 @@ const RegisterComplete = ({ history }) => {
             });
           })
           .catch((err) => console.log(err));
-        navigate("/");
+          history.push("/")
+       // navigate("/");
       }
     } catch (error) {
       console.log(error);
