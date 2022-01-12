@@ -17,11 +17,8 @@ exports.list = async (req, res) =>
 
 
 exports.read = async (req, res) => {
-  try {
-  } catch (err) {
-    console.log(err);
-    res.status(400).send("Create category fail");
-  }
+  let category = await Category.findOne({ slug: req.params.slug }).exec();
+  res.json(category);
 };
 exports.update = async (req, res) => {
   try {
