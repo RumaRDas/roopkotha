@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import UserNav from "../components/nav/UserNav";
-import { auth } from "../firebase";
+import UserNav from "../../components/nav/UserNav";
+import { auth } from "../../firebase";
 import { toast } from "react-toastify";
 import { Button } from "antd";
 

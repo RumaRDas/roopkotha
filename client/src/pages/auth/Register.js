@@ -14,7 +14,7 @@ const Register = ({history}) => {
 
   useEffect(() => {
     if (user && user.token) history("/")// navigate("/"); //if userlogedin redirectiong to home page
-  }, [user]);
+  }, [user,history]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 //import from react-router-dom
 import { Switch, Route } from "react-router-dom";
 
+
 //import from component
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
@@ -13,12 +14,18 @@ import Home from "./pages/Home";
 import Header from "./components/nav/Header";
 import RegisterComplete from "./pages/auth/RegisterComplete";
 import ForgotPassword from "./pages/auth/ForgotPassword";
-import History from "./user/History";
+
+// Userdashboard
 import UserRoute from "./components/routes/UserRoutes";
-import WishList from "./user/WishList";
-import Password from "./user/Password";
+import WishList from "./pages/user/WishList";
+import Password from "./pages/user/Password";
+import History from "./pages/user/History";
+//import Admin Dashboard
+import AdminRoute from "./components/routes/AdminRoute";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 
 import { auth } from "./firebase";
+//import from react-redux
 import { useDispatch } from "react-redux";
 import { currentUser } from "./functions/auth";
 
@@ -49,7 +56,7 @@ const App = () => {
 
     //cleanup
     return () => unsubscribe();
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
@@ -64,6 +71,7 @@ const App = () => {
         <UserRoute exact path="/user/history" component={History} />
         <UserRoute exact path="/user/password" component={Password} />
         <UserRoute exact path="/user/wishlist" component={WishList} />
+        <AdminRoute path="/admin/dashboard" component={AdminDashboard} />
       </Switch>
     </>
   );

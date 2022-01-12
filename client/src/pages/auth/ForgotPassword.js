@@ -5,7 +5,8 @@ import { useSelector } from "react-redux";
 //import { useNavigate } from "react-router-dom";
 import { Button } from "antd";
 
-const ForgotPassword = ({history}) => {
+
+const ForgotPassword = ({ history }) => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -14,9 +15,9 @@ const ForgotPassword = ({history}) => {
   const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
-    if (user && user.token) history.push('/')
-    //navigate("/"); 
-  }, [user]);
+    if (user && user.token) history.push("/");
+    //navigate("/");
+  }, [user, history]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

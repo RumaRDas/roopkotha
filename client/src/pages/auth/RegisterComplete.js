@@ -17,10 +17,10 @@ const RegisterComplete = ({ history }) => {
 
   useEffect(() => {
     setEmail(window.localStorage.getItem("emailForRegistration"));
-    if (user && user.token)history.push("/")// navigate("/"); //if userlogedin redirectiong to home page
+    if (user && user.token) history.push("/"); // navigate("/"); //if userlogedin redirectiong to home page
     // console.log("EMAIL: ", window.localStorage.getItem("emailForRegistration"));
     // console.log("LOCATION: ", window.location.href);
-  }, [user]);
+  }, [user, history]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

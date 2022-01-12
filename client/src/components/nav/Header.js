@@ -54,8 +54,17 @@ const Header = () => {
           title={user.email && user.email.split("@")[0]}
           className="float-right"
         >
-          <Item key="option1">Option 1</Item>
-          <Item key="option2">Option 2</Item>
+          {user && user.role === "subscriber" && (
+            <Item>
+              <Link to="/user/history">Dashboard</Link>
+            </Item>
+          )}
+          {user && user.role === "admin" && (
+            <Item>
+              <Link to="/admin/dashboard">Dashboard</Link>
+            </Item>
+          )}
+
           <Item icon={<LogoutOutlined />} onClick={logout}>
             Logout
           </Item>

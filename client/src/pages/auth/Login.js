@@ -31,9 +31,9 @@ const Login = ({history}) => {
 
   useEffect(() => {
     //if userlogedin redirectiong to home page
-    if (user && user.token)history.push("/") 
+    if (user && user.token) history.push("/");
     //navigate("/");
-  }, [user]);
+  }, [user, history]);
 
   //login with firebase email and password
   const handleSubmit = async (e) => {
