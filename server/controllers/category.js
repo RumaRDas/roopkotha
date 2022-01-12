@@ -12,13 +12,10 @@ exports.create = async (req, res) => {
     res.status(400).send("Create category fail");
   }
 };
-exports.list = async (req, res) => {
-  try {
-  } catch (err) {
-    console.log(err);
-    res.status(400).send("Create category fail");
-  }
-};
+exports.list = async (req, res) =>
+ res.json(await Category.find({}).sort({ createdAt: -1 }).exec()); // find list by latest update
+
+
 exports.read = async (req, res) => {
   try {
   } catch (err) {
