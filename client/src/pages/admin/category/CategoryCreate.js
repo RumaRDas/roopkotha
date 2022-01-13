@@ -7,6 +7,8 @@ import {
   getCategories,
   removeCategory,
 } from "../../../functions/category";
+import { Link } from "react-router-dom";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 
 const CategoryCreate = () => {
   const [name, setName] = useState("");
@@ -21,10 +23,11 @@ const CategoryCreate = () => {
 
   const loadCategories = () =>
     getCategories().then((product) => {
-      console.log(product.data);
+      // console.log(product.data);
       setCategories(product.data);
     });
 
+  //for creating a new category
   const handleSubmit = (e) => {
     e.preventDefault(e);
     // console.log(name);
@@ -35,14 +38,39 @@ const CategoryCreate = () => {
         setLoading(false);
         setName("");
         toast.success(`${res.data.name} is created`);
+        loadCategories();
       })
       .catch((err) => {
         //   console.log("category create ERROR", err);
-        setLoading(false);
-        if (err.response.status === 400) toast.error(err.response.data);
+        if (err.response.status === 400) {
+          setLoading(false);
+          toast.error(err.response.data);
+        }
       });
   };
 
+  // for deleting a category
+  const handleRemove = async (slug) => {
+    // let answer = window.confirm("Delete??");
+    // console.log(answer, slug);
+    // if (answer) {
+    if (window.confirm("Delete?")) {
+      setLoading(true);
+      removeCategory(slug, user.token)
+        .then((res) => {
+          setLoading(false);
+          //  toast.error(`${res.data.name} deleted`);
+          loadCategories();
+        })
+        .catch((err) => {
+          console.log("category delete", err);
+          if (err.response.status === 400) {
+            setLoading(false);
+            toast.error(err.response.data);
+          }
+        });
+    }
+  };
   //create category form
   const categoryForm = () => (
     <form onSubmit={handleSubmit}>
@@ -75,7 +103,24 @@ const CategoryCreate = () => {
           )}
           {categoryForm()}
           <hr />
-          {JSON.stringify(categories)}
+          {categories.map((category) => {
+            return (
+              <div className="alert alert-dark" key={category._id}>
+                {category.name}
+                <span
+                  className="btn btn-sm float-end"
+                  onClick={() => handleRemove(category.slug)}
+                >
+                  <DeleteOutlined className="text-danger" />
+                </span>
+                <Link to={`/admin/category/${category.slug}`}>
+                  <span className="btn btn-sm float-end">
+                    <EditOutlined className="text-success" />
+                  </span>
+                </Link>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
