@@ -15,6 +15,8 @@ const CategoryCreate = () => {
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
+  //searching and filtering
+  const [keyword, setKeyword] = useState("");
 
   const { user } = useSelector((state) => ({ ...state }));
 
@@ -73,8 +75,16 @@ const CategoryCreate = () => {
         });
     }
   };
-  //create category form
 
+  //search category Item input
+  const handleSearchChange = (e) => {
+    e.preventDefault(e);
+    setKeyword(e.target.value.toLowerCase()); // for changing search category value to lowercase
+    //
+  };
+  // for searching
+  const searched = (keyword) => (category) =>
+    category.name.toLowerCase().includes(keyword); //searching by keywords
   return (
     <div className="containe-fluid">
       <div className="row">
@@ -87,19 +97,32 @@ const CategoryCreate = () => {
           ) : (
             <h4>Create category</h4>
           )}
-          <CategoryForm handleSubmit={handleSubmit} name={name} setName={setName}/>
+          <CategoryForm
+            handleSubmit={handleSubmit}
+            name={name}
+            setName={setName}
+          />
+          {/* Adding search field*/}
+          <input
+            type="search"
+            placeholder="Search By Category"
+            value={keyword}
+            onChange={handleSearchChange}
+            className="form-control mb-4"
+          />
           <hr />
-          {categories.map((category) => {
+          {/* adding filter(searched(keyword)) function for searching by keyword */}
+          {categories.filter(searched(keyword)).map((c) => {
             return (
-              <div className="alert alert-dark" key={category._id}>
-                {category.name}
+              <div className="alert alert-dark" key={c._id}>
+                {c.name}
                 <span
                   className="btn btn-sm float-end"
-                  onClick={() => handleRemove(category.slug)}
+                  onClick={() => handleRemove(c.slug)}
                 >
                   <DeleteOutlined className="text-danger" />
                 </span>
-                <Link to={`/admin/category/${category.slug}`}>
+                <Link to={`/admin/category/${c.slug}`}>
                   <span className="btn btn-sm float-end">
                     <EditOutlined className="text-success" />
                   </span>
