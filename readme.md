@@ -69,5 +69,4 @@ For server side:
 
 ## Contributing
 
-Ruma Das
 
