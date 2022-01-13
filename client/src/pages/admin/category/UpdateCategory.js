@@ -1,8 +1,69 @@
 import React, { useState, useEffect } from "react";
 import AdminNav from "../../../components/nav/AdminNav";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { updateCategory, getCategory } from "../../../functions/category";
 
-const UpdateCategory = () => {
+const UpdateCategory = ({ history, match }) => {
+  const [name, setName] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const { user } = useSelector((state) => ({ ...state }));
+  // dstructuring slug
+
+  useEffect(() => {
+    //console.log(match);
+    loadCategory();
+  }, []);
+
+  // getting selected sategory
+  const loadCategory = () =>
+    getCategory(match.params.slug).then((c) => {
+      // console.log(product.data);
+      setName(c.data.name);
+    });
+
+  //for creating a new category
+  const handleSubmit = (e) => {
+    e.preventDefault(e);
+    // console.log(name);
+    setLoading(true);
+    updateCategory(match.params.slug,{ name }, user.token)
+      .then((res) => {
+        // console.log("category_Create:", res.data);
+        setLoading(false);
+        setName("");
+        toast.success(`${res.data.name} is upated`);
+        history.push("/admin/category");
+      })
+      .catch((err) => {
+        //   console.log("category create ERROR", err);
+        if (err.response.status === 400) {
+          setLoading(false);
+          toast.error(err.response.data);
+        }
+      });
+  };
+
+  //create category form
+  const UpdateCategoryForm = () => (
+    <form onSubmit={handleSubmit}>
+      <div className="form-group">
+        <label>Name</label>
+        <input
+          type="text"
+          className="form-control"
+          onChange={(e) => setName(e.target.value)}
+          value={name}
+          autoFocus
+          required
+        />
+        <br />
+        <button className="btn btn-outline-primary">Save</button>
+      </div>
+    </form>
+  );
+
   return (
     <div className="containe-fluid">
       <div className="row">
@@ -10,11 +71,18 @@ const UpdateCategory = () => {
           <AdminNav />
         </div>
         <div className="col">
-          <h3> Categoru updatepage</h3>
+          {loading ? (
+            <h4 className="text-danger">Loading..</h4>
+          ) : (
+            <h4>Update Categry</h4>
+          )}
+          {UpdateCategoryForm()}
+          <hr />
         </div>
       </div>
     </div>
   );
 };
+
 
 export default UpdateCategory;

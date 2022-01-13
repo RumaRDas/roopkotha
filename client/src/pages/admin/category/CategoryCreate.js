@@ -20,7 +20,8 @@ const CategoryCreate = () => {
   useEffect(() => {
     loadCategories();
   }, []);
-// adding 
+
+// getting all sategories
   const loadCategories = () =>
     getCategories().then((product) => {
       // console.log(product.data);
