@@ -11,10 +11,10 @@ import {
   LogoutOutlined,
 } from "@ant-design/icons";
 
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import firebase from "firebase/compat/app";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 
 const { SubMenu, Item } = Menu; //Menu.SubMenu
 
@@ -22,9 +22,11 @@ const Header = () => {
   const [current, setCurrent] = useState("home");
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { user } = useSelector((state) => ({ ...state }));
 
+  let history = useHistory();
+  
   const handleClick = (e) => {
     //console.log(e.key);
     setCurrent(e.key);
@@ -36,7 +38,8 @@ const Header = () => {
       type: "LOGGOUT",
       payload: null,
     });
-    navigate("/login");
+    history.push("/login");
+    // navigate("/login");
   };
 
   return (
@@ -51,8 +54,17 @@ const Header = () => {
           title={user.email && user.email.split("@")[0]}
           className="float-right"
         >
-          <Item key="option1">Option 1</Item>
-          <Item key="option2">Option 2</Item>
+          {user && user.role === "subscriber" && (
+            <Item>
+              <Link to="/user/history">Dashboard</Link>
+            </Item>
+          )}
+          {user && user.role === "admin" && (
+            <Item>
+              <Link to="/admin/dashboard">Dashboard</Link>
+            </Item>
+          )}
+
           <Item icon={<LogoutOutlined />} onClick={logout}>
             Logout
           </Item>

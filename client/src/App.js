@@ -4,7 +4,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 //import from react-router-dom
-import { Routes, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
+
 
 //import from component
 import Login from "./pages/auth/Login";
@@ -14,7 +15,20 @@ import Header from "./components/nav/Header";
 import RegisterComplete from "./pages/auth/RegisterComplete";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 
+// User dashboard
+import UserRoute from "./components/routes/UserRoutes";
+import WishList from "./pages/user/WishList";
+import Password from "./pages/user/Password";
+import History from "./pages/user/History";
+
+//import Admin Dashboard
+import AdminRoute from "./components/routes/AdminRoute";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import CategoryCreate from "./pages/admin/category/CategoryCreate";
+
+
 import { auth } from "./firebase";
+//import from react-redux
 import { useDispatch } from "react-redux";
 import { currentUser } from "./functions/auth";
 
@@ -39,25 +53,30 @@ const App = () => {
               },
             });
           })
-          .catch(err=>console.log(err));
+          .catch((err) => console.log(err));
       }
     });
 
     //cleanup
     return () => unsubscribe();
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
       <Header />
       <ToastContainer />
-      <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route exact path="/login" element={<Login />} />
-        <Route exact path="/register" element={<Register />} />
-        <Route exact path="/register/complete" element={<RegisterComplete />} />
-        <Route exact path="/forgot/password" element={<ForgotPassword />} />
-      </Routes>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
+        <Route exact path="/register/complete" component={RegisterComplete} />
+        <Route exact path="/forgot/password" component={ForgotPassword} />
+        <UserRoute exact path="/user/history" component={History} />
+        <UserRoute exact path="/user/password" component={Password} />
+        <UserRoute exact path="/user/wishlist" component={WishList} />
+        <AdminRoute path="/admin/dashboard" component={AdminDashboard} />
+        <AdminRoute path="/admin/category" component={CategoryCreate} />
+      </Switch>
     </>
   );
 };
