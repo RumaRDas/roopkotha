@@ -15,7 +15,7 @@ const {
 
 //routs
 router.post("/subcate", authCheck, adminCheck, create);
-router.get("/subcate", list);
+router.get("/subcates", list);
 router.get("/subcate/:slug", read);
 router.put("/subcate/:slug", authCheck, adminCheck, update);
 router.delete("/subcate/:slug", authCheck, adminCheck, remove);
