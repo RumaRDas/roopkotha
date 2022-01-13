@@ -15,14 +15,17 @@ import Header from "./components/nav/Header";
 import RegisterComplete from "./pages/auth/RegisterComplete";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 
-// Userdashboard
+// User dashboard
 import UserRoute from "./components/routes/UserRoutes";
 import WishList from "./pages/user/WishList";
 import Password from "./pages/user/Password";
 import History from "./pages/user/History";
+
 //import Admin Dashboard
 import AdminRoute from "./components/routes/AdminRoute";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import CategoryCreate from "./pages/admin/category/CategoryCreate";
+
 
 import { auth } from "./firebase";
 //import from react-redux
@@ -72,6 +75,7 @@ const App = () => {
         <UserRoute exact path="/user/password" component={Password} />
         <UserRoute exact path="/user/wishlist" component={WishList} />
         <AdminRoute path="/admin/dashboard" component={AdminDashboard} />
+        <AdminRoute path="/admin/category" component={CategoryCreate} />
       </Switch>
     </>
   );
