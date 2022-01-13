@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema;
 
-const sabcateSchema = new mongoose.Schema(
+const subcateSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -24,4 +24,4 @@ const sabcateSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-module.exports = mongoose.model("Sabcate", sabcateSchema);
+module.exports = mongoose.model("Subcate", subcateSchema);
