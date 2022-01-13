@@ -99,7 +99,7 @@ const CategoryCreate = () => {
             setName={setName}
           />
           <LocalSearch keyword={keyword} setKeyword={setKeyword} />
-          <hr />
+
           {/* adding filter(searched(keyword)) function for searching by keyword */}
           {categories.filter(searched(keyword)).map((c) => {
             return (
