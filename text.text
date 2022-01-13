@@ -1,0 +1,3 @@
+ for force git push
+ git push origin master --force
+ 
