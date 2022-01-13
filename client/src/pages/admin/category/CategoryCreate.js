@@ -10,6 +10,7 @@ import {
 import { Link } from "react-router-dom";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CategoryForm from "../../../components/forms/CategoryForm";
+import LocalSearch from "../../../components/forms/LocalSearch";
 
 const CategoryCreate = () => {
   const [name, setName] = useState("");
@@ -76,22 +77,17 @@ const CategoryCreate = () => {
     }
   };
 
-  //search category Item input
-  const handleSearchChange = (e) => {
-    e.preventDefault(e);
-    setKeyword(e.target.value.toLowerCase()); // for changing search category value to lowercase
-    //
-  };
   // for searching
   const searched = (keyword) => (category) =>
     category.name.toLowerCase().includes(keyword); //searching by keywords
+
   return (
     <div className="containe-fluid">
       <div className="row">
         <div className="col-md-3">
           <AdminNav />
         </div>
-        <div className="col">
+        <div className="col-md-6">
           {loading ? (
             <h4 className="text-danger">Loading..</h4>
           ) : (
@@ -102,14 +98,7 @@ const CategoryCreate = () => {
             name={name}
             setName={setName}
           />
-          {/* Adding search field*/}
-          <input
-            type="search"
-            placeholder="Search By Category"
-            value={keyword}
-            onChange={handleSearchChange}
-            className="form-control mb-4"
-          />
+          <LocalSearch keyword={keyword} setKeyword={setKeyword} />
           <hr />
           {/* adding filter(searched(keyword)) function for searching by keyword */}
           {categories.filter(searched(keyword)).map((c) => {

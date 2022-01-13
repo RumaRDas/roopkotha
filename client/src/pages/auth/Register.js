@@ -13,7 +13,7 @@ const Register = ({history}) => {
   const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
-    if (user && user.token) history("/")// navigate("/"); //if userlogedin redirectiong to home page
+    if (user && user.token) history.push("/")// navigate("/"); //if userlogedin redirectiong to home page
   }, [user,history]);
 
   const handleSubmit = async (e) => {
