@@ -8,7 +8,7 @@ const LocalSearch = ({ keyword, setKeyword }) => {
     //
   };
   return (
-    <div className="container pt-4 pb-4">
+    <div>
       {/* Adding search field*/}
       <input
         type="search"
