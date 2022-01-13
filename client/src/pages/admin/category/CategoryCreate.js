@@ -17,7 +17,7 @@ const CategoryCreate = () => {
 
   const { user } = useSelector((state) => ({ ...state }));
 
-  useEffect(() => {
+  useEffect(() => {cd
     loadCategories();
   }, []);
 
