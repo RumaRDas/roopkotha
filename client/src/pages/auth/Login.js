@@ -6,6 +6,7 @@ import { GoogleOutlined, MailOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { createOrUpdateUser } from "../../functions/auth";
 
 const Login = () => {
   const [email, setEmail] = useState("nnowmi@hotmail.com");
@@ -16,6 +17,15 @@ const Login = () => {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => ({ ...state }));
+
+  //redirecting user to page according to role
+  const roleBasedRedirect = (res) => {
+    if (res.data.role === "admin") {
+      navigate("/admin/dashboard");
+    } else {
+      navigate("/user/history");
+    }
+  };
 
   useEffect(() => {
     //if userlogedin redirectiong to home page
@@ -32,14 +42,24 @@ const Login = () => {
       // console.log(result);
       const { user } = result;
       const idTokenResult = await user.getIdTokenResult();
-      dispatch({
-        type: "LOGGED_IN_USER",
-        payload: {
-          email: user.email,
-          token: idTokenResult.token,
-        },
-      });
-      navigate("/");
+
+      createOrUpdateUser(idTokenResult.token)
+        .then((res) => {
+          dispatch({
+            type: "LOGGED_IN_USER",
+            payload: {
+              name: res.data.name,
+              email: res.data.email,
+              token: idTokenResult.token,
+              roll: res.data.role,
+              _id: res.data._id,
+            },
+          });
+          roleBasedRedirect(res);
+        })
+        .catch();
+
+      //  navigate("/");
     } catch (error) {
       console.log(error);
       toast.error(error.message);
@@ -53,14 +73,22 @@ const Login = () => {
       .then(async (result) => {
         const { user } = result;
         const idTokenResult = await user.getIdTokenResult();
-        dispatch({
-          type: "LOGGED_IN_USER",
-          payload: {
-            email: user.email,
-            token: idTokenResult.token,
-          },
-        });
-        navigate("/");
+        createOrUpdateUser(idTokenResult.token)
+          .then((res) => {
+            dispatch({
+              type: "LOGGED_IN_USER",
+              payload: {
+                name: res.data.name,
+                email: res.data.email,
+                token: idTokenResult.token,
+                roll: res.data.role,
+                _id: res.data._id,
+              },
+            });
+            roleBasedRedirect(res);
+          })
+          .catch((err) => console.log(err));
+       // navigate("/");
       })
       .catch((error) => {
         console.log(error);
