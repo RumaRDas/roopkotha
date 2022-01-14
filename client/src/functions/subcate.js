@@ -23,8 +23,8 @@ export const updateSubCate = async (slug, category, authtoken) => {
   );
 };
 
-export const createSubCate = async (subCate, authtoken) => {
-  return await axios.post(`${process.env.REACT_APP_API}/subcate`, subCate, {
+export const createSubCate = async (subcate, authtoken) => {
+  return await axios.post(`${process.env.REACT_APP_API}/subcate`, subcate, {
     headers: { authtoken },
   });
 };
