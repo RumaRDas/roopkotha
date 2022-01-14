@@ -25,7 +25,7 @@ const CategoryCreate = () => {
     loadCategories();
   }, []);
 
-  // getting all sategories
+  // getting all Categories
   const loadCategories = () =>
     getCategories().then((product) => {
       // console.log(product.data);
