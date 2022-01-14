@@ -78,8 +78,7 @@ const CategoryCreate = () => {
   };
 
   // for searching
-  const searched = (keyword) => (category) =>
-    category.name.toLowerCase().includes(keyword); //searching by keywords
+  const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword); //searching by keywords
 
   return (
     <div className="containe-fluid">
@@ -123,6 +122,6 @@ const CategoryCreate = () => {
       </div>
     </div>
   );
-};
+};;
 
 export default CategoryCreate;
