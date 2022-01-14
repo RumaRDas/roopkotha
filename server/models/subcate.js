@@ -9,6 +9,7 @@ const subcateSchema = new mongoose.Schema(
       required: "Name is required",
       minlength: [3, "Too short"],
       maxlength: [32, "Too long"],
+
     },
     slug: {
       type: String,

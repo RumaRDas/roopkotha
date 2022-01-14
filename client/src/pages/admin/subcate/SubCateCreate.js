@@ -3,7 +3,6 @@ import AdminNav from "../../../components/nav/AdminNav";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import {
-  getSubCate,
   getSubCates,
   removeSubCate,
   createSubCate,
@@ -19,7 +18,7 @@ const SubCateCreate = () => {
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState("");
-  const [subcates, setSubcates] = useState("");
+  const [subcates, setSubcates] = useState([]);
   //searching and filtering
   const [keyword, setKeyword] = useState("");
 
@@ -55,7 +54,7 @@ const SubCateCreate = () => {
         setLoading(false);
         setName("");
         toast.success(`${res.data.name} is created`);
-        //  loadSubCate();
+        loadSubCate();
       })
       .catch((err) => {
         //   console.log("category create ERROR", err);
@@ -68,9 +67,6 @@ const SubCateCreate = () => {
 
   // for deleting a category
   const handleRemove = async (slug) => {
-    // let answer = window.confirm("Delete??");
-    // console.log(answer, slug);
-    // if (answer) {
     if (window.confirm("Delete?")) {
       setLoading(true);
       removeSubCate(slug, user.token)
@@ -90,8 +86,7 @@ const SubCateCreate = () => {
   };
 
   // for searching
-  const searched = (keyword) => (subcate) =>
-    subcate.name.toLowerCase().includes(keyword); //searching by keywords
+  const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword); //searching by keywords
 
   return (
     <div className="containe-fluid">
@@ -130,24 +125,23 @@ const SubCateCreate = () => {
           <LocalSearch keyword={keyword} setKeyword={setKeyword} />
 
           {/* adding filter(searched(keyword)) function for searching by keyword */}
-          {categories.filter(searched(keyword)).map((c) => {
-            return (
-              <div className="alert alert-dark" key={c._id}>
-                {c.name}
-                <span
-                  className="btn btn-sm float-end"
-                  onClick={() => handleRemove(c.slug)}
-                >
-                  <DeleteOutlined className="text-danger" />
+
+          {subcates.filter(searched(keyword)).map((s) => (
+            <div className="alert alert-dark" key={s._id}>
+              {s.name}
+              <span
+                className="btn btn-sm float-end"
+                onClick={() => handleRemove(s.slug)}
+              >
+                <DeleteOutlined className="text-danger" />
+              </span>
+              <Link to={`/admin/subcate/${s.slug}`}>
+                <span className="btn btn-sm float-end">
+                  <EditOutlined className="text-success" />
                 </span>
-                <Link to={`/admin/category/${c.slug}`}>
-                  <span className="btn btn-sm float-end">
-                    <EditOutlined className="text-success" />
-                  </span>
-                </Link>
-              </div>
-            );
-          })}
+              </Link>
+            </div>
+          ))}
         </div>
       </div>
     </div>
