@@ -27,4 +27,5 @@ export const createSubCate = async (subcate, authtoken) => {
   return await axios.post(`${process.env.REACT_APP_API}/subcate`, subcate, {
     headers: { authtoken },
   });
+
 };

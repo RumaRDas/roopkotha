@@ -9,7 +9,6 @@ const subcateSchema = new mongoose.Schema(
       required: "Name is required",
       minlength: [3, "Too short"],
       maxlength: [32, "Too long"],
-
     },
     slug: {
       type: String,
@@ -17,11 +16,7 @@ const subcateSchema = new mongoose.Schema(
       lowercase: true,
       index: true,
     },
-    parent: {
-      type: ObjectId,
-      ref: "Category",
-      required: true,
-    },
+    parent: { type: ObjectId, ref: "Category", required: true },
   },
   { timestamps: true }
 );

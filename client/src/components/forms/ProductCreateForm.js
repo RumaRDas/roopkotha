@@ -1,6 +1,11 @@
 import React from "react";
 
-const ProductCreateForm = ({ handleSubmit, handleChange, values }) => {
+const ProductCreateForm = ({
+  handleSubmit,
+  handleChange,
+  values,
+  handleCategoryChange,
+}) => {
   //Destructure useState values
   const {
     title,
@@ -108,7 +113,7 @@ const ProductCreateForm = ({ handleSubmit, handleChange, values }) => {
           <select
             name="category"
             className="form-control"
-            onChange={handleChange}
+            onChange={handleCategoryChange}
           >
             <option>Please Select</option>
             {categories.length > 0 &&
