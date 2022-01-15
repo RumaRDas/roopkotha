@@ -6,7 +6,7 @@ exports.create = async (req, res) => {
     console.log(req.body);
     req.body.slug = slugify(req.body.title);
 
-    const newProduct = await new Product(req.body).save;
+    const newProduct = await new Product(req.body).save();
     res.json(newProduct);
   } catch (err) {
     console.log(err);
@@ -14,7 +14,7 @@ exports.create = async (req, res) => {
   }
 };
 exports.list = async (req, res) =>
-  res.json(await Product.find({}).sort({ createdAt: -1 }).exec()); // find list by latest update
+res.json(await Product.find({}).sort({ createdAt: -1 }).exec()); // find list by latest update
 
 exports.read = async (req, res) => {
   // const product = await Product.findOne({ slug: req.params.slug }).exec();
