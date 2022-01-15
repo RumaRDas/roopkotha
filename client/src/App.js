@@ -24,10 +24,15 @@ import History from "./pages/user/History";
 //import Admin Dashboard
 import AdminRoute from "./components/routes/AdminRoute";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+//Admin  for category
 import CategoryCreate from "./pages/admin/category/CategoryCreate";
 import UpdateCategory from "./pages/admin/category/UpdateCategory";
+//Admin  for Sub category
 import SubCateCreate from "./pages/admin/subcate/SubCateCreate";
 import SubCateUpdate from "./pages/admin/subcate/SubCateUpdate";
+//Admin  for  Product
+import ProductCreate from "./pages/admin/product/ProductCreate";
+
 
 import { auth } from "./firebase";
 //import from react-redux
@@ -89,6 +94,11 @@ const App = () => {
           exact
           path="/admin/subcate/:slug"
           component={SubCateUpdate}
+        />
+         <AdminRoute
+          exact
+          path="/admin/product"
+          component={ProductCreate}
         />
       </Switch>
     </>

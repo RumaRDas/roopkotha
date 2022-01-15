@@ -56,25 +56,26 @@ const productSchema = new mongoose.Schema(
       type: String,
       enum: ["White", "Black", "Red", "Pink", "Blue", "Green", "Yellow"],
     },
-    color: {
+    type: {
       type: String,
       enum: [
         "Cotton",
         "Muslin",
         "Silk",
         "Katan",
-        "Jorget",
+        "Gorgette",
+        "Organza",
         "Casula",
         "PartyWare",
         "Others",
       ],
     },
-    rating: [
-      {
-        star: Number,
-        postedBy: { type: ObjectId, ref: "User" },
-      },
-    ],
+    // rating: [
+    //   {
+    //     star: Number,
+    //     postedBy: { type: ObjectId, ref: "User" },
+    //   },
+    // ],
   },
   { timestamps: true }
 );
