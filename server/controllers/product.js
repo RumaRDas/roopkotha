@@ -16,8 +16,12 @@ exports.create = async (req, res) => {
     });
   }
 };
-exports.list = async (req, res) =>
-res.json(await Product.find({}).sort({ createdAt: -1 }).exec()); // find list by latest update
+exports.list = async (req, res) =>{
+  const  products= await Product.find({}).sort({ createdAt: -1 }).exec()
+  res.json(products)
+}
+
+//res.json(await Product.find({}).sort({ createdAt: -1 }).exec()); // find list by latest update
 
 exports.read = async (req, res) => {
   // const product = await Product.findOne({ slug: req.params.slug }).exec();
