@@ -10,7 +10,10 @@ exports.create = async (req, res) => {
     res.json(newProduct);
   } catch (err) {
     console.log(err);
-    res.status(400).send("Create category fail");
+    //  res.status(400).send("Create category fail");
+    res.status(400).json({
+      err: err.message,
+    });
   }
 };
 exports.list = async (req, res) =>
