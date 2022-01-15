@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+
 import AdminNav from "../../../components/nav/AdminNav";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
@@ -37,7 +38,9 @@ const initialState = {
 };
 const ProductCreate = () => {
   const [values, setValues] = useState(initialState);
+  const [loading, setLoading] = useState(false);
 
+  const { user } = useSelector((state) => ({ ...state }));
   //Destructure useState values
   const {
     title,
@@ -57,11 +60,25 @@ const ProductCreate = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    createProduct(values, user.token)
+      .then((res) => {
+        setLoading(false);
+        // toast.success(`${res.data.name} is created`);
+        console.log(res);
+      })
+      .catch((err) => {
+        //   console.log("Product create ERROR", err);
+        if (err.response.status === 400) {
+          setLoading(false);
+          //   toast.error(err.response.data);
+        }
+      });
     //
   };
   //for updateing form event change on change
   const handleChange = (e) => {
-    //
+    setValues({ ...values, [e.target.name]: e.target.value });
+    // console.log(e.target.name, "----------", e.target.value);
   };
   return (
     <div className="container-fluid">
@@ -72,6 +89,7 @@ const ProductCreate = () => {
         <div className="col-md-9">
           <h3>Product Create Form</h3>
           <hr />
+          {/* {JSON.stringify(values)}*/}
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <lable>Title</lable>
