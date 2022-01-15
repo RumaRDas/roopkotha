@@ -36,7 +36,7 @@ const initialState = {
   color: "",
   type: "",
 };
-const ProductCreate = () => {
+const ProductCreate = ({ history }) => {
   const [values, setValues] = useState(initialState);
   const [loading, setLoading] = useState(false);
 
@@ -63,15 +63,14 @@ const ProductCreate = () => {
     createProduct(values, user.token)
       .then((res) => {
         setLoading(false);
-        // toast.success(`${res.data.name} is created`);
-        console.log(res);
+        // console.log(res);
+        window.alert(`"${res.data.title}" is created`);
+        window.location.reload(); // for geting empty field  for form
       })
       .catch((err) => {
-        //   console.log("Product create ERROR", err);
-        if (err.response.status === 400) {
-          setLoading(false);
-          //   toast.error(err.response.data);
-        }
+        console.log("Product create ERROR", err);
+        setLoading(false);
+        toast.error(err.response.data.err);
       });
     //
   };
@@ -100,6 +99,7 @@ const ProductCreate = () => {
                 value={title}
                 onChange={handleChange}
               />
+              <p className="text-danger">Title need More then 3 Character</p>
             </div>
             <div className="form-group">
               <lable>Description</lable>
