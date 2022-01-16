@@ -16,10 +16,15 @@ exports.create = async (req, res) => {
     });
   }
 };
-exports.list = async (req, res) =>{
-  const  products= await Product.find({}).sort({ createdAt: -1 }).exec()
-  res.json(products)
-}
+exports.listAll = async (req, res) => {
+  const products = await Product.find({})
+    .limit(parseInt(req.params.count))
+    .populate("category")
+    .populate("subcates")
+    .sort([["createdAt", "desc"]])
+    .exec();
+  res.json(products);
+};
 
 //res.json(await Product.find({}).sort({ createdAt: -1 }).exec()); // find list by latest update
 
