@@ -22,9 +22,8 @@ mongoose
   .catch((err) => console.log(`DB CONNECTION ERROR ${err}`));
 
 //middlewares
-app.use(express.json());
+app.use(bodyParser.json({ limit: "5mb" }));
 app.use(morgan("dev"));
-app.use(bodyParser.json({ limit: "2mb" }));
 app.use(cors());
 
 //route middleware

@@ -38,7 +38,7 @@ const initialState = {
   color: "",
   type: "",
 };
-const ProductCreate = ({}) => {
+const ProductCreate = () => {
   const [values, setValues] = useState(initialState);
   const [loading, setLoading] = useState(false);
   const [subOptions, setSubOptions] = useState([]);
@@ -112,7 +112,11 @@ const ProductCreate = ({}) => {
         <div className="col-md-9">
           <h3>Product Create Form</h3>
           <div className="p-3">
-            <FileUpload />
+            <FileUpload
+              values={values}
+              setValues={setValues}
+              setLoading={setLoading}
+            />
           </div>
           <ProductCreateForm
             handleSubmit={handleSubmit}
@@ -123,7 +127,7 @@ const ProductCreate = ({}) => {
             subOptions={subOptions}
             showSub={showSub}
           />
-          {/* {JSON.stringify(values.categories)} */}
+          {/* {JSON.stringify(values.images)} */}
         </div>
       </div>
     </div>
