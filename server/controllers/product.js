@@ -19,7 +19,7 @@ exports.create = async (req, res) => {
 exports.listAll = async (req, res) => {
   const products = await Product.find({})
     .limit(parseInt(req.params.count))
-    .populate("category")
+    .populate("category") // for getting detiles for category and sub category we need to use populate
     .populate("subcates")
     .sort([["createdAt", "desc"]])
     .exec();
