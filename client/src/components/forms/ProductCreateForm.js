@@ -133,20 +133,27 @@ const ProductCreateForm = ({
 
         {/* Ant design select option */}
 
-        <div>
-          <label>Sub Categories</label>
-          <Select
-            mode="multiple"
-            style={{ width: "100%" }}
-            placeholder="Plese select"
-            value={subcates}
-            onChange={(value) => setValues({ ...values, subcates: value })}
-          >
-            <Option value="one"> option one</Option>
-            <Option value="two"> option two</Option>
-          </Select>
-        </div>
+        {showSub && (
+          <div>
+            <label>Sub Categories</label>
+            <Select
+              mode="multiple"
+              style={{ width: "100%" }}
+              placeholder="Plese select"
+              value={subcates}
+              onChange={(value) => setValues({ ...values, subcates: value })}
+            >
+              {subOptions.length &&
+                subOptions.map((s) => (
+                  <Option value={s._id} key={s._id}>
+                    {s.name}
+                  </Option>
+                ))}
+            </Select>
+          </div>
+        )}
         {/* ____ */}
+        {/* {subOptions ? subOptions.length : "no subs yet"} */}
         <br />
         <button className="btn btn-info btn-block">Save</button>
       </form>

@@ -90,14 +90,17 @@ const ProductCreate = ({}) => {
   const handleCategoryChange = (e) => {
     e.preventDefault();
     //  console.log("ClickCategory", e.target.value);
-    setValues({ ...values, category: e.target.value });
-    getCategorySubs(e.target.value)
-      .then((res) => {
-        console.log("Option on Category Click", res);
-        setSubOptions(res.data);
-      })
-      .catch((err) => console.log(err));
+    setValues({ ...values, subcates: [], category: e.target.value });
+    getCategorySubs(e.target.value).then((res) => {
+      console.log("Option on Category Click", res);
+      setSubOptions(res.data);
+    });
+
+    setShowSub(true).catch((err) => {
+      //   console.log("subcate shows ERROR", err);
+    });
   };
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -107,7 +110,7 @@ const ProductCreate = ({}) => {
 
         <div className="col-md-9">
           <h3>Product Create Form</h3>
-          {/* {JSON.stringify(values.subcates)} */}
+
           <ProductCreateForm
             handleSubmit={handleSubmit}
             handleChange={handleChange}
