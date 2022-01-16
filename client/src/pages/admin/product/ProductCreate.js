@@ -41,6 +41,7 @@ const ProductCreate = ({}) => {
   const [values, setValues] = useState(initialState);
   const [loading, setLoading] = useState(false);
   const [subOptions, setSubOptions] = useState([]);
+  const [showSub, setShowSub] = useState(false);
 
   const { user } = useSelector((state) => ({ ...state }));
 
@@ -89,27 +90,35 @@ const ProductCreate = ({}) => {
   const handleCategoryChange = (e) => {
     e.preventDefault();
     //  console.log("ClickCategory", e.target.value);
-    setValues({ ...values, category: e.target.value });
-    getCategorySubs(e.target.value)
-      .then((res) => {
-        console.log("Option on Category Click", res);
-        setSubOptions(res.data);
-      })
-      .catch((err) => console.log(err));
+    setValues({ ...values, subcates: [], category: e.target.value });
+    getCategorySubs(e.target.value).then((res) => {
+      console.log("Option on Category Click", res);
+      setSubOptions(res.data);
+    });
+
+    setShowSub(true).catch((err) => {
+      //   console.log("subcate shows ERROR", err);
+    });
   };
+
   return (
     <div className="container-fluid">
       <div className="row">
         <div className="col-md-3">
           <AdminNav />
         </div>
+
         <div className="col-md-9">
           <h3>Product Create Form</h3>
+
           <ProductCreateForm
             handleSubmit={handleSubmit}
             handleChange={handleChange}
             values={values}
+            setValues={setValues}
             handleCategoryChange={handleCategoryChange}
+            subOptions={subOptions}
+            showSub={showSub}
           />
           {/* {JSON.stringify(values.categories)} */}
         </div>

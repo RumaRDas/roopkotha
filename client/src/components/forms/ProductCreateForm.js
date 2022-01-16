@@ -1,10 +1,16 @@
 import React from "react";
 
+import { Select } from "antd";
+const { Option } = Select;
+
 const ProductCreateForm = ({
   handleSubmit,
   handleChange,
   values,
+  setValues,
   handleCategoryChange,
+  subOptions,
+  showSub,
 }) => {
   //Destructure useState values
   const {
@@ -124,6 +130,31 @@ const ProductCreateForm = ({
               ))}
           </select>
         </div>
+
+        {/* Ant design select option */}
+
+        {showSub && (
+          <div>
+            <label>Sub Categories</label>
+            <Select
+              mode="multiple"
+              style={{ width: "100%" }}
+              placeholder="Plese select"
+              value={subcates}
+              onChange={(value) => setValues({ ...values, subcates: value })}
+            >
+              {subOptions.length &&
+                subOptions.map((s) => (
+                  <Option value={s._id} key={s._id}>
+                    {s.name}
+                  </Option>
+                ))}
+            </Select>
+          </div>
+        )}
+        {/* ____ */}
+        {/* {subOptions ? subOptions.length : "no subs yet"} */}
+        <br />
         <button className="btn btn-info btn-block">Save</button>
       </form>
     </div>
