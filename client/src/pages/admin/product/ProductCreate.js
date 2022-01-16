@@ -9,6 +9,7 @@ import { getSubCates } from "../../../functions/subcate.js";
 import { Link } from "react-router-dom";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import ProductCreateForm from "../../../components/forms/ProductCreateForm";
+import FileUpload from "../../../components/forms/FileUpload";
 
 //for declearing each of state instade one Object
 const initialState = {
@@ -110,7 +111,9 @@ const ProductCreate = ({}) => {
 
         <div className="col-md-9">
           <h3>Product Create Form</h3>
-
+          <div className="p-3">
+            <FileUpload />
+          </div>
           <ProductCreateForm
             handleSubmit={handleSubmit}
             handleChange={handleChange}
