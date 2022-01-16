@@ -1,4 +1,5 @@
 const Category = require("../models/category");
+const Subcate = require("../models/subcate");
 const slugify = require("slugify");
 
 exports.create = async (req, res) => {
@@ -13,8 +14,7 @@ exports.create = async (req, res) => {
   }
 };
 exports.list = async (req, res) =>
- res.json(await Category.find({}).sort({ createdAt: -1 }).exec()); // find list by latest update
-
+  res.json(await Category.find({}).sort({ createdAt: -1 }).exec()); // find list by latest update
 
 exports.read = async (req, res) => {
   const category = await Category.findOne({ slug: req.params.slug }).exec();
@@ -47,4 +47,19 @@ exports.remove = async (req, res) => {
     //console.log(err);
     res.status(400).send("Category delete failed");
   }
+};
+// exports.getSubcate = async (req, res) => {
+//   try {
+//     const subcate = await Subcate.find({ parent: req.params._id }).exec();
+//     res.json(subcate);
+//   } catch (err) {
+//     console.log(err);
+//     res.status(400).send("SubCategory Not Found ");
+//   }
+// };
+exports.getSubcate = (req, res) => {
+  Subcate.find({ parent: req.params._id }).exec((err, subs) => {
+    if (err) console.log(err);
+    res.json(subs);
+  });
 };

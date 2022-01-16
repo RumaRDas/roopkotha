@@ -4,6 +4,8 @@ import AdminNav from "../../../components/nav/AdminNav";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { createProduct } from "../../../functions/product";
+import { getCategories, getCategorySubs } from "../../../functions/category";
+import { getSubCates } from "../../../functions/subcate.js";
 import { Link } from "react-router-dom";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import ProductCreateForm from "../../../components/forms/ProductCreateForm";
@@ -38,8 +40,30 @@ const initialState = {
 const ProductCreate = ({}) => {
   const [values, setValues] = useState(initialState);
   const [loading, setLoading] = useState(false);
+  const [subOptions, setSubOptions] = useState([]);
 
   const { user } = useSelector((state) => ({ ...state }));
+
+  useEffect(() => {
+    //   loadSubCate();
+    loadCategories();
+  }, []);
+
+  // getting all Categories
+  const loadCategories = () =>
+    getCategories().then((c) => {
+      //  console.log("Category :", c.data);
+      setValues({ ...values, categories: c.data });
+      // res.json({ categories: res.data });
+    });
+
+  // // getting all Sub Categories
+  // const loadSubCate = () =>
+  //   getSubCates().then((s) => {
+  //     console.log("SubCatagory:", s.data);
+  //     setValues({ ...values, subcates: s.data });
+  //     //   res.json({ subcate: res.data });
+  //   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -51,7 +75,7 @@ const ProductCreate = ({}) => {
         window.location.reload(); // for geting empty field  for form
       })
       .catch((err) => {
-        console.log("Product create ERROR", err);
+        //   console.log("Product create ERROR", err);
         setLoading(false);
         toast.error(err.response.data.err);
       });
@@ -62,6 +86,17 @@ const ProductCreate = ({}) => {
     setValues({ ...values, [e.target.name]: e.target.value });
     // console.log(e.target.name, "----------", e.target.value);
   };
+  const handleCategoryChange = (e) => {
+    e.preventDefault();
+    //  console.log("ClickCategory", e.target.value);
+    setValues({ ...values, category: e.target.value });
+    getCategorySubs(e.target.value)
+      .then((res) => {
+        console.log("Option on Category Click", res);
+        setSubOptions(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <div className="container-fluid">
       <div className="row">
@@ -70,13 +105,13 @@ const ProductCreate = ({}) => {
         </div>
         <div className="col-md-9">
           <h3>Product Create Form</h3>
-
-          {/* {JSON.stringify(values)}*/}
           <ProductCreateForm
             handleSubmit={handleSubmit}
             handleChange={handleChange}
             values={values}
+            handleCategoryChange={handleCategoryChange}
           />
+          {/* {JSON.stringify(values.categories)} */}
         </div>
       </div>
     </div>
