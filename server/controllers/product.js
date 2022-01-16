@@ -51,12 +51,14 @@ exports.update = async (req, res) => {
 };
 
 exports.remove = async (req, res) => {
-  // try {
-  //   const deleted = await Product.findOneAndDelete({ slug: req.params.slug });
-  //   res.json(" Product deleted successfuly ");
-  //   //   res.json(deleted);
-  // } catch (err) {
-  //   //console.log(err);
-  //   res.status(400).send("Product delete failed");
-  // }
+  try {
+    const deleted = await Product.findOneAndRemove({
+      slug: req.params.slug,
+    }).exec();
+    res.json(" Product deleted successfuly ");
+    //   res.json(deleted);
+  } catch (err) {
+    //console.log(err);
+    res.status(400).send("Product delete failed");
+  }
 };
