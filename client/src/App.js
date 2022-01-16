@@ -32,7 +32,7 @@ import SubCateCreate from "./pages/admin/subcate/SubCateCreate";
 import SubCateUpdate from "./pages/admin/subcate/SubCateUpdate";
 //Admin  for  Product
 import ProductCreate from "./pages/admin/product/ProductCreate";
-
+import AllProducts from "./pages/admin/product/AllProducts";
 
 import { auth } from "./firebase";
 //import from react-redux
@@ -95,11 +95,8 @@ const App = () => {
           path="/admin/subcate/:slug"
           component={SubCateUpdate}
         />
-         <AdminRoute
-          exact
-          path="/admin/product"
-          component={ProductCreate}
-        />
+        <AdminRoute exact path="/admin/product" component={ProductCreate} />
+        <AdminRoute exact path="/admin/products" component={AllProducts} />
       </Switch>
     </>
   );
