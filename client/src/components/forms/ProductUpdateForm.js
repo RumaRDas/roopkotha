@@ -19,6 +19,7 @@ const ProductUpdateForm = ({
     category,
     subcates,
     subcate,
+    shipping,
     images,
     colors,
     types,
@@ -61,6 +62,7 @@ const ProductUpdateForm = ({
           <div className="form-group">
             <lable>Shipping</lable>
             <select
+              value={shipping === "Yes" ? "Yes" : "No"}
               name="shipping"
               className="form-control"
               onChange={handleChange}
@@ -83,11 +85,11 @@ const ProductUpdateForm = ({
           <div className="form-group">
             <lable>Color</lable>
             <select
+              value={color}
               name="color"
               className="form-control"
               onChange={handleChange}
             >
-              <option>Plese Select</option>
               {colors.map((c) => (
                 <option key={c} value={c}>
                   {c}
@@ -98,11 +100,11 @@ const ProductUpdateForm = ({
           <div className="form-group">
             <lable>Type</lable>
             <select
+              value={type}
               name="type"
               className="form-control"
               onChange={handleChange}
             >
-              <option>Plese Select</option>
               {types.map((t) => (
                 <option key={t} value={t}>
                   {t}

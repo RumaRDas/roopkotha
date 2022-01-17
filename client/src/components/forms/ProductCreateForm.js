@@ -22,6 +22,7 @@ const ProductCreateForm = ({
     category,
     subcates,
     subcate,
+    shipping,
     images,
     colors,
     types,

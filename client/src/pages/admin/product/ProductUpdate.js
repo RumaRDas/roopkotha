@@ -21,6 +21,7 @@ const initialState = {
   category: "",
   subcates: [],
   subcate: [],
+  shipping: "",
   quantity: "",
   images: [],
   //  shipping: ["Yes", "No"],
@@ -75,8 +76,8 @@ const ProductUpdate = ({ match }) => {
   };
   //for updateing form event change on change
   const handleChange = (e) => {
-    //  setValues({ ...values, [e.target.name]: e.target.values });
-    // console.log(e.target.name, "----------", e.target.value);
+    setValues({ ...values, [e.target.name]: e.target.value });
+    //  console.log(e.target.name, "----------", e.target.value);
   };
 
   return (
@@ -86,7 +87,7 @@ const ProductUpdate = ({ match }) => {
           <AdminNav />
         </div>
         {/* {JSON.stringify(match.params.slug)} */}
-        {/* {JSON.stringify(values)} */}
+        {JSON.stringify(values)}
         <div className="col-md-9">
           <h3>Product UpDate Form</h3>
           <ProductUpdateForm
