@@ -52,6 +52,8 @@ const ProductUpdate = ({ match }) => {
   const [values, setValues] = useState(initialState);
   const [subOptions, setSubOptions] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [showSub, setShowSub] = useState(false);
+  const [arrayOfSubIds, setArrayOfSubIds] = useState([]);
 
   const { user } = useSelector((state) => ({ ...state }));
   const { slug } = match.params;
@@ -66,8 +68,20 @@ const ProductUpdate = ({ match }) => {
   const loadProduct = () => {
     getPruduct(slug)
       .then((p) => {
+        //Load single Product
         setValues({ ...values, ...p.data });
         // console.log("SINGLE PRODUCT", p);
+        //load single product category subs
+        getCategorySubs(p.data.category._id).then((res) => {
+          setSubOptions(res.data); // onfirst load , show default subcate
+        });
+        //Prepare array of subcate ids to show as default sub values to select from form
+        let arr = [];
+        p.data.subcates.map((s) => {
+          arr.push(s._id);
+        });
+        console.log("ARR :", arr);
+        setArrayOfSubIds((pre) => arr); //this is required ant design select option
       })
       .catch((err) => {});
   };
@@ -115,6 +129,9 @@ const ProductUpdate = ({ match }) => {
             setValues={setValues}
             handleCategoryChange={handleCategoryChange}
             categories={categories}
+            subOptions={subOptions}
+            arrayOfSubIds={arrayOfSubIds}
+            setArrayOfSubIds={setArrayOfSubIds}
           />
           <hr />
         </div>

@@ -70,13 +70,6 @@ const ProductCreate = () => {
       // res.json({ categories: res.data });
     });
 
-  // // getting all Sub Categories
-  // const loadSubCate = () =>
-  //   getSubCates().then((s) => {
-  //     console.log("SubCatagory:", s.data);
-  //     setValues({ ...values, subcates: s.data });
-  //     //   res.json({ subcate: res.data });
-  //   });
 
   const handleSubmit = (e) => {
     e.preventDefault();

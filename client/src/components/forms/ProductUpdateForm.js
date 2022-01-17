@@ -1,5 +1,4 @@
 import React from "react";
-
 import { Select } from "antd";
 const { Option } = Select;
 
@@ -10,6 +9,10 @@ const ProductUpdateForm = ({
   setValues,
   handleCategoryChange,
   categories,
+  subOptions,
+  showSub,
+  arrayOfSubIds,
+  setArrayOfSubIds,
 }) => {
   //Destructure useState values
   const {
@@ -19,7 +22,6 @@ const ProductUpdateForm = ({
     quantity,
     category,
     subcates,
-    subcate,
     shipping,
     images,
     colors,
@@ -121,7 +123,7 @@ const ProductUpdateForm = ({
             className="form-control"
             onChange={handleCategoryChange}
           >
-            <option>Please Select</option>
+            <option>{category ? category.name : "Please Select"}</option>
             {categories.length > 0 &&
               categories.map((c) => (
                 <option key={c._id} value={c._id}>
@@ -132,6 +134,24 @@ const ProductUpdateForm = ({
         </div>
 
         {/* Ant design select option */}
+
+        <div>
+          <label>Sub Categories</label>
+          <Select
+            mode="multiple"
+            style={{ width: "100%" }}
+            placeholder="Plese select"
+            value={arrayOfSubIds}
+            onChange={(value) => setArrayOfSubIds(value)}
+          >
+            {subOptions.length &&
+              subOptions.map((s) => (
+                <Option value={s._id} key={s._id}>
+                  {s.name}
+                </Option>
+              ))}
+          </Select>
+        </div>
 
         {/* ____ */}
         {/* {subOptions ? subOptions.length : "no subs yet"} */}
