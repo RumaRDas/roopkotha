@@ -16,3 +16,7 @@ export const removeProduct = async (slug, authtoken) => {
     headers: { authtoken },
   });
 };
+
+export const getPruduct = async (slug) => {
+  return await axios.get(`${process.env.REACT_APP_API}/product/${slug}`);
+};
