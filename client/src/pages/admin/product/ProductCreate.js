@@ -24,7 +24,16 @@ const initialState = {
   quantity: "",
   images: [],
   //  shipping: ["Yes", "No"],
-  colors: ["White", "Black", "Red", "Pink", "Blue", "Green", "Yellow"],
+  colors: [
+    "White",
+    "Black",
+    "Red",
+    "Pink",
+    "Blue",
+    "Green",
+    "Yellow",
+    "Others",
+  ],
   types: [
     "Cotton",
     "Muslin",
