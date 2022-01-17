@@ -8,6 +8,8 @@ const ProductUpdateForm = ({
   handleChange,
   values,
   setValues,
+  handleCategoryChange,
+  categories,
 }) => {
   //Destructure useState values
   const {
@@ -15,7 +17,6 @@ const ProductUpdateForm = ({
     description,
     price,
     quantity,
-    categories,
     category,
     subcates,
     subcate,
@@ -112,6 +113,22 @@ const ProductUpdateForm = ({
               ))}
             </select>
           </div>
+        </div>
+        <div className="form-group">
+          <label>Category</label>
+          <select
+            name="category"
+            className="form-control"
+            onChange={handleCategoryChange}
+          >
+            <option>Please Select</option>
+            {categories.length > 0 &&
+              categories.map((c) => (
+                <option key={c._id} value={c._id}>
+                  {c.name}
+                </option>
+              ))}
+          </select>
         </div>
 
         {/* Ant design select option */}

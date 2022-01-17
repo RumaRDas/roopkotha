@@ -17,10 +17,8 @@ const initialState = {
   title: "",
   description: "",
   price: "",
-  categories: [],
   category: "",
   subcates: [],
-  subcate: [],
   shipping: "",
   quantity: "",
   images: [],
@@ -52,6 +50,9 @@ const initialState = {
 const ProductUpdate = ({ match }) => {
   //state for all values from initialState
   const [values, setValues] = useState(initialState);
+  const [subOptions, setSubOptions] = useState([]);
+  const [categories, setCategories] = useState([]);
+
   const { user } = useSelector((state) => ({ ...state }));
   const { slug } = match.params;
   //router
@@ -59,6 +60,7 @@ const ProductUpdate = ({ match }) => {
 
   useEffect(() => {
     loadProduct();
+    loadCategories();
   }, []);
 
   const loadProduct = () => {
@@ -70,6 +72,13 @@ const ProductUpdate = ({ match }) => {
       .catch((err) => {});
   };
 
+  // getting all Categories
+  const loadCategories = () => {
+    getCategories().then((c) => {
+      setCategories(c.data);
+      //   console.log("Load Categories", c.data);
+    });
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     //
@@ -79,7 +88,16 @@ const ProductUpdate = ({ match }) => {
     setValues({ ...values, [e.target.name]: e.target.value });
     //  console.log(e.target.name, "----------", e.target.value);
   };
-
+  const handleCategoryChange = (e) => {
+    e.preventDefault();
+    setValues({ ...values, subcates: [], category: e.target.value });
+    getCategorySubs(e.target.value)
+      .then((res) => {
+        //    console.log("Option on Category Click", res);
+        setSubOptions(res.data);
+      })
+      .catch((err) => {});
+  };
   return (
     <div className="container-fluid">
       <div className="row">
@@ -95,6 +113,8 @@ const ProductUpdate = ({ match }) => {
             handleChange={handleChange}
             values={values}
             setValues={setValues}
+            handleCategoryChange={handleCategoryChange}
+            categories={categories}
           />
           <hr />
         </div>
