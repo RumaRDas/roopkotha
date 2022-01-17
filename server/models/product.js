@@ -54,7 +54,16 @@ const productSchema = new mongoose.Schema(
     },
     color: {
       type: String,
-      enum: ["White", "Black", "Red", "Pink", "Blue", "Green", "Yellow"],
+      enum: [
+        "White",
+        "Black",
+        "Red",
+        "Pink",
+        "Blue",
+        "Green",
+        "Yellow",
+        "Others",
+      ],
     },
     type: {
       type: String,
