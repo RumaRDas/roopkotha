@@ -54,6 +54,7 @@ const ProductUpdate = ({ match }) => {
   const [categories, setCategories] = useState([]);
   const [showSub, setShowSub] = useState(false);
   const [arrayOfSubIds, setArrayOfSubIds] = useState([]);
+  const [selectedCatogory, setSelectedCatogory] = useState([]);
 
   const { user } = useSelector((state) => ({ ...state }));
   const { slug } = match.params;
@@ -104,13 +105,19 @@ const ProductUpdate = ({ match }) => {
   };
   const handleCategoryChange = (e) => {
     e.preventDefault();
-    setValues({ ...values, subcates: [], category: e.target.value });
-    getCategorySubs(e.target.value)
-      .then((res) => {
-        //    console.log("Option on Category Click", res);
-        setSubOptions(res.data);
-      })
-      .catch((err) => {});
+    setValues({ ...values, subcates: [] });
+    setSelectedCatogory(e.target.value);
+    getCategorySubs(e.target.value).then((res) => {
+      //    console.log("Option on Category Click", res);
+      setSubOptions(res.data);
+    });
+    //if user clik=ckes back to the original category
+    // ahow its previous sub category in default
+    if (values.category._id === e.target.value) {
+      loadProduct();
+    }
+    //clear old sub categoryID
+    setArrayOfSubIds([]).catch((err) => {});
   };
   return (
     <div className="container-fluid">
@@ -119,8 +126,9 @@ const ProductUpdate = ({ match }) => {
           <AdminNav />
         </div>
         {/* {JSON.stringify(match.params.slug)} */}
-        {JSON.stringify(values)}
-        <div className="col-md-9">
+
+        {/* {JSON.stringify(values)} */}
+        <div className="col-md-6">
           <h3>Product UpDate Form</h3>
           <ProductUpdateForm
             handleSubmit={handleSubmit}
@@ -132,6 +140,7 @@ const ProductUpdate = ({ match }) => {
             subOptions={subOptions}
             arrayOfSubIds={arrayOfSubIds}
             setArrayOfSubIds={setArrayOfSubIds}
+          selectedCatogory={selectedCatogory}
           />
           <hr />
         </div>
