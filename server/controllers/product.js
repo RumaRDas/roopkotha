@@ -29,8 +29,11 @@ exports.listAll = async (req, res) => {
 //res.json(await Product.find({}).sort({ createdAt: -1 }).exec()); // find list by latest update
 
 exports.read = async (req, res) => {
-  // const product = await Product.findOne({ slug: req.params.slug }).exec();
-  // res.json(product);
+  const product = await Product.findOne({ slug: req.params.slug })
+    .populate("category")
+    .populate("subcates")
+    .exec();
+  res.json(product);
 };
 
 exports.update = async (req, res) => {
@@ -62,3 +65,4 @@ exports.remove = async (req, res) => {
     res.status(400).send("Product delete failed");
   }
 };
+
