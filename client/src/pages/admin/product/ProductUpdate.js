@@ -134,9 +134,8 @@ const ProductUpdate = ({ match, history }) => {
       loadProduct();
     }
     //clear old sub categoryID
-    setArrayOfSubIds([]).catch((err) => {
-      console.log(err);
-    });
+    setArrayOfSubIds([]);
+
   };
   return (
     <div className="container-fluid">
