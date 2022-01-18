@@ -9,7 +9,7 @@ import FileUpload from "../../../components/forms/FileUpload";
 import { LoadingOutlined } from "@ant-design/icons";
 import ProductUpdateForm from "../../../components/forms/ProductUpdateForm";
 
-import { getPruduct } from "../../../functions/product";
+import { getProduct, updateProduct } from "../../../functions/product";
 
 // import { useParams } from "react-router-dom";
 
@@ -47,14 +47,14 @@ const initialState = {
   color: "",
   type: "",
 };
-const ProductUpdate = ({ match }) => {
+const ProductUpdate = ({ match, history }) => {
   //state for all values from initialState
   const [values, setValues] = useState(initialState);
   const [subOptions, setSubOptions] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [arrayOfSubIds, setArrayOfSubIds] = useState([]);
-  const [selectedCatogory, setSelectedCatogory] = useState([]);
+  const [selectedCatogory, setSelectedCatogory] = useState();
 
   const { user } = useSelector((state) => ({ ...state }));
   const { slug } = match.params;
@@ -67,7 +67,7 @@ const ProductUpdate = ({ match }) => {
   }, []);
 
   const loadProduct = () => {
-    getPruduct(slug)
+    getProduct(slug)
       .then((p) => {
         //Load single Product
         setValues({ ...values, ...p.data });
@@ -96,13 +96,30 @@ const ProductUpdate = ({ match }) => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    //
+    setLoading(true);
+    values.subcates = arrayOfSubIds;
+    values.category = selectedCatogory ? selectedCatogory : values.category;
+    updateProduct(slug, values, user.token)
+      .then((res) => {
+        setLoading(false);
+        // window.alert(`"${res.data.title}" is Updated`);
+        // window.location.reload();
+        toast.success(`"${res.data.title}" is Updated `);
+        history.push("/admin/products");
+      })
+      .catch((err) => {
+        console.log("Product Update ERROR", err);
+        setLoading(false);
+        toast.error(err.response.data.err);
+      });
   };
+
   //for updateing form event change on change
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
     //  console.log(e.target.name, "----------", e.target.value);
   };
+
   const handleCategoryChange = (e) => {
     e.preventDefault();
     setValues({ ...values, subcates: [] });
@@ -117,7 +134,9 @@ const ProductUpdate = ({ match }) => {
       loadProduct();
     }
     //clear old sub categoryID
-    setArrayOfSubIds([]).catch((err) => {});
+    setArrayOfSubIds([]).catch((err) => {
+      console.log(err);
+    });
   };
   return (
     <div className="container-fluid">
