@@ -67,9 +67,9 @@ exports.update = async (req, res) => {
   //res.status(400).send("Product Update Failed")
 };
 
-exports.list = async (res, req) => {
+exports.list = async (req, res) => {
   try {
-    //createdAt/updatedAt, desc/Asc, number like 3
+    // createdAt/updatedAt, desc/asc, 3
     const { sort, order, limit } = req.body;
     const products = await Product.find({})
       .populate("category")
@@ -77,9 +77,9 @@ exports.list = async (res, req) => {
       .sort([[sort, order]])
       .limit(limit)
       .exec();
+
     res.json(products);
   } catch (err) {
-    console.log("Getting products ERR :", err);
-    res.status(400).json({ err: err.massage });
+    console.log(err);
   }
 };
