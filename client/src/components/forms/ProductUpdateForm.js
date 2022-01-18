@@ -10,7 +10,6 @@ const ProductUpdateForm = ({
   handleCategoryChange,
   categories,
   subOptions,
-  showSub,
   arrayOfSubIds,
   setArrayOfSubIds,
   selectedCatogory,

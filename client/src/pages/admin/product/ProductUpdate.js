@@ -52,7 +52,7 @@ const ProductUpdate = ({ match }) => {
   const [values, setValues] = useState(initialState);
   const [subOptions, setSubOptions] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [showSub, setShowSub] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [arrayOfSubIds, setArrayOfSubIds] = useState([]);
   const [selectedCatogory, setSelectedCatogory] = useState([]);
 
@@ -128,8 +128,19 @@ const ProductUpdate = ({ match }) => {
         {/* {JSON.stringify(match.params.slug)} */}
 
         {/* {JSON.stringify(values)} */}
-        <div className="col-md-6">
-          <h3>Product UpDate Form</h3>
+        <div className="col-md-9">
+          {loading ? (
+            <LoadingOutlined className="text-danger h1" />
+          ) : (
+            <h3>Product Create Form</h3>
+          )}
+          <div className="p-3">
+            <FileUpload
+              values={values}
+              setValues={setValues}
+              setLoading={setLoading}
+            />
+          </div>
           <ProductUpdateForm
             handleSubmit={handleSubmit}
             handleChange={handleChange}
@@ -140,7 +151,7 @@ const ProductUpdate = ({ match }) => {
             subOptions={subOptions}
             arrayOfSubIds={arrayOfSubIds}
             setArrayOfSubIds={setArrayOfSubIds}
-          selectedCatogory={selectedCatogory}
+            selectedCatogory={selectedCatogory}
           />
           <hr />
         </div>
