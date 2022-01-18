@@ -10,6 +10,7 @@ const ProductCard = ({ product }) => {
   //destructure
   const { images, title, description, slug } = product;
   return (
+
     <Card
       cover={
         <img
