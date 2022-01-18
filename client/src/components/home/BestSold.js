@@ -14,7 +14,7 @@ const BestSold = () => {
   const loadAllProducts = () => {
     setLoading(true);
     //sort, order, limit
-    getProducts("sold", "asc", 3)
+    getProducts("sold", "desc", 3)
       .then((res) => {
         setProducts(res.data);
         setLoading(false);
