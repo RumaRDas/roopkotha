@@ -66,3 +66,20 @@ exports.update = async (req, res) => {
   }
   //res.status(400).send("Product Update Failed")
 };
+
+exports.list = async (res, req) => {
+  try {
+    //createdAt/updatedAt, desc/Asc, number like 3
+    const { sort, order, limit } = req.body;
+    const products = await Product.find({})
+      .populate("category")
+      .populate("subcates")
+      .sort([[sort, order]])
+      .limit(limit)
+      .exec();
+    res.json(products);
+  } catch (err) {
+    console.log("Getting products ERR :", err);
+    res.status(400).json({ err: err.massage });
+  }
+};
