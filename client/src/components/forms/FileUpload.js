@@ -2,7 +2,7 @@ import React from "react";
 import Resizer from "react-image-file-resizer";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { Avatar, Badge, Button } from "antd";
+import { Avatar, Badge} from "antd";
 
 const FileUpload = ({ values, setValues, setLoading }) => {
   const { user } = useSelector((state) => ({ ...state }));
@@ -55,7 +55,7 @@ const FileUpload = ({ values, setValues, setLoading }) => {
 
   //Removing image
   const handleImageRemove = (public_id) => {
-    console.log("REMOVE IMAGE :", public_id);
+  //  console.log("REMOVE IMAGE :", public_id);
     setLoading(true);
     axios
       .post(
@@ -107,7 +107,7 @@ const FileUpload = ({ values, setValues, setLoading }) => {
         </div>
       </div>
       <div className="row">
-        <label className="btn btn-info">
+        <label className="btn btn-info btn -raised">
           Choose File
           <input
             type="file"

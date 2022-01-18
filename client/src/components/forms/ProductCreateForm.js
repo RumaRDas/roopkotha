@@ -32,7 +32,7 @@ const ProductCreateForm = ({
     <div>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <lable>Title</lable>
+          <label>Title</label>
           <input
             type="text"
             name="title"
@@ -43,7 +43,7 @@ const ProductCreateForm = ({
           <p className="text-danger">Title need More then 3 Character</p>
         </div>
         <div className="form-group">
-          <lable>Description</lable>
+          <label>Description</label>
           <textarea
             type="text"
             name="description"
@@ -52,7 +52,7 @@ const ProductCreateForm = ({
             onChange={handleChange}
           />
           <div className="form-group">
-            <lable>Price</lable>
+            <label>Price</label>
             <input
               type="number"
               name="price"
@@ -62,7 +62,7 @@ const ProductCreateForm = ({
             />
           </div>
           <div className="form-group">
-            <lable>Shipping</lable>
+            <label>Shipping</label>
             <select
               name="shipping"
               className="form-control"
@@ -74,7 +74,7 @@ const ProductCreateForm = ({
             </select>
           </div>
           <div className="form-group">
-            <lable>Quantity</lable>
+            <label>Quantity</label>
             <input
               type="number"
               name="quantity"
@@ -84,7 +84,7 @@ const ProductCreateForm = ({
             />
           </div>
           <div className="form-group">
-            <lable>Color</lable>
+            <label>Color</label>
             <select
               name="color"
               className="form-control"
@@ -99,7 +99,7 @@ const ProductCreateForm = ({
             </select>
           </div>
           <div className="form-group">
-            <lable>Type</lable>
+            <label>Type</label>
             <select
               name="type"
               className="form-control"

@@ -9,7 +9,7 @@ import FileUpload from "../../../components/forms/FileUpload";
 import { LoadingOutlined } from "@ant-design/icons";
 import ProductUpdateForm from "../../../components/forms/ProductUpdateForm";
 
-import { getPruduct } from "../../../functions/product";
+import { getProduct, updateProduct } from "../../../functions/product";
 
 // import { useParams } from "react-router-dom";
 
@@ -47,13 +47,14 @@ const initialState = {
   color: "",
   type: "",
 };
-const ProductUpdate = ({ match }) => {
+const ProductUpdate = ({ match, history }) => {
   //state for all values from initialState
   const [values, setValues] = useState(initialState);
   const [subOptions, setSubOptions] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [showSub, setShowSub] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [arrayOfSubIds, setArrayOfSubIds] = useState([]);
+  const [selectedCatogory, setSelectedCatogory] = useState();
 
   const { user } = useSelector((state) => ({ ...state }));
   const { slug } = match.params;
@@ -66,7 +67,7 @@ const ProductUpdate = ({ match }) => {
   }, []);
 
   const loadProduct = () => {
-    getPruduct(slug)
+    getProduct(slug)
       .then((p) => {
         //Load single Product
         setValues({ ...values, ...p.data });
@@ -95,22 +96,46 @@ const ProductUpdate = ({ match }) => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    //
+    setLoading(true);
+    values.subcates = arrayOfSubIds;
+    values.category = selectedCatogory ? selectedCatogory : values.category;
+    updateProduct(slug, values, user.token)
+      .then((res) => {
+        setLoading(false);
+        // window.alert(`"${res.data.title}" is Updated`);
+        // window.location.reload();
+        toast.success(`"${res.data.title}" is Updated `);
+        history.push("/admin/products");
+      })
+      .catch((err) => {
+        console.log("Product Update ERROR", err);
+        setLoading(false);
+        toast.error(err.response.data.err);
+      });
   };
+
   //for updateing form event change on change
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
     //  console.log(e.target.name, "----------", e.target.value);
   };
+
   const handleCategoryChange = (e) => {
     e.preventDefault();
-    setValues({ ...values, subcates: [], category: e.target.value });
-    getCategorySubs(e.target.value)
-      .then((res) => {
-        //    console.log("Option on Category Click", res);
-        setSubOptions(res.data);
-      })
-      .catch((err) => {});
+    setValues({ ...values, subcates: [] });
+    setSelectedCatogory(e.target.value);
+    getCategorySubs(e.target.value).then((res) => {
+      //    console.log("Option on Category Click", res);
+      setSubOptions(res.data);
+    });
+    //if user clik=ckes back to the original category
+    // ahow its previous sub category in default
+    if (values.category._id === e.target.value) {
+      loadProduct();
+    }
+    //clear old sub categoryID
+    setArrayOfSubIds([]);
+
   };
   return (
     <div className="container-fluid">
@@ -119,9 +144,21 @@ const ProductUpdate = ({ match }) => {
           <AdminNav />
         </div>
         {/* {JSON.stringify(match.params.slug)} */}
-        {JSON.stringify(values)}
+
+        {/* {JSON.stringify(values)} */}
         <div className="col-md-9">
-          <h3>Product UpDate Form</h3>
+          {loading ? (
+            <LoadingOutlined className="text-danger h1" />
+          ) : (
+            <h3>Product Create Form</h3>
+          )}
+          <div className="p-3">
+            <FileUpload
+              values={values}
+              setValues={setValues}
+              setLoading={setLoading}
+            />
+          </div>
           <ProductUpdateForm
             handleSubmit={handleSubmit}
             handleChange={handleChange}
@@ -132,6 +169,7 @@ const ProductUpdate = ({ match }) => {
             subOptions={subOptions}
             arrayOfSubIds={arrayOfSubIds}
             setArrayOfSubIds={setArrayOfSubIds}
+            selectedCatogory={selectedCatogory}
           />
           <hr />
         </div>

@@ -36,23 +36,6 @@ exports.read = async (req, res) => {
   res.json(product);
 };
 
-exports.update = async (req, res) => {
-  // const { name } = req.body;
-  // try {
-  //   const update = await {Product}.findOneAndUpdate(
-  //     {
-  //       slug: req.params.slug,
-  //     },
-  //     { name, slug: slugify(name) },
-  //     { new: true }
-  //   );
-  //   res.json(update);
-  // } catch (err) {
-  //   //console.log(err);
-  //   res.status(400).send(" Product Update falied");
-  // }
-};
-
 exports.remove = async (req, res) => {
   try {
     const deleted = await Product.findOneAndRemove({
@@ -66,3 +49,20 @@ exports.remove = async (req, res) => {
   }
 };
 
+exports.update = async (req, res) => {
+  try {
+    if (req.body.title) {
+      req.body.slug = slugify(req.body.title);
+    }
+    const updated = await Product.findOneAndUpdate(
+      { slug: req.params.slug },
+      req.body,
+      { new: true }
+    ).exec();
+    res.json(updated);
+  } catch (err) {
+    console.log("PRODUCT UPDATE EROR ::", err);
+    res.status(400).json({ err: err.massage });
+  }
+  //res.status(400).send("Product Update Failed")
+};
