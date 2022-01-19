@@ -10,11 +10,13 @@ import { Switch, Route } from "react-router-dom";
 //import from component
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
-import Home from "./pages/Home";
 import Header from "./components/nav/Header";
 import RegisterComplete from "./pages/auth/RegisterComplete";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 
+//For Home dispaly
+import Home from "./pages/Home";
+import Product from "./pages/Product";
 // User dashboard
 import UserRoute from "./components/routes/UserRoutes";
 import WishList from "./pages/user/WishList";
@@ -79,9 +81,12 @@ const App = () => {
         <Route exact path="/register" component={Register} />
         <Route exact path="/register/complete" component={RegisterComplete} />
         <Route exact path="/forgot/password" component={ForgotPassword} />
+        <Route exact path="/product/:slug" component={Product} />
+        {/* User Access Route */}
         <UserRoute exact path="/user/history" component={History} />
         <UserRoute exact path="/user/password" component={Password} />
         <UserRoute exact path="/user/wishlist" component={WishList} />
+        {/* Admin Access Route */}
         <AdminRoute exact path="/admin/dashboard" component={AdminDashboard} />
         <AdminRoute exact path="/admin/category" component={CategoryCreate} />
 
