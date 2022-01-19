@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 
 const ProductListItems = ({ product }) => {
   const {
-    description,
     price,
     quantity,
     category,
