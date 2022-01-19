@@ -49,7 +49,7 @@ const productSchema = new mongoose.Schema(
       type: Array,
     },
     shipping: {
-      typr: String,
+      type: String,
       enum: ["Yes", "No"],
     },
     color: {
