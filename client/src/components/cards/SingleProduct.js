@@ -3,26 +3,14 @@ import { Card } from "antd";
 import { Link } from "react-router-dom";
 import { HeartOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import Laptop from "../../images/laptop.jpg";
+import ProductListItems from "./ProductListItems";
 
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 const { Meta } = Card;
 
 const SingleProduct = ({ product }) => {
-  const {
-    title,
-    description,
-    price,
-    quantity,
-    category,
-    subcates,
-    shipping,
-    images,
-    colors,
-    types,
-    color,
-    type,
-  } = product;
+  const { title, images } = product;
   return (
     <>
       <div className="col-md-6">
@@ -37,6 +25,7 @@ const SingleProduct = ({ product }) => {
         )}
       </div>
       <div className="col-md-6">
+        <h1 className="bg-info  p-3">{title}</h1>
         <Card
           actions={[
             <>
@@ -50,7 +39,7 @@ const SingleProduct = ({ product }) => {
             </Link>,
           ]}
         >
-          <Meta title={title} description={description} />
+          <ProductListItems product={product} />
           <p>
             price/category/subs/shipping/color/brand/quentity/availabel/sold
           </p>

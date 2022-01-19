@@ -22,7 +22,7 @@ const initialState = {
   subcates: [],
   subcate: [],
   quantity: "",
-  shipping: "",
+  shipping: [],
   images: [],
   //  shipping: ["Yes", "No"],
   colors: [
