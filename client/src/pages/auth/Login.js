@@ -18,22 +18,32 @@ const Login = ({history}) => {
 
   const { user } = useSelector((state) => ({ ...state }));
 
+  useEffect(() => {
+    let intended = history.location.state;
+    if (intended) {
+      return;
+    } else {
+      //if userlogedin redirectiong to home page
+      if (user && user.token) history.push("/");
+    }
+  }, [user, history]);
+
   //redirecting user to page according to role
   const roleBasedRedirect = (res) => {
-    if (res.data.role === "admin") {
-     // navigate("/admin/dashboard");
-     history.push("/admin/dashboard")
+    //check if intented to rating
+    let intended = history.location.state;
+    if (intended) {
+      history.push(intended.from);
     } else {
-     // navigate("/user/history");
-     history.push("/user/history")
+      if (res.data.role === "admin") {
+        // navigate("/admin/dashboard");
+        history.push("/admin/dashboard");
+      } else {
+        // navigate("/user/history");
+        history.push("/user/history");
+      }
     }
   };
-
-  useEffect(() => {
-    //if userlogedin redirectiong to home page
-    if (user && user.token) history.push("/");
-    //navigate("/");
-  }, [user, history]);
 
   //login with firebase email and password
   const handleSubmit = async (e) => {
@@ -91,7 +101,7 @@ const Login = ({history}) => {
             roleBasedRedirect(res);
           })
           .catch((err) => console.log(err));
-       // navigate("/");
+        // navigate("/");
       })
       .catch((error) => {
         console.log(error);
