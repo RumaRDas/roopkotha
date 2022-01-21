@@ -40,7 +40,7 @@ const Newarrivals = () => {
 
   return (
     <>
-      {JSON.stringify(productsCount)}
+      {/* {JSON.stringify(productsCount)} */}
       <div className="container">
         {loading ? (
           <LoadingCard count={3} />

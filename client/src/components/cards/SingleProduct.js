@@ -7,13 +7,14 @@ import ProductListItems from "./ProductListItems";
 import StarRatings from "react-star-ratings";
 import { Carousel } from "react-responsive-carousel";
 import RatingModal from "../starmodal/RatingModal";
+import { showAverage } from "../../functions/rating";
 
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 const { Meta } = Card;
 const { TabPane } = Tabs;
 
 //This is children component of product page
-const SingleProduct = ({ product ,onStarClick,star}) => {
+const SingleProduct = ({ product, onStarClick, star }) => {
   const { title, images, description, _id } = product;
   return (
     <>
@@ -39,7 +40,11 @@ const SingleProduct = ({ product ,onStarClick,star}) => {
 
       <div className="col-md-6">
         <h1 className="bg-info  p-3">{title}</h1>
-
+        {product && product.ratings && product.ratings.length > 0 ? (
+          showAverage(product)
+        ) : (
+          <div className="text-center  pt-1 pb3"> No rating yet</div>
+        )}
         <Card
           actions={[
             <>
@@ -59,7 +64,6 @@ const SingleProduct = ({ product ,onStarClick,star}) => {
                 rating={star}
                 starRatedColor="red"
                 isSelectable={true}
-             
               />
             </RatingModal>,
           ]}

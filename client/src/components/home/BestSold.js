@@ -20,7 +20,7 @@ const BestSold = () => {
         setProductsCount(res.data);
       })
       .catch((err) => {
-        console.log(err);
+      //  console.log(err);
       });
   }, []);
 
@@ -34,7 +34,7 @@ const BestSold = () => {
       })
       .catch((err) => {
         setLoading(false);
-        console.log(err);
+     //   console.log(err);
       });
   };
   return (

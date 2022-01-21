@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getProduct, productStar } from "../functions/product";
 import SingleProduct from "../components/cards/SingleProduct";
 
+
 import { useSelector } from "react-redux";
 
 const Product = ({ match }) => {
@@ -14,6 +15,17 @@ const Product = ({ match }) => {
   useEffect(() => {
     loadSingleProduct();
   }, [slug]); // when slag change useeffect changes
+
+
+  useEffect(() => {
+    //this useEffect for component mount with user and his previous rating
+    if (product.ratings && user) {
+      let existingRatingObject = product.ratings.find(
+        (ele) => ele.postedBy.toString() === user._id.toString()
+      );
+      existingRatingObject && setStar(existingRatingObject.star); //current user star
+    }
+  });
 
   const loadSingleProduct = () => {
     getProduct(slug).then((res) => {
