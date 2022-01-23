@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { getCategory } from "../../functions/category";
+import { getSubCate } from "../../functions/subcate";
 import { Link } from "react-router-dom";
 import ProductCard from "../../components/cards/ProductCard";
 
-const CategoryHome = ({ match }) => {
-  const [category, setCategory] = useState({});
+const SubCateHome = ({ match }) => {
+  const [subcate, setSubcate] = useState({});
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -12,13 +12,16 @@ const CategoryHome = ({ match }) => {
 
   useEffect(() => {
     setLoading(true);
-    getCategory(slug).then((res) => {
-      console.log(JSON.stringify(res.data, null, 4));
-      setCategory(res.data.category);
+    subProducts(slug);
+  }, []);
+
+  const subProducts = (slug) =>
+    getSubCate(slug).then((res) => {
+      console.log("NEW SUBCATEGORY :", JSON.stringify(res.data, null, 4));
+      setSubcate(res.data.subcate);
       setProducts(res.data.products);
       setLoading(false);
     });
-  }, []);
 
   return (
     <div className="container">
@@ -31,7 +34,7 @@ const CategoryHome = ({ match }) => {
           ) : (
             <h4 className="text-center p-3 mt-5 mb-5 display-4 jumbotron">
               {products.length} Products in
-              <span className="text-info"> {category.name}"</span> category
+              <span className="text-info"> {subcate.name}"</span> category
             </h4>
           )}
         </div>
@@ -49,4 +52,4 @@ const CategoryHome = ({ match }) => {
   );
 };
 
-export default CategoryHome;
+export default SubCateHome;
