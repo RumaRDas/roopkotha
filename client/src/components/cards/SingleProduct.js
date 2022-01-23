@@ -16,6 +16,7 @@ const { TabPane } = Tabs;
 //This is children component of product page
 const SingleProduct = ({ product, onStarClick, star }) => {
   const { title, images, description, _id } = product;
+  
   return (
     <>
       <div className="col-md-6">
@@ -69,9 +70,6 @@ const SingleProduct = ({ product, onStarClick, star }) => {
           ]}
         >
           <ProductListItems product={product} />
-          <p>
-            price/category/subs/shipping/color/brand/quentity/availabel/sold
-          </p>
         </Card>
       </div>
     </>
