@@ -1,6 +1,7 @@
 const Product = require("../models/product");
 const User = require("../models/user");
 const slugify = require("slugify");
+const { query } = require("express");
 
 exports.create = async (req, res) => {
   try {
@@ -152,20 +153,36 @@ exports.productStar = async (req, res) => {
 
 //finding related product without that product
 
-exports.listRelated=async (req,res)=>{
-
-  const product = await Product.findById(req.params.productId).exec()
+exports.listRelated = async (req, res) => {
+  const product = await Product.findById(req.params.productId).exec();
   const related = await Product.find({
-   _id:{ $ne: product._id} ,//$ne means not including
-category: product.category,
+    _id: { $ne: product._id }, //$ne means not including
+    category: product.category,
   })
-//  .limit(3)
-  .populate('category')
-  .populate('subcates')
-  .populate('ratings.postedBy')
-  .exec()
+    //  .limit(3)
+    .populate("category")
+    .populate("subcates")
+    .populate("ratings.postedBy")
+    .exec();
 
-  res.json(related)
+  res.json(related);
+};
 
-}
+//SEARCH/FILTER
+const handleQuery = async (req, res, query) => {
+  const products = await Product.find({ $text: { $search: query } })
+    .populate("category", "_id name")
+    .populate("subcates", "_id name")
+    .populate("ratings.postedBy", "_id name")
+    .exec();
+  res.json(products);
+};
+
+exports.searchFilters = async (req, res) => {
+  const { query } = req.body;
+  if (query) {
+    console.log("QUERY :", query);
+    await handleQuery(req, res, query);
+  }
+};
 
