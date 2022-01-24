@@ -63,7 +63,7 @@ exports.update = async (req, res) => {
     ).exec();
     res.json(updated);
   } catch (err) {
-    console.log("PRODUCT UPDATE EROR ::", err);
+    //  console.log("PRODUCT UPDATE EROR ::", err);
     res.status(400).json({ err: err.massage });
   }
   //res.status(400).send("Product Update Failed")
@@ -135,7 +135,7 @@ exports.productStar = async (req, res) => {
       },
       { new: true }
     ).exec();
-    console.log("Rating Added :", ratingAdded);
+    //  console.log("Rating Added :", ratingAdded);
     res.json(ratingAdded);
   } else {
     // if user have already left rating , update it
@@ -146,7 +146,7 @@ exports.productStar = async (req, res) => {
       { $set: { "ratings.$.star": star } }, // useing set method we are updating rating
       { new: true }
     ).exec();
-    console.log("RATING UPDATED :", ratingUpdated);
+    //   console.log("RATING UPDATED :", ratingUpdated);
     res.json(ratingUpdated);
   }
 };
@@ -178,11 +178,33 @@ const handleQuery = async (req, res, query) => {
   res.json(products);
 };
 
+const handlePrice = async (req, res, price) => {
+  try {
+    const products = await Product.find({
+      price: {
+        $gte: price[0], //Greater then
+        $lte: price[1], //less then
+      },
+    })
+      .populate("category", "_id name")
+      .populate("subcates", "_id name")
+      .populate("ratings.postedBy", "_id name")
+      .exec();
+    res.json(products);
+  } catch (err) {
+    console.log(err);
+  }
+};
 exports.searchFilters = async (req, res) => {
-  const { query } = req.body;
+  const { query, price } = req.body;
   if (query) {
-    console.log("QUERY :", query);
+    // console.log("QUERY :", query);
     await handleQuery(req, res, query);
+  }
+  //price [20-200, 200-300]
+  if (price !== undefined) {
+    console.log("PRICE -------->", price);
+    await handlePrice(req, res, price);
   }
 };
 
