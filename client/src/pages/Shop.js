@@ -7,7 +7,12 @@ import { getCategories } from "../functions/category";
 import { useSelector, useDispatch, createSelectorHook } from "react-redux";
 import ProductCard from "../components/cards/ProductCard";
 import { Menu, Slider, Checkbox } from "antd";
-import { DollarOutlined, DownSquareOutlined } from "@ant-design/icons";
+import {
+  DollarOutlined,
+  DownSquareOutlined,
+  StarOutlined,
+} from "@ant-design/icons";
+import Star from "../components/forms/Star";
 
 const { SubMenu, ItemGroup } = Menu;
 
@@ -19,6 +24,7 @@ const Shop = () => {
   const [ok, setOk] = useState(false);
   const [categories, setCategories] = useState([]);
   const [categoriesChecked, setCategoriesChecked] = useState([]);
+  const [star, setStar] = useState("");
 
   const { search } = useSelector((state) => ({ ...state }));
   const { text } = search;
@@ -70,6 +76,7 @@ const Shop = () => {
       type: "SEARCH_QUERY",
       payload: { text: "" },
     });
+    setCategoriesChecked([]);
     setPrice(value);
     setTimeout(() => {
       setOk(!ok);
@@ -102,7 +109,14 @@ const Shop = () => {
         <br />
       </div>
     ));
+
+  //Handle check for categories
   const handleCheck = (e) => {
+    dispatch({
+      type: "SEARCH_QUERY",
+      payload: { text: "" },
+    });
+    setPrice([0, 0]);
     // console.log(e.target.value);
     const inTheState = [...categoriesChecked];
     const justChecked = e.target.value;
@@ -118,13 +132,37 @@ const Shop = () => {
     // console.log(inTheState);
     fetchProducts({ category: inTheState });
   };
+
+  //.5 show Products by star ratings
+  const handleStarClick = (num) => {
+    // console.log("RATINGS----->", num);
+    dispatch({
+      type: "SEARCH_QUERY",
+      payload: { text: "" },
+    });
+    setPrice([0, 0]);
+    setCategoriesChecked([]);
+    setStar(num);
+    fetchProducts({ stars: num });
+  };
+  const showStars = () => (
+    <div className="pr-4 pl-4 pb-3 pt-3">
+      <Star starClick={handleStarClick} numberOfStars={5} />
+      <Star starClick={handleStarClick} numberOfStars={4} />
+      <Star starClick={handleStarClick} numberOfStars={3} />
+      <Star starClick={handleStarClick} numberOfStars={2} />
+      <Star starClick={handleStarClick} numberOfStars={1} />
+    </div>
+  );
+
+  //return
   return (
     <div className="container-fluid">
       <div className="row">
         <div className="col-md-3 pt-3">
           <h4>Search/Filter</h4>
           <hr />
-          <Menu mode="inline" defaultOpenKeys={["1", "2"]}>
+          <Menu mode="inline" defaultOpenKeys={["1", "2", "3"]}>
             {/* Price */}
             <SubMenu
               key="1"
@@ -149,15 +187,26 @@ const Shop = () => {
             <SubMenu
               key="2"
               title={
-                <span className="h6 text-info">
+                <span className="h6 text-info pb-5">
                   <DownSquareOutlined /> Categories
                 </span>
               }
             >
-              <div>
+              <div style={{ marginTop: "-10px" }}>
                 {/* {JSON.stringify(categories)} */}
                 {showCategories()}
               </div>
+            </SubMenu>
+            {/* Stars */}
+            <SubMenu
+              key="3"
+              title={
+                <span className="h6 text-info">
+                  <StarOutlined /> Rating
+                </span>
+              }
+            >
+              <div style={{ marginTop: "-10px" }}>{showStars()}</div>
             </SubMenu>
           </Menu>
         </div>

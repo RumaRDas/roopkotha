@@ -2,6 +2,8 @@ const Product = require("../models/product");
 const User = require("../models/user");
 const slugify = require("slugify");
 const { query } = require("express");
+const { aggregate } = require("../models/product");
+const { json } = require("body-parser");
 
 exports.create = async (req, res) => {
   try {
@@ -196,32 +198,68 @@ const handlePrice = async (req, res, price) => {
   }
 };
 //geting products by Category
-const handleCategory= async(req,res, category)=>{
-try{
-const products = await Product.find({ category})
-.populate("category", "_id name")
-.populate("subcates", "_id name")
-.populate("ratings.postedBy", "_id name")
-.exec();
-res.json(products);
-}catch(err){
-  console.log(err);
-}
-}
+const handleCategory = async (req, res, category) => {
+  try {
+    const products = await Product.find({ category })
+      .populate("category", "_id name")
+      .populate("subcates", "_id name")
+      .populate("ratings.postedBy", "_id name")
+      .exec();
+    res.json(products);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+//geting products by Stars Rating
+const handleStar = (req, res, stars) => {
+  Product.aggregate([
+    {
+      $project: {
+        document: "$$ROOT",
+        floorAverage: {
+          $floor: { $avg: "$ratings.star" },
+        },
+      },
+    },
+    { $match: { floorAverage: stars } },
+  ])
+    .limit(12)
+    .exec((err, aggregates) => {
+      if (err) {
+        console.log("AGGREGATE ERROR", err);
+      } else {
+        Product.find({ _id: aggregates })
+          .populate("category", "_id name")
+          .populate("subcates", "_id name")
+          .populate("ratings.postedBy", "_id name")
+          .exec((err, products) => {
+            if (err) console.log("Product AggreGate Error", err);
+            res.json(products);
+          });
+      }
+    });
+};
+
+
 exports.searchFilters = async (req, res) => {
-  const { query, price, category } = req.body;
+  const { query, price, category, stars } = req.body;
   if (query) {
     // console.log("QUERY :", query);
     await handleQuery(req, res, query);
   }
   //price [20-200, 200-300]
   if (price !== undefined) {
-    console.log("PRICE -------->", price);
+    //console.log("PRICE -------->", price);
     await handlePrice(req, res, price);
   }
-  if(category){
-    console.log("category-------------->",category)
-    await handleCategory(req, res, category)
+  if (category) {
+    //  console.log("category-------------->",category)
+    await handleCategory(req, res, category);
+  }
+  if (stars) {
+    console.log("stars-------------->", stars);
+    await handleStar(req, res, stars);
   }
 };
 
