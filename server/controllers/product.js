@@ -1,6 +1,6 @@
 const Product = require("../models/product");
+const User = require("../models/user");
 const slugify = require("slugify");
-const { find } = require("../models/product");
 
 exports.create = async (req, res) => {
   try {
@@ -115,7 +115,7 @@ exports.productsCount = async (req, res) => {
 
 exports.productStar = async (req, res) => {
   const product = await Product.findById(req.params.productId).exec(); //getting the product that are rating
-  const user = await User.findOne({ email: req.params.user.email }).exec(); //geting the loged in user giving rating
+  const user = await User.findOne({ email: req.user.email }).exec(); //geting the loged in user giving rating
 
   const { star } = req.body; // geting the rating  value 1 to 5
   //who is updating
@@ -134,7 +134,7 @@ exports.productStar = async (req, res) => {
       },
       { new: true }
     ).exec();
-    console.log("Rating ADded :", ratingAdded);
+    console.log("Rating Added :", ratingAdded);
     res.json(ratingAdded);
   } else {
     // if user have already left rating , update it
@@ -142,10 +142,30 @@ exports.productStar = async (req, res) => {
       {
         ratings: { $elemMatch: existingRatingObject }, // using $elemMatch to matching user
       },
-      { $set: { "rating.$star": star } }, // useing set method we are updating rating
+      { $set: { "ratings.$.star": star } }, // useing set method we are updating rating
       { new: true }
     ).exec();
     console.log("RATING UPDATED :", ratingUpdated);
-    res.jaon(ratingUpdated);
+    res.json(ratingUpdated);
   }
 };
+
+//finding related product without that product
+
+exports.listRelated=async (req,res)=>{
+
+  const product = await Product.findById(req.params.productId).exec()
+  const related = await Product.find({
+   _id:{ $ne: product._id} ,//$ne means not including
+category: product.category,
+  })
+//  .limit(3)
+  .populate('category')
+  .populate('subcates')
+  .populate('ratings.postedBy')
+  .exec()
+
+  res.json(related)
+
+}
+

@@ -17,6 +17,8 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 //For Home dispaly
 import Home from "./pages/Home";
 import Product from "./pages/Product";
+import CategoryHome from "./pages/Category/CategoryHome";
+import SubCateHome from "./pages/subcate/SubCateHome";
 // User dashboard
 import UserRoute from "./components/routes/UserRoutes";
 import WishList from "./pages/user/WishList";
@@ -82,6 +84,8 @@ const App = () => {
         <Route exact path="/register/complete" component={RegisterComplete} />
         <Route exact path="/forgot/password" component={ForgotPassword} />
         <Route exact path="/product/:slug" component={Product} />
+        <Route exact path="/category/:slug" component={CategoryHome} />
+        <Route exact path="/subcate/:slug" component={SubCateHome} />
         {/* User Access Route */}
         <UserRoute exact path="/user/history" component={History} />
         <UserRoute exact path="/user/password" component={Password} />

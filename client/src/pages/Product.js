@@ -1,27 +1,60 @@
 import React, { useEffect, useState } from "react";
-import { getProduct } from "../functions/product";
+import { getProduct, productStar, getRelated } from "../functions/product";
 import SingleProduct from "../components/cards/SingleProduct";
+import ProductCard from "../components/cards/ProductCard";
+import { useSelector } from "react-redux";
+import RelatedProducts from "../components/home/RelatedProducts";
 
 const Product = ({ match }) => {
   const [product, setProduct] = useState({});
-
+  const [star, setStar] = useState(0);
+  const { user } = useSelector((state) => ({ ...state }));
   const { slug } = match.params;
 
   useEffect(() => {
     loadSingleProduct();
   }, [slug]); // when slag change useeffect changes
 
+  useEffect(() => {
+    //this useEffect for component mount with user and his previous rating
+    if (product.ratings && user) {
+      let existingRatingObject = product.ratings.find(
+        (ele) => ele.postedBy.toString() === user._id.toString()
+      );
+      existingRatingObject && setStar(existingRatingObject.star); //current user star
+    }
+  });
+
   const loadSingleProduct = () => {
     getProduct(slug).then((res) => {
-      console.log(res.data);
+      //  console.log(res.data);
       setProduct(res.data);
+
+      //load related aswell
+      // getRelated(res.data._id, page).then((res) => {
+      //   setRelated(res.data);
+      // });
     });
   };
+
+  const onStarClick = (newRating, name) => {
+    setStar(newRating);
+    //  console.table(newRating, name);
+    productStar(name, newRating, user.token).then((res) => {
+      console.log("Rating Clicked", res.data);
+      loadSingleProduct(); //if you want to updated rating in real time
+    });
+  };
+
   return (
     <>
       <div className="container-fluid">
         <div className="row pt-4">
-          <SingleProduct product={product} />
+          <SingleProduct
+            product={product}
+            onStarClick={onStarClick}
+            star={star}
+          />
         </div>
 
         <div className="row ">
@@ -29,8 +62,13 @@ const Product = ({ match }) => {
             <hr />
             <h4>Related Products</h4>
             <hr />
+            {/* {JSON.stringify(related)} */}
           </div>
         </div>
+        <div className="row pb-5 text-center">
+          <RelatedProducts slug={slug} />
+        </div>
+        {/* {------} */}
       </div>
     </>
   );

@@ -30,6 +30,7 @@ const ProductListItems = ({ product }) => {
           <Link
             to={`/category/${category.slug}`}
             className="label label-default label-pill pull-xs-right float-end"
+
           >
             {category.name}
           </Link>
