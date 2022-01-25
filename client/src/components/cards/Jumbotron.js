@@ -8,6 +8,7 @@ const Jumbotron = ({ text }) => {
         strings: text,
         autoStart: true,
         loop: true,
+    
       }}
     />
   );

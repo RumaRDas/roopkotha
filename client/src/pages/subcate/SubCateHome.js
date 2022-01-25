@@ -34,7 +34,7 @@ const SubCateHome = ({ match }) => {
           ) : (
             <h4 className="text-center p-3 mt-5 mb-5 display-4 jumbotron">
               {products.length} Products in
-              <span className="text-info"> {subcate.name}"</span> category
+              <span className="text-info"> {subcate.name} </span> Sub Category
             </h4>
           )}
         </div>

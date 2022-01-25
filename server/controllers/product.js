@@ -1,6 +1,9 @@
 const Product = require("../models/product");
 const User = require("../models/user");
 const slugify = require("slugify");
+const { query } = require("express");
+const { aggregate } = require("../models/product");
+const { json } = require("body-parser");
 
 exports.create = async (req, res) => {
   try {
@@ -62,7 +65,7 @@ exports.update = async (req, res) => {
     ).exec();
     res.json(updated);
   } catch (err) {
-    console.log("PRODUCT UPDATE EROR ::", err);
+    //  console.log("PRODUCT UPDATE EROR ::", err);
     res.status(400).json({ err: err.massage });
   }
   //res.status(400).send("Product Update Failed")
@@ -134,7 +137,7 @@ exports.productStar = async (req, res) => {
       },
       { new: true }
     ).exec();
-    console.log("Rating Added :", ratingAdded);
+    //  console.log("Rating Added :", ratingAdded);
     res.json(ratingAdded);
   } else {
     // if user have already left rating , update it
@@ -145,27 +148,118 @@ exports.productStar = async (req, res) => {
       { $set: { "ratings.$.star": star } }, // useing set method we are updating rating
       { new: true }
     ).exec();
-    console.log("RATING UPDATED :", ratingUpdated);
+    //   console.log("RATING UPDATED :", ratingUpdated);
     res.json(ratingUpdated);
   }
 };
 
 //finding related product without that product
 
-exports.listRelated=async (req,res)=>{
-
-  const product = await Product.findById(req.params.productId).exec()
+exports.listRelated = async (req, res) => {
+  const product = await Product.findById(req.params.productId).exec();
   const related = await Product.find({
-   _id:{ $ne: product._id} ,//$ne means not including
-category: product.category,
+    _id: { $ne: product._id }, //$ne means not including
+    category: product.category,
   })
-//  .limit(3)
-  .populate('category')
-  .populate('subcates')
-  .populate('ratings.postedBy')
-  .exec()
+    //  .limit(3)
+    .populate("category")
+    .populate("subcates")
+    .populate("ratings.postedBy")
+    .exec();
 
-  res.json(related)
+  res.json(related);
+};
 
-}
+//SEARCH/FILTER
+const handleQuery = async (req, res, query) => {
+  const products = await Product.find({ $text: { $search: query } })
+    .populate("category", "_id name")
+    .populate("subcates", "_id name")
+    .populate("ratings.postedBy", "_id name")
+    .exec();
+  res.json(products);
+};
+//geting products by price
+const handlePrice = async (req, res, price) => {
+  try {
+    const products = await Product.find({
+      price: {
+        $gte: price[0], //Greater then
+        $lte: price[1], //less then
+      },
+    })
+      .populate("category", "_id name")
+      .populate("subcates", "_id name")
+      .populate("ratings.postedBy", "_id name")
+      .exec();
+    res.json(products);
+  } catch (err) {
+    console.log(err);
+  }
+};
+//geting products by Category
+const handleCategory = async (req, res, category) => {
+  try {
+    const products = await Product.find({ category })
+      .populate("category", "_id name")
+      .populate("subcates", "_id name")
+      .populate("ratings.postedBy", "_id name")
+      .exec();
+    res.json(products);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+//geting products by Stars Rating
+const handleStar = (req, res, stars) => {
+  Product.aggregate([
+    {
+      $project: {
+        document: "$$ROOT",
+        floorAverage: {
+          $floor: { $avg: "$ratings.star" },
+        },
+      },
+    },
+    { $match: { floorAverage: stars } },
+  ])
+    .limit(12)
+    .exec((err, aggregates) => {
+      if (err) {
+        console.log("AGGREGATE ERROR", err);
+      } else {
+        Product.find({ _id: aggregates })
+          .populate("category", "_id name")
+          .populate("subcates", "_id name")
+          .populate("ratings.postedBy", "_id name")
+          .exec((err, products) => {
+            if (err) console.log("Product AggreGate Error", err);
+            res.json(products);
+          });
+      }
+    });
+};
+
+
+exports.searchFilters = async (req, res) => {
+  const { query, price, category, stars } = req.body;
+  if (query) {
+    // console.log("QUERY :", query);
+    await handleQuery(req, res, query);
+  }
+  //price [20-200, 200-300]
+  if (price !== undefined) {
+    //console.log("PRICE -------->", price);
+    await handlePrice(req, res, price);
+  }
+  if (category) {
+    //  console.log("category-------------->",category)
+    await handleCategory(req, res, category);
+  }
+  if (stars) {
+    console.log("stars-------------->", stars);
+    await handleStar(req, res, stars);
+  }
+};
 
