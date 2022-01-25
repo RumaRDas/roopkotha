@@ -4,7 +4,8 @@ import {
   fetchProductsByFilter,
 } from "../functions/product";
 import { getCategories } from "../functions/category";
-import { useSelector, useDispatch, createSelectorHook } from "react-redux";
+import { getSubCates } from "../functions/subcate";
+import { useSelector, useDispatch } from "react-redux";
 import ProductCard from "../components/cards/ProductCard";
 import { Menu, Slider, Checkbox } from "antd";
 import {
@@ -24,6 +25,8 @@ const Shop = () => {
   const [ok, setOk] = useState(false);
   const [categories, setCategories] = useState([]);
   const [categoriesChecked, setCategoriesChecked] = useState([]);
+  const [subcates, setSubcates] = useState([]);
+  const [subcate, setSubcate] = useState("");
   const [star, setStar] = useState("");
 
   const { search } = useSelector((state) => ({ ...state }));
@@ -34,6 +37,7 @@ const Shop = () => {
   useEffect(() => {
     loadAllProducts();
     fetchCategories();
+    fetchSubcates();
   }, []);
   //
   //1.load products by default shop on page load
@@ -47,6 +51,11 @@ const Shop = () => {
   const fetchCategories = () => {
     getCategories().then((res) => setCategories(res.data));
     //   console.log(categories);
+  };
+
+  const fetchSubcates = () => {
+    getSubCates().then((res) => setSubcates(res.data));
+    // console.log("SUBCATES ------>", subcates);
   };
   //2.load products on userSearch input
   useEffect(() => {
@@ -78,6 +87,7 @@ const Shop = () => {
     });
     setCategoriesChecked([]);
     setPrice(value);
+    setStar("");
     setTimeout(() => {
       setOk(!ok);
     }, 300);
@@ -117,6 +127,7 @@ const Shop = () => {
       payload: { text: "" },
     });
     setPrice([0, 0]);
+    setStar("");
     // console.log(e.target.value);
     const inTheState = [...categoriesChecked];
     const justChecked = e.target.value;
@@ -141,6 +152,7 @@ const Shop = () => {
       payload: { text: "" },
     });
     setPrice([0, 0]);
+
     setCategoriesChecked([]);
     setStar(num);
     fetchProducts({ stars: num });
@@ -155,6 +167,33 @@ const Shop = () => {
     </div>
   );
 
+  //.6 show Products by subCategories
+
+  const showsubCates = () =>
+    subcates.map((s) => (
+      <div
+        key={s._id}
+        onClick={() => handleSubcate(s)}
+        className="p-3 m-1 badge-secondary"
+        style={{ cursor: "pointer" }}
+      >
+        {s.name}
+      </div>
+    ));
+
+  const handleSubcate = (sub) => {
+    // console.log("Sub", sub);
+    setSubcate(sub);
+    dispatch({
+      type: "SEARCH_QUERY",
+      payload: { text: "" },
+    });
+    setPrice([0, 0]);
+
+    setCategoriesChecked([]);
+    setStar("");
+    fetchProducts({ subcate: sub });
+  };
   //return
   return (
     <div className="container-fluid">
@@ -162,7 +201,7 @@ const Shop = () => {
         <div className="col-md-3 pt-3">
           <h4>Search/Filter</h4>
           <hr />
-          <Menu mode="inline" defaultOpenKeys={["1", "2", "3"]}>
+          <Menu mode="inline" defaultOpenKeys={["1", "2", "3", "4"]}>
             {/* Price */}
             <SubMenu
               key="1"
@@ -197,9 +236,23 @@ const Shop = () => {
                 {showCategories()}
               </div>
             </SubMenu>
-            {/* Stars */}
+            {/* Sub Category */}
             <SubMenu
               key="3"
+              title={
+                <span className="h6 text-info pb-5">
+                  <DownSquareOutlined /> Sub Categories
+                </span>
+              }
+            >
+              <div style={{ marginTop: "-10px" }}>
+                {/* {JSON.stringify(categories)} */}
+                {showsubCates()}
+              </div>
+            </SubMenu>
+            {/* Stars */}
+            <SubMenu
+              key="4"
               title={
                 <span className="h6 text-info">
                   <StarOutlined /> Rating
