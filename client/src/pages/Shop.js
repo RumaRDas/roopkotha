@@ -88,6 +88,7 @@ const Shop = () => {
     setCategoriesChecked([]);
     setPrice(value);
     setStar("");
+    setSubcate("");
     setTimeout(() => {
       setOk(!ok);
     }, 300);
@@ -127,6 +128,7 @@ const Shop = () => {
       payload: { text: "" },
     });
     setPrice([0, 0]);
+    setSubcate("");
     setStar("");
     // console.log(e.target.value);
     const inTheState = [...categoriesChecked];
@@ -152,7 +154,7 @@ const Shop = () => {
       payload: { text: "" },
     });
     setPrice([0, 0]);
-
+    setSubcate("");
     setCategoriesChecked([]);
     setStar(num);
     fetchProducts({ stars: num });

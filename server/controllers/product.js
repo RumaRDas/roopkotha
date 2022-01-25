@@ -250,8 +250,36 @@ const handleSubcate =async(req, res,subcate)=>{
   .exec();
 res.json(products)
 }
+
+// getting products by Sub shipping
+const handleShipping =async(req, res,shipping)=>{
+  const products= await Product.find({shipping })
+  .populate("category", "_id name")
+  .populate("subcates", "_id name")
+  .populate("ratings.postedBy", "_id name")
+  .exec();
+res.json(products)
+}
+// getting products by Sub Color
+const handleColor =async(req, res,color)=>{
+  const products= await Product.find({color })
+  .populate("category", "_id name")
+  .populate("subcates", "_id name")
+  .populate("ratings.postedBy", "_id name")
+  .exec();
+res.json(products)
+}
+// getting products by Sub shipping
+const handleType =async(req, res,type)=>{
+  const products= await Product.find({type })
+  .populate("category", "_id name")
+  .populate("subcates", "_id name")
+  .populate("ratings.postedBy", "_id name")
+  .exec();
+res.json(products)
+}
 exports.searchFilters = async (req, res) => {
-  const { query, price, category, stars,subcate } = req.body;
+  const { query, price, category, stars,subcate, shipping,color, type } = req.body;
   if (query) {
     // console.log("QUERY :", query);
     await handleQuery(req, res, query);
@@ -273,5 +301,18 @@ exports.searchFilters = async (req, res) => {
     console.log("stars-------------->", subcate);
     await handleSubcate(req, res, subcate);
   }
+  if (shipping) {
+    console.log("stars-------------->", shipping);
+    await handleShipping(req, res, shipping);
+  }
+  if (color) {
+    console.log("stars-------------->", color);
+    await handleColor(req, res, color);
+  }
+    if (type) {
+      console.log("stars-------------->", type);
+      await handleType(req, res, type);
+    }
+
 };
 
