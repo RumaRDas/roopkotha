@@ -31,7 +31,7 @@ const Login = ({history}) => {
   //redirecting user to page according to role
   const roleBasedRedirect = (res) => {
     //check if intented to rating
-    let intended = history.location.state;
+    let intended = history.location.state; //for sending the previous page
     if (intended) {
       history.push(intended.from);
     } else {
