@@ -1,14 +1,40 @@
-import React from "react";
-import { Card } from "antd";
+import React, { useState } from "react";
+import { Card, Tooltip } from "antd";
 import laptop from "../../images/laptop.jpg";
 import { EyeOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
- import { showAverage}from '../../functions/rating'
+import { showAverage } from "../../functions/rating";
+import _ from "lodash";
 // import StarRatings from "react-star-ratings";
 
 const { Meta } = Card;
 
 const ProductCard = ({ product }) => {
+  const [tooltip, setTooltip] = useState("Click to add");
+
+  const handleAddToCart = () => {
+    //create cart array
+    let cart = [];
+    if (typeof window !== "undefined") {
+      //if cart is in local storage GET it
+      if (localStorage.getItem("cart")) {
+        cart = JSON.parse(localStorage.getItem("cart"));
+      }
+      //push new product to cart
+      cart.push({
+        ...product,
+        count: 1,
+      });
+      //remove duplicates
+      const unique = _.uniqWith(cart, _.isEqual);
+      //save to localstorage
+      // console.log("UNIQUE---->", unique);
+      localStorage.setItem("cart", JSON.stringify(unique));
+      //show tooltip
+      setTooltip("Added");
+    }
+  };
+
   //destructure
   const { images, title, description, slug, price } = product;
   return (
@@ -33,15 +59,17 @@ const ProductCard = ({ product }) => {
             <br />
             View Product
           </Link>,
-          <>
-            <ShoppingCartOutlined className="text-success" />
-            <br />
-            Add to Cart
-          </>,
+          <Tooltip title={tooltip}>
+            <a onClick={handleAddToCart}>
+              <ShoppingCartOutlined className="text-success" />
+              <br />
+              Add to Cart
+            </a>
+          </Tooltip>,
         ]}
       >
         <Meta
-          title={`${title}                Price: $${price}`}
+          title={`${title}   --- Price: $${price}`}
           description={`${description && description.substring(0, 40)}...`}
         />
       </Card>
