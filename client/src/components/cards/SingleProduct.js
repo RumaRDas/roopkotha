@@ -23,6 +23,7 @@ const SingleProduct = ({ product, onStarClick, star }) => {
   const dispatch = useDispatch();
 
   const { user, cart } = useSelector((sate) => ({ ...sate }));
+
   const handleAddToCart = () => {
     //create cart array
     let cart = [];
@@ -47,7 +48,7 @@ const SingleProduct = ({ product, onStarClick, star }) => {
       //add to redux state
       dispatch({
         type: "ADD_TO_CART",
-        payload: cart,
+        payload: unique,
       });
     }
   };
