@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import ModalImage from "react-modal-image";
 import laptop from "../../images/laptop.jpg";
 import{useDispatch} from 'react-redux'
+import { toast } from "react-toastify";
+import {
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+  CloseOutlined,
+} from "@ant-design/icons";
 
 const ProductCartInCheckout = ({ p }) => {
   const [colors, setColors] = useState([
@@ -15,9 +21,11 @@ const ProductCartInCheckout = ({ p }) => {
     "Others",
   ]);
 
-  const dispatch= useDispatch()
+  const dispatch = useDispatch();
+
+  //Products Color Changes
   const handleColorChange = (e) => {
-  //  console.log("ColorChanged", e.target.value);
+    //  console.log("ColorChanged", e.target.value);
     let cart = [];
     if (typeof window !== undefined) {
       if (localStorage.getItem("cart")) {
@@ -28,20 +36,69 @@ const ProductCartInCheckout = ({ p }) => {
           cart[i].color = e.target.value;
         }
       });
-  //    console.log("cartUpdate Color----->", cart);
-  localStorage.setItem('cart', JSON.stringify(cart))
-    //add to redux state
-    dispatch({
+      //    console.log("cartUpdate Color----->", cart);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      //add to redux state
+      dispatch({
         type: "ADD_TO_CART",
         payload: cart,
       });
-
     }
   };
+  //adding no of products purchase
+  const handleCountChange = (e) => {
+    //console.log("PRODUCT QUENTITY------->", p.quantity);
+
+    const count = e.target.value < 1 ? 1 : e.target.value;
+
+    if (count > p.quantity) {
+      toast.error(`Max available quentity : ${p.quantity}`);
+      return;
+    }
+    let cart = [];
+    if (typeof window !== "undefined") {
+      if (localStorage.getItem("cart")) {
+        cart = JSON.parse(localStorage.getItem("cart"));
+      }
+      cart.map((product, i) => {
+        if (product._id === p._id) {
+          cart[i].count = count;
+        }
+      });
+      localStorage.setItem("cart", JSON.stringify(cart));
+      dispatch({
+        type: "ADD_TO_CART",
+        payload: cart,
+      });
+    }
+  };
+  //Removing products
+  const handleRemove = () => {
+    //  console.log(p._id, "<----to REMOVE");
+    let cart = [];
+    if (typeof window !== undefined) {
+      if (localStorage.getItem("cart")) {
+        cart = JSON.parse(localStorage.getItem("cart"));
+      }
+      cart.map((product, i) => {
+        if (product._id === p._id) {
+          cart.splice(i, 1);
+        }
+      });
+      //    console.log("cartUpdate Color----->", cart);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      //add to redux state
+      dispatch({
+        type: "ADD_TO_CART",
+        payload: cart,
+      });
+    }
+  };
+
   return (
     <tbody>
       <tr>
-        <td>
+        <td className=" text-center">
           <div style={{ width: "100px", height: "auto" }}>
             {p.images.length ? (
               <ModalImage small={p.images[0].url} large={p.images[0].url} />
@@ -50,10 +107,10 @@ const ProductCartInCheckout = ({ p }) => {
             )}
           </div>
         </td>
-        <td>{p.title}</td>
-        <td>$ {p.price}</td>
-        <td>{p.type}</td>
-        <td>
+        <td className=" text-center">{p.title}</td>
+        <td className=" text-center">$ {p.price}</td>
+        <td className=" text-center">{p.type}</td>
+        <td className=" text-center">
           <select
             name="color"
             className="form-control"
@@ -73,9 +130,27 @@ const ProductCartInCheckout = ({ p }) => {
               ))}
           </select>
         </td>
-        <td>{p.count}</td>
-        <td>Shipping</td>
-        <td>Delet icon</td>
+        <td className="text-center" style={{ width: "100px" }}>
+          <input
+            type="number"
+            className="form-control"
+            value={p.count}
+            onChange={handleCountChange}
+          />
+        </td>
+        <td className=" text-center">
+          {p.shipping === "Yes" ? (
+            <CheckCircleOutlined className="text-success " />
+          ) : (
+            <CloseCircleOutlined className="text-danger" />
+          )}
+        </td>
+        <td className=" text-center">
+          <CloseOutlined
+            onClick={handleRemove}
+            className="text-danger pointer"
+          />
+        </td>
       </tr>
     </tbody>
   );

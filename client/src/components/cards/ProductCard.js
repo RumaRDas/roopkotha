@@ -16,7 +16,7 @@ const ProductCard = ({ product }) => {
   //redux
   const dispatch = useDispatch();
 
-  const { user, cart } = useSelector((sate) => ({ ...sate }));
+  const { user, cart, drawer } = useSelector((sate) => ({ ...sate }));
 
   const handleAddToCart = () => {
     //create cart array
@@ -43,6 +43,11 @@ const ProductCard = ({ product }) => {
       dispatch({
         type: "ADD_TO_CART",
         payload: unique,
+      });
+      //show cart item in side drawer
+      dispatch({
+        type: "SET_VISIBLE",
+        payload: true,
       });
     }
   };
