@@ -22,6 +22,7 @@ import Product from "./pages/Product";
 import CategoryHome from "./pages/Category/CategoryHome";
 import SubCateHome from "./pages/subcate/SubCateHome";
 import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
 // User dashboard
 import UserRoute from "./components/routes/UserRoutes";
 import WishList from "./pages/user/WishList";
@@ -93,10 +94,12 @@ const App = () => {
         <Route exact path="/subcate/:slug" component={SubCateHome} />
         <Route exact path="/shop" component={Shop} />
         <Route exact path="/cart" component={Cart} />
+
         {/* User Access Route */}
         <UserRoute exact path="/user/history" component={History} />
         <UserRoute exact path="/user/password" component={Password} />
         <UserRoute exact path="/user/wishlist" component={WishList} />
+        <UserRoute exact path="/checkout" component={Checkout} />
         {/* Admin Access Route */}
         <AdminRoute exact path="/admin/dashboard" component={AdminDashboard} />
         <AdminRoute exact path="/admin/category" component={CategoryCreate} />
