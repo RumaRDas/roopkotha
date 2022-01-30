@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getUserCart } from "../functions/user";
+import { getUserCart, emptyUserCart } from "../functions/user";
+import { toast } from "react-toastify";
 
 const Checkout = () => {
   const [products, setProducts] = useState([]);
@@ -17,9 +18,28 @@ const Checkout = () => {
     });
   }, []);
 
+  const emptyCart = () => {
+    //remove from local storage
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("cart");
+    }
+    // remove from redux
+    dispatch({
+      type: "ADD_TO_CART",
+      payload: [],
+    });
+    //remove from backend
+    emptyUserCart(user.token).then((res) => {
+      // console.log(res)
+      setProducts([]);
+      setTotal(0);
+      toast.success("Cart is empty. Contniue shopping ");
+    });
+  };
   const saveAddressToDb = () => {
     //
   };
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -47,10 +67,8 @@ const Checkout = () => {
           <hr />
 
           <p>
-            {" "}
             {products.map((p, i) => (
               <div key={i}>
-                {" "}
                 <p>
                   {/* getting user prefered color */}
                   {p.product.title}({p.color}) X {p.count} = $
@@ -68,7 +86,11 @@ const Checkout = () => {
               </button>
             </div>
             <div className="col-md-6">
-              <button className="btn btn-danger mt-2 btn-block">
+              <button
+                className="btn btn-danger mt-2 btn-block"
+                onClick={emptyCart}
+                disabled={!products.length}
+              >
                 Empty cart
               </button>
             </div>
