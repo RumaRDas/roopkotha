@@ -32,9 +32,11 @@ import History from "./pages/user/History";
 //import Admin Dashboard
 import AdminRoute from "./components/routes/AdminRoute";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+
 //Admin  for category
 import CategoryCreate from "./pages/admin/category/CategoryCreate";
 import UpdateCategory from "./pages/admin/category/UpdateCategory";
+import CreateCouponPage from "./pages/admin/coupon/CreateCouponPage";
 //Admin  for Sub category
 import SubCateCreate from "./pages/admin/subcate/SubCateCreate";
 import SubCateUpdate from "./pages/admin/subcate/SubCateUpdate";
@@ -103,6 +105,7 @@ const App = () => {
         {/* Admin Access Route */}
         <AdminRoute exact path="/admin/dashboard" component={AdminDashboard} />
         <AdminRoute exact path="/admin/category" component={CategoryCreate} />
+        <AdminRoute exact path="/admin/coupon" component={CreateCouponPage}/>
 
         <AdminRoute
           exact
