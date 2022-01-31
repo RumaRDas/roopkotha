@@ -24,8 +24,11 @@ const CreateCouponPage = () => {
   const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
-    getCoupons().then((res) => setCoupons(res.data));
+    loadAllCoupon();
   }, []);
+
+  //getting all coupon
+  const loadAllCoupon = () => getCoupons().then((res) => setCoupons(res.data));
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,7 +36,7 @@ const CreateCouponPage = () => {
     createCoupon({ name, expiry, discount }, user.token)
       .then((res) => {
         setLoading(false);
-        getCoupons().then((res) => setCoupons(res.data));
+        loadAllCoupon();
         setName("");
         setDiscount("");
         setExpiry("");
@@ -47,7 +50,7 @@ const CreateCouponPage = () => {
       setLoading(true);
       removeCoupon(couponId, user.token)
         .then((res) => {
-          getCoupons().then((res) => setCoupons(res.data));
+          loadAllCoupon();
           setLoading(false);
           toast.error(`Coupon  Deleted`);
         })
