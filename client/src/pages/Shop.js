@@ -85,6 +85,9 @@ const Shop = () => {
     //for delaying request to backend for few milisecends using setTimeout()
     const delayed = setTimeout(() => {
       fetchProducts({ query: text });
+      if(!text){
+        loadAllProducts()
+      }
     }, 300);
     return () => clearTimeout(delayed);
   }, [text]);
