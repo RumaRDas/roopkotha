@@ -1,6 +1,7 @@
 const Product = require("../models/product");
 const User = require("../models/user");
 const Cart = require("../models/cart");
+const Coupon = require("../models/coupon");
 
 exports.userCart = async (req, res) => {
   // console.log("USER_CART", req.body); // { cart };
@@ -21,7 +22,9 @@ exports.userCart = async (req, res) => {
     object.count = cart[i].count;
     object.color = cart[i].color;
     //get price for creating total
-    let ProductFromDb = await Product.findById(cart[i]._id).select("price").exec();
+    let ProductFromDb = await Product.findById(cart[i]._id)
+      .select("price")
+      .exec();
     object.price = ProductFromDb.price;
 
     //pushing the product object to cart
@@ -52,7 +55,7 @@ exports.getUserCart = async (req, res) => {
 };
 
 exports.emptyCart = async (req, res) => {
- // console.log("empty cart");
+  // console.log("empty cart");
   const user = await User.findOne({ email: req.user.email }).exec();
   const cart = await Cart.findOneAndRemove({ orderedBy: user._id }).exec();
   res.json(cart);
@@ -64,4 +67,39 @@ exports.saveAddress = async (req, res) => {
     { address: req.body.address }
   ).exec();
   res.json({ ok: true });
+};
+
+//aplying discount in cart
+exports.applyCouponToUserCart = async (req, res) => {
+  const { coupon } = req.body;
+  console.log("COUPON----->", coupon);
+  //Checking coupon validate
+
+  const validCoupon = await Coupon.findOne({ name: coupon }).exec();
+  if (validCoupon === null) {
+    return res.json({ err: "Invalid Coupon" });
+  }
+  console.log("VALID COUPON", validCoupon);
+  const user = await User.findOne({ email: req.user.email }).exec();
+  let { products, cartTotal } = await Cart.findOne({ orderedBy: user._id })
+    .populate("products.product", "_id title price")
+    .exec();
+  console.log(
+    "CART TOTAL---->",
+    cartTotal,
+    "DISCOUNT----> %",
+    validCoupon.discount
+  );
+
+  // calculate total after discount
+  let totalAfterDiscount = (
+    cartTotal -
+    (cartTotal * validCoupon.discount) / 100
+  ).toFixed(2); //99.95
+  Cart.findOneAndUpdate(
+    { orderedBy: user._id },
+    { totalAfterDiscount },
+    { new: true }
+  );
+  res.json(totalAfterDiscount);
 };
