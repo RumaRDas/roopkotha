@@ -28,6 +28,7 @@ import UserRoute from "./components/routes/UserRoutes";
 import WishList from "./pages/user/WishList";
 import Password from "./pages/user/Password";
 import History from "./pages/user/History";
+import Payment from "./pages/Payment";
 
 //import Admin Dashboard
 import AdminRoute from "./components/routes/AdminRoute";
@@ -102,10 +103,12 @@ const App = () => {
         <UserRoute exact path="/user/password" component={Password} />
         <UserRoute exact path="/user/wishlist" component={WishList} />
         <UserRoute exact path="/checkout" component={Checkout} />
+        <UserRoute exact path="/payment" component={Payment} />
+
         {/* Admin Access Route */}
         <AdminRoute exact path="/admin/dashboard" component={AdminDashboard} />
         <AdminRoute exact path="/admin/category" component={CategoryCreate} />
-        <AdminRoute exact path="/admin/coupon" component={CreateCouponPage}/>
+        <AdminRoute exact path="/admin/coupon" component={CreateCouponPage} />
 
         <AdminRoute
           exact
