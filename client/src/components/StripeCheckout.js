@@ -24,7 +24,7 @@ const StripeCheckout = ({ history }) => {
 
   useEffect(() => {
     createPaymentIntent(user.token, coupon).then((res) => {
-      console.log("CREATE_PAYMENT_INTENT", res.data);
+    //  console.log("CREATE_PAYMENT_INTENT", res.data);
       setClientSecret(res.data.clientSecret);
       // additional response received on successful payment
       setCartTotal(res.data.cartTotal);
@@ -51,7 +51,7 @@ const StripeCheckout = ({ history }) => {
       // here get result after successful payment
       // create order and save in database for admin to process
       // empty user cart from redux store and local storage
-      console.log(JSON.stringify(payload, null, 4));
+     // console.log(JSON.stringify(payload, null, 4));
       setError(null);
       setProcessing(false);
       setSucceeded(true);
