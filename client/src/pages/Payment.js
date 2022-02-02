@@ -1,13 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import StripeCheckout from "../components/StripeCheckout";
+import "../stripe.css";
+
+//load stripe outside of components render to avoid recreating stripe object on every render
+
+const promise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
 const Payment = () => {
   return (
-    <div className="container-fluid">
+    <div className="container p-5 text-center">
+      <h4>Complete your purchase</h4>
       <div className="row">
-        <div className="col">
-          <h3>Payment Optins</h3>
-        </div>
+        <Elements stripe={promise}>
+          <div className="col-md-8 offset-md-2">
+            <StripeCheckout />
+          </div>
+        </Elements>
       </div>
     </div>
   );

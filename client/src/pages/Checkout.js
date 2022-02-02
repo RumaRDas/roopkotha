@@ -168,7 +168,7 @@ const Checkout = ({ history }) => {
               <button
                 className="btn btn-primary mt-2 btn-block"
                 disabled={!addressSaved || !products.length}
-                onClick={() => history.push0("/payment")}
+                onClick={() => history.push("/payment")}
               >
                 Place Order
               </button>
