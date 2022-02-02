@@ -115,9 +115,8 @@ exports.createOrder = async (req, res) => {
     products,
     paymentIntent,
     orderedBy: user._id,
-  })
-    .save()
-    .exec();
+  }).save();
+
   console.log("NEWORDER SAVED------>", newOrder);
   res.json({ ok: true });
 };

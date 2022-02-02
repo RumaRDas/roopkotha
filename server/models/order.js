@@ -20,7 +20,7 @@ const orderSchema = new mongoose.Schema(
       type: String,
       default: "Not Processed",
       enum: [
-        "No Processed",
+        "Not Processed",
         "Processing",
         "Dispatched",
         "Cancelled",

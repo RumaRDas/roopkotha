@@ -59,3 +59,15 @@ export const applyCoupon = async (authToken, coupon) => {
     }
   );
 };
+
+export const creatOrder= async (stripeResponse,authToken ) => {
+  return await axios.post(
+    `${process.env.REACT_APP_API}/user/order`,
+    { stripeResponse },
+    {
+      headers: {
+        authToken,
+      },
+    }
+  );
+};
