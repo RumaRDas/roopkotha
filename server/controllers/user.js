@@ -128,7 +128,7 @@ const bulkOption= products.map((item)=>{
   }
 }
 })
-const updated = await  Product.bulkWrite(bulkOption,{});
+const updated = await Product.bulkWrite(bulkOption, {});
 console.log("PRODUCT QUANTITY-- AND SOLD ++", updated)
   console.log("NEWORDER SAVED------>", newOrder);
   res.json({ ok: true });
