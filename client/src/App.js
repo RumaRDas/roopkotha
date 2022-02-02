@@ -22,18 +22,22 @@ import Product from "./pages/Product";
 import CategoryHome from "./pages/Category/CategoryHome";
 import SubCateHome from "./pages/subcate/SubCateHome";
 import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
 // User dashboard
 import UserRoute from "./components/routes/UserRoutes";
 import WishList from "./pages/user/WishList";
 import Password from "./pages/user/Password";
 import History from "./pages/user/History";
+import Payment from "./pages/Payment";
 
 //import Admin Dashboard
 import AdminRoute from "./components/routes/AdminRoute";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+
 //Admin  for category
 import CategoryCreate from "./pages/admin/category/CategoryCreate";
 import UpdateCategory from "./pages/admin/category/UpdateCategory";
+import CreateCouponPage from "./pages/admin/coupon/CreateCouponPage";
 //Admin  for Sub category
 import SubCateCreate from "./pages/admin/subcate/SubCateCreate";
 import SubCateUpdate from "./pages/admin/subcate/SubCateUpdate";
@@ -93,13 +97,18 @@ const App = () => {
         <Route exact path="/subcate/:slug" component={SubCateHome} />
         <Route exact path="/shop" component={Shop} />
         <Route exact path="/cart" component={Cart} />
+
         {/* User Access Route */}
         <UserRoute exact path="/user/history" component={History} />
         <UserRoute exact path="/user/password" component={Password} />
         <UserRoute exact path="/user/wishlist" component={WishList} />
+        <UserRoute exact path="/checkout" component={Checkout} />
+        <UserRoute exact path="/payment" component={Payment} />
+
         {/* Admin Access Route */}
         <AdminRoute exact path="/admin/dashboard" component={AdminDashboard} />
         <AdminRoute exact path="/admin/category" component={CategoryCreate} />
+        <AdminRoute exact path="/admin/coupon" component={CreateCouponPage} />
 
         <AdminRoute
           exact
