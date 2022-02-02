@@ -3,6 +3,7 @@ const User = require("../models/user");
 const Cart = require("../models/cart");
 const Coupon = require("../models/coupon");
 const Order = require("../models/order");
+const { updateOne } = require("../models/product");
 
 exports.userCart = async (req, res) => {
   // console.log("USER_CART", req.body); // { cart };
@@ -117,6 +118,18 @@ exports.createOrder = async (req, res) => {
     orderedBy: user._id,
   }).save();
 
+//decrement quentity, increment sold
+
+const bulkOption= products.map((item)=>{
+  return {
+    updateOne:{
+      filter:{_id: item.product._id} ,//IMPORTANT item.product
+      update: {$inc:{quantity: -item.count, sold: +item.count}}
+  }
+}
+})
+const updated = await  Product.bulkWrite(bulkOption,{});
+console.log("PRODUCT QUANTITY-- AND SOLD ++", updated)
   console.log("NEWORDER SAVED------>", newOrder);
   res.json({ ok: true });
 };
