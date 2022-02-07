@@ -64,7 +64,7 @@ const Login = ({history}) => {
               name: res.data.name,
               email: res.data.email,
               token: idTokenResult.token,
-              roll: res.data.role,
+              role: res.data.role,
               _id: res.data._id,
             },
           });
@@ -94,7 +94,7 @@ const Login = ({history}) => {
                 name: res.data.name,
                 email: res.data.email,
                 token: idTokenResult.token,
-                roll: res.data.role,
+                role: res.data.role,
                 _id: res.data._id,
               },
             });
