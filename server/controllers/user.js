@@ -146,7 +146,7 @@ exports.orders = async (req, res) => {
 exports.addToWishList = async (req, res) => {
   const { productId } = req.body;
   //addToset : will save in database without duplicate
-  const user = await User.findOne(
+  const user = await User.findOneAndUpdate(
     { email: req.user.email },
     { $addToSet: { wishlist: productId } }
   ).exec();
