@@ -11,7 +11,9 @@ const {
   getUserCart,
   emptyCart,
   saveAddress,
-  applyCouponToUserCart
+  applyCouponToUserCart,
+  createOrder,
+  orders,
 } = require("../controllers/user");
 
 router.post("/user/cart", authCheck, userCart); //save user card
@@ -26,5 +28,9 @@ router.delete("/user/cart", authCheck, emptyCart); //empty Cart
 // });
 router.post("/user/address", authCheck, saveAddress);
 //coupon
-router.post('/user/cart/coupon', authCheck, applyCouponToUserCart)
+router.post("/user/cart/coupon", authCheck, applyCouponToUserCart);
+
+//Router for order
+router.post("/user/order", authCheck, createOrder);
+router.get("/user/orders", authCheck, orders);
 module.exports = router;

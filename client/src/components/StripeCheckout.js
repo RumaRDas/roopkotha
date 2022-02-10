@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { Card } from "antd";
 import { DollarOutlined, CheckOutlined } from "@ant-design/icons";
 import Laptop from "../images/laptop.jpg";
+import { creatOrder, emptyUserCart } from "../functions/user";
 
 const StripeCheckout = ({ history }) => {
   const [succeeded, setSucceeded] = useState(false);
@@ -24,7 +25,7 @@ const StripeCheckout = ({ history }) => {
 
   useEffect(() => {
     createPaymentIntent(user.token, coupon).then((res) => {
-      console.log("CREATE_PAYMENT_INTENT", res.data);
+      //  console.log("CREATE_PAYMENT_INTENT", res.data);
       setClientSecret(res.data.clientSecret);
       // additional response received on successful payment
       setCartTotal(res.data.cartTotal);
@@ -50,13 +51,31 @@ const StripeCheckout = ({ history }) => {
     } else {
       // here get result after successful payment
       // create order and save in database for admin to process
+      creatOrder(payload, user.token).then((res) => {
+        if (res.data.ok) {
+          //empty cart from local storage
+          if (typeof window !== "undefined") localStorage.removeItem("cart");
+          //empty cart from Redux
+          dispatch({
+            type: "ADD_TO_CART",
+            payload: [],
+          });
+          //reset coupon to false
+          dispatch({
+            type: "COUPON_APPLIED",
+            payload: false,
+          });
+          //empty cart from database
+        }
+      });
       // empty user cart from redux store and local storage
-      console.log(JSON.stringify(payload, null, 4));
+      emptyUserCart(user.token)
+      // console.log(JSON.stringify(payload, null, 4));
       setError(null);
       setProcessing(false);
       setSucceeded(true);
     }
-   };
+  };
   const handleChange = async (e) => {
     //l=Liten for changes in the card element
     //and display any errors as the customer types their card detailes

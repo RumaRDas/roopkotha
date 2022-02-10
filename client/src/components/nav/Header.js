@@ -60,9 +60,19 @@ const Header = () => {
           </Badge>
         </Link>
       </Item>
+
+      {!user && (
+        <Item key="register" icon={<UserAddOutlined />} className="float-right">
+          <Link to="/register">Register</Link>
+        </Item>
+      )}
+      {!user && (
+        <Item key="login" icon={<UsbOutlined />} className="float-right">
+          <Link to="/login">Login</Link>
+        </Item>
+      )}
       {user && (
         <SubMenu
-          key="username"
           icon={<SettingOutlined />}
           title={user.email && user.email.split("@")[0]}
           className="float-right"
@@ -72,6 +82,7 @@ const Header = () => {
               <Link to="/user/history">Dashboard</Link>
             </Item>
           )}
+
           {user && user.role === "admin" && (
             <Item>
               <Link to="/admin/dashboard">Dashboard</Link>
@@ -83,19 +94,11 @@ const Header = () => {
           </Item>
         </SubMenu>
       )}
+
       <span className="float-right p-1">
         <Search />
       </span>
-      {!user && (
-        <Item key="register" icon={<UserAddOutlined />} className="float-right">
-          <Link to="/register">Register</Link>
-        </Item>
-      )}
-      {!user && (
-        <Item key="login" icon={<UsbOutlined />} className="float-right">
-          <Link to="/login">Login</Link>
-        </Item>
-      )}
+      {/* {JSON.stringify(user.role)} */}
     </Menu>
   );
 };

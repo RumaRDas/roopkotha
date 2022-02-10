@@ -2,6 +2,8 @@ const Product = require("../models/product");
 const User = require("../models/user");
 const Cart = require("../models/cart");
 const Coupon = require("../models/coupon");
+const Order = require("../models/order");
+const { updateOne } = require("../models/product");
 
 exports.userCart = async (req, res) => {
   // console.log("USER_CART", req.body); // { cart };
@@ -99,8 +101,43 @@ exports.applyCouponToUserCart = async (req, res) => {
   console.log("discount price----------------->", totalAfterDiscount);
   Cart.findOneAndUpdate(
     { orderedBy: user._id },
-    {  totalAfterDiscount },
+    { totalAfterDiscount },
     { new: true }
   ).exec();
   res.json(totalAfterDiscount);
+};
+
+exports.createOrder = async (req, res) => {
+  const { paymentIntent } = req.body.stripeResponse;
+  const user = await User.findOne({ email: req.user.email }).exec();
+
+  let { products } = await Cart.findOne({ orderedBy: user._id }).exec();
+  const newOrder = await new Order({
+    products,
+    paymentIntent,
+    orderedBy: user._id,
+  }).save();
+
+//decrement quentity, increment sold
+
+const bulkOption= products.map((item)=>{
+  return {
+    updateOne:{
+      filter:{_id: item.product._id} ,//IMPORTANT item.product
+      update: {$inc:{quantity: -item.count, sold: +item.count}}
+  }
+}
+})
+const updated = await Product.bulkWrite(bulkOption, {});
+console.log("PRODUCT QUANTITY-- AND SOLD ++", updated)
+  console.log("NEWORDER SAVED------>", newOrder);
+  res.json({ ok: true });
+};
+
+exports.orders = async (req, res) => {
+  const user = await User.findOne({ email: req.user.email }).exec();
+  const userOrder = await Order.find({ orderedBy: user._id })
+    .populate("products.product")
+    .exec();
+  res.json(userOrder);
 };
