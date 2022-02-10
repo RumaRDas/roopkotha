@@ -32,7 +32,7 @@ exports.userCart = async (req, res) => {
     //pushing the product object to cart
     products.push(object);
   }
-  console.log("PRODUCTS", products);
+  //console.log("PRODUCTS", products);
   let cartTotal = 0;
   for (let i = 0; i < products.length; i++) {
     cartTotal = cartTotal + products[i].price * products[i].count;
@@ -74,7 +74,7 @@ exports.saveAddress = async (req, res) => {
 //aplying discount in cart
 exports.applyCouponToUserCart = async (req, res) => {
   const { coupon } = req.body;
-  console.log("COUPON----->", coupon);
+  // console.log("COUPON----->", coupon);
   //Checking coupon validate
 
   const validCoupon = await Coupon.findOne({ name: coupon }).exec();
@@ -118,19 +118,19 @@ exports.createOrder = async (req, res) => {
     orderedBy: user._id,
   }).save();
 
-//decrement quentity, increment sold
+  //decrement quentity, increment sold
 
-const bulkOption= products.map((item)=>{
-  return {
-    updateOne:{
-      filter:{_id: item.product._id} ,//IMPORTANT item.product
-      update: {$inc:{quantity: -item.count, sold: +item.count}}
-  }
-}
-})
-const updated = await Product.bulkWrite(bulkOption, {});
-console.log("PRODUCT QUANTITY-- AND SOLD ++", updated)
-  console.log("NEWORDER SAVED------>", newOrder);
+  const bulkOption = products.map((item) => {
+    return {
+      updateOne: {
+        filter: { _id: item.product._id }, //IMPORTANT item.product
+        update: { $inc: { quantity: -item.count, sold: +item.count } },
+      },
+    };
+  });
+  const updated = await Product.bulkWrite(bulkOption, {});
+  //console.log("PRODUCT QUANTITY-- AND SOLD ++", updated)
+  //console.log("NEWORDER SAVED------>", newOrder);
   res.json({ ok: true });
 };
 
@@ -140,4 +140,30 @@ exports.orders = async (req, res) => {
     .populate("products.product")
     .exec();
   res.json(userOrder);
+};
+
+//For adding wishlist
+exports.addToWishList = async (req, res) => {
+  const { productId } = req.body;
+  //addToset : will save in database without duplicate
+  const user = await User.findOne(
+    { email: req.user.email },
+    { $addToSet: { wishlist: productId } }
+  ).exec();
+  res.json({ ok: true });
+};
+exports.wishList = async (req, res) => {
+  const list = await User.findOne({ email: req.user.email })
+    .select("wishlist")
+    .populate("wishlist")
+    .exec();
+  res.json(list);
+};
+exports.removeFromWishlist = async (req, res) => {
+  const { productId } = req.params;
+  const user = await User.findOneAndUpdate(
+    { email: req.user.email },
+    { $pull: { wishlist: productId } }
+  ).exec();
+  res.json({ ok: true });
 };

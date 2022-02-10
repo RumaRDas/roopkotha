@@ -5,8 +5,9 @@ exports.orders = async (req, res) => {
   const allOrders = await Order.find({})
     .sort("-createdAt")
     .populate("products.product")
-    .exec();
+    .populate("orderedBy");
   res.json(allOrders);
+  console.log("Backend res--->", allOrders);
 };
 
 exports.orderStatus = async (req, res) => {

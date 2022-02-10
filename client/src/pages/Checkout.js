@@ -51,7 +51,7 @@ const Checkout = ({ history }) => {
     });
   };
   const saveAddressToDb = () => {
-    // console.log(address);
+    // const address = editor.getText();
     saveUserAddress(user.token, address).then((res) => {
       if (res.data.ok) {
         setAddressSaved(true);
@@ -86,7 +86,11 @@ const Checkout = ({ history }) => {
   const showAddress = () => {
     return (
       <>
-        <ReactQuill theme="snow" value={address} onChange={setAddress} />
+        <ReactQuill
+          theme={"snow"}
+          value={address}
+          onChange={(editor) => setAddress(editor.getText())}
+        />
         <br />
         <button
           className="btn btn-primary mt-2 btn-block"
