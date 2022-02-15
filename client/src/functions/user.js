@@ -109,3 +109,19 @@ export const removeWishlist = async (productId, authToken) => {
     }
   );
 };
+
+export const creatCashOrderForUser = async (
+  authToken,
+  COD,
+  couponTrueOrFalse
+) => {
+  return await axios.post(
+    `${process.env.REACT_APP_API}/user/cash-order`,
+    { couponApplied: couponTrueOrFalse, COD },
+    {
+      headers: {
+        authToken,
+      },
+    }
+  );
+};
