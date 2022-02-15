@@ -2,3 +2,7 @@
  git push origin master --force
  
  adding env
+
+MONGODB_ATLAS
+
+mongodb+srv://admin:1234@cluster0.slihp.mongodb.net/roopkotha?retryWrites=true&w=majority
