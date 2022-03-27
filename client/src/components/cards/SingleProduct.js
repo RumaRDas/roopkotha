@@ -21,11 +21,11 @@ const { TabPane } = Tabs;
 const SingleProduct = ({ product, onStarClick, star }) => {
   const [tooltip, setTooltip] = useState("Click to add");
 
-  const { title, images, description, _id } = product;
+  const { title, name, images, description, _id } = product;
 
   const dispatch = useDispatch();
   const history = useHistory();
-  const { user, cart} = useSelector((sate) => ({ ...sate }));
+  const { user, cart } = useSelector((sate) => ({ ...sate }));
 
   const handleAddToCart = () => {
     //create cart array
@@ -64,7 +64,7 @@ const SingleProduct = ({ product, onStarClick, star }) => {
   const handleAddToWishlist = (e) => {
     e.preventDefault();
     addToWishList(product._id, user.token).then((res) => {
-      console.log("ADD TO WISHLIST------>", res.data);
+      //    console.log("ADD TO WISHLIST------>", res.data);
       toast.success("Added to wishlist");
       history.push("/user/wishlist");
     });
@@ -81,7 +81,7 @@ const SingleProduct = ({ product, onStarClick, star }) => {
             cover={<img src={Laptop} className="mb-3 card-image" alt="" />}
           ></Card>
         )}
-        <Tabs type="cads">
+        <Tabs type="cads" style={{ color: "#dca04f" }}>
           <TabPane tab="Descriptin" key="1">
             {description && description}
           </TabPane>
@@ -92,15 +92,20 @@ const SingleProduct = ({ product, onStarClick, star }) => {
       </div>
 
       <div className="col-md-6">
-        <h1 className="bg-info  p-3">{title}</h1>
+        <h1 className=" p-3" style={{ backgroundColor: "#dca04f" }}>
+          {title}
+        </h1>
         {product && product.ratings && product.ratings.length > 0 ? (
           showAverage(product)
         ) : (
-          <div className="text-center  pt-1 pb3"> No rating yet</div>
+          <div className="text-center  pt-1 pb3" style={{ color: "#dca04f" }}>
+            {" "}
+            No rating yet
+          </div>
         )}
         <Card
           actions={[
-            <Tooltip title={tooltip}>
+            <Tooltip Name={tooltip}>
               <a onClick={handleAddToCart} disabled={product.quantity < 1}>
                 <ShoppingCartOutlined className="text-success" />
                 <br />

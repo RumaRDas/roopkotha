@@ -15,6 +15,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 //for declearing each of state instade one Object
 const initialState = {
   title: "",
+  name: "",
   description: "",
   price: "",
   categories: [],
@@ -22,7 +23,7 @@ const initialState = {
   subcates: [],
   subcate: [],
   quantity: "",
-  shipping: [],
+  preorder: "",
   images: [],
   //  shipping: ["Yes", "No"],
   colors: [
@@ -35,7 +36,7 @@ const initialState = {
     "Yellow",
     "Others",
   ],
-  types: [
+  fabrics: [
     "Cotton",
     "Muslin",
     "Silk",
@@ -46,14 +47,27 @@ const initialState = {
     "PartyWare",
     "Others",
   ],
+  sizes: [],
   color: "",
-  type: "",
+  fabric: "",
+  size: "",
 };
+
 const ProductCreate = () => {
   const [values, setValues] = useState(initialState);
   const [loading, setLoading] = useState(false);
   const [subOptions, setSubOptions] = useState([]);
   const [showSub, setShowSub] = useState(false);
+  const [sizeOptions, setSizesOptions] = useState([
+    "32",
+    "34",
+    "36",
+    "38",
+    "40",
+    "42",
+    "44",
+    "46",
+  ]);
 
   const { user } = useSelector((state) => ({ ...state }));
 
@@ -69,7 +83,6 @@ const ProductCreate = () => {
       setValues({ ...values, categories: c.data });
       // res.json({ categories: res.data });
     });
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -89,9 +102,13 @@ const ProductCreate = () => {
   };
   //for updateing form event change on change
   const handleChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
+    setValues({
+      ...values,
+      [e.target.name]: e.target.value,
+    });
     // console.log(e.target.name, "----------", e.target.value);
   };
+
   const handleCategoryChange = (e) => {
     e.preventDefault();
     //  console.log("ClickCategory", e.target.value);
@@ -101,11 +118,8 @@ const ProductCreate = () => {
       setSubOptions(res.data);
     });
 
-    setShowSub(true).catch((err) => {
-      //   console.log("subcate shows ERROR", err);
-    });
+    setShowSub(true);
   };
-
   return (
     <div className="container-fluid">
       <div className="row">
@@ -134,6 +148,7 @@ const ProductCreate = () => {
             handleCategoryChange={handleCategoryChange}
             subOptions={subOptions}
             showSub={showSub}
+            sizeOptions={sizeOptions}
           />
           {/* {JSON.stringify(values.images)} */}
         </div>

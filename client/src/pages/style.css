@@ -1,0 +1,65 @@
+.productBack{
+    background-image: url("../images/gray.jpg") ;
+    background-repeat: repeat;
+  background-size: cover;
+    background-position: center;
+    padding-top: 10px;
+}
+.productrBackHover{
+  background-color: rgba(255, 255, 255, 0.4);
+width: 90%;
+  padding-top: 15px;
+  margin-top: 25px;
+margin-left: 5%;
+  background-position: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+}
+.headerBack{
+    background-image: url("../images/back2.jpg") ;
+    background-repeat: no-repeat;
+  background-size: cover;
+    background-position: center;
+    height: 500px;
+
+}
+
+.headerBackHover{
+  background-color: rgba(255, 255, 255, 0.4);
+  width: 100%;
+  height: 300px;
+  position: absolute;
+  right: 0;
+  padding-top: 15px;
+  margin-top: 25px;
+}
+
+.categoryBack{
+  background-image: url("../images/back4.jpg") ;
+  background-repeat: no-repeat;
+background-size: cover;
+  background-position: center,
+  
+
+}
+
+
+.badge-warning {
+  background-color: #dca04f;
+  cursor: pointer;
+  }
+
+  .badge-warning:hover
+ {
+    background-color: #dca04f;
+    opacity: 0.5;
+    cursor: pointer;
+    }
+
+    .textsubNav{
+      color: #dca04f;
+      font-weight: bolder;
+      font-size: 20;
+    }
+    /* collapsed sidebar styles */

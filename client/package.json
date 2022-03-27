@@ -32,6 +32,7 @@
     "react-toastify": "^8.1.0",
     "redux": "^4.1.2",
     "redux-devtools-extension": "^2.13.9",
+    "responsive-ant-menu": "^2.0.4",
     "stream-browserify": "^3.0.0",
     "typewriter-effect": "^2.18.2",
     "util": "^0.12.4",

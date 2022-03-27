@@ -8,12 +8,18 @@ import {
   removeCategory,
 } from "../../../functions/category";
 import { Link } from "react-router-dom";
+import FileUpload from "../../../components/forms/FileUpload";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CategoryForm from "../../../components/forms/CategoryForm";
 import LocalSearch from "../../../components/forms/LocalSearch";
 
+const initialState = {
+  images: [],
+};
 const CategoryCreate = () => {
   const [name, setName] = useState("");
+  const [values, setValues] = useState(initialState);
+
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   //searching and filtering
@@ -37,11 +43,12 @@ const CategoryCreate = () => {
     e.preventDefault(e);
     // console.log(name);
     setLoading(true);
-    createCategory({ name }, user.token)
+    createCategory({ name, images: values.images }, user.token)
       .then((res) => {
-        // console.log("category_Create:", res.data);
+        console.log("category_Create:", res.data);
         setLoading(false);
         setName("");
+        setValues([]);
         toast.success(`${res.data.name} is created`);
         loadCategories();
       })
@@ -92,6 +99,13 @@ const CategoryCreate = () => {
           ) : (
             <h4>Create category</h4>
           )}
+          <div className="p-3">
+            <FileUpload
+              values={values}
+              setValues={setValues}
+              setLoading={setLoading}
+            />
+          </div>
           <CategoryForm
             handleSubmit={handleSubmit}
             name={name}

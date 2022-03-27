@@ -16,7 +16,7 @@ const ProductCard = ({ product }) => {
   //redux
   const dispatch = useDispatch();
 
-  const { user, cart, drawer } = useSelector((sate) => ({ ...sate }));
+  
 
   const handleAddToCart = () => {
     //create cart array
@@ -53,7 +53,7 @@ const ProductCard = ({ product }) => {
   };
 
   //destructure
-  const { images, title, description, slug, price } = product;
+  const { images, name, description, slug, price } = product;
   return (
     <>
       {product && product.ratings && product.ratings.length > 0 ? (
@@ -65,7 +65,13 @@ const ProductCard = ({ product }) => {
         cover={
           <img
             src={images && images.length ? images[0].url : laptop}
-            style={{ height: "150px", objectFit: "cover" }}
+            style={{
+              height: "300px",
+              objectFit: "cover",
+              margin: "2px",
+              padding: "2px",
+              backgroundPosition: "top  ",
+            }}
             className="p-1"
             alt=""
           />
@@ -90,7 +96,7 @@ const ProductCard = ({ product }) => {
         ]}
       >
         <Meta
-          title={`${title}   --- Price: $${price}`}
+          title={`${name}   --- Price: $${price}`}
           description={`${description && description.substring(0, 40)}...`}
         />
       </Card>

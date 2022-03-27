@@ -13,21 +13,26 @@ const ProductUpdateForm = ({
   arrayOfSubIds,
   setArrayOfSubIds,
   selectedCatogory,
+  sizeOptions,
+  setArrayOfSizes,
+  arrayOfSizes,
 }) => {
   //Destructure useState values
   const {
     title,
+    name,
     description,
     price,
     quantity,
     category,
     subcates,
-    shipping,
+    preorder,
     images,
     colors,
-    types,
+    sizes,
+    fabrics,
     color,
-    type,
+    fabric,
   } = values;
   return (
     <div>
@@ -39,6 +44,17 @@ const ProductUpdateForm = ({
             name="title"
             className="form-control"
             value={title}
+            onChange={handleChange}
+          />
+          <p className="text-danger">Title need More then 3 Character</p>
+        </div>
+        <div className="form-group">
+          <label>Name</label>
+          <input
+            type="text"
+            name="name"
+            className="form-control"
+            value={name}
             onChange={handleChange}
           />
           <p className="text-danger">Title need More then 3 Character</p>
@@ -63,10 +79,10 @@ const ProductUpdateForm = ({
             />
           </div>
           <div className="form-group">
-            <label>Shipping</label>
+            <label>Preorder only</label>
             <select
-              value={shipping === "Yes" ? "Yes" : "No"}
-              name="shipping"
+              value={preorder === "Yes" ? "Yes" : "No"}
+              name="preorder"
               className="form-control"
               onChange={handleChange}
             >
@@ -100,20 +116,37 @@ const ProductUpdateForm = ({
             </select>
           </div>
           <div className="form-group">
-            <label>Type</label>
+            <label>fabrics</label>
             <select
-              value={type}
+              value={fabric}
               name="type"
               className="form-control"
               onChange={handleChange}
             >
-              {types.map((t) => (
-                <option key={t} value={t}>
-                  {t}
+              {fabrics.map((f) => (
+                <option key={f} value={f}>
+                  {f}
                 </option>
               ))}
             </select>
           </div>
+        </div>
+        <div>
+          <label>Sizes</label>
+          <Select
+            mode="multiple"
+            style={{ width: "100%" }}
+            placeholder="Plese select"
+            value={arrayOfSizes}
+            onChange={(value) => setArrayOfSizes(value)}
+          >
+            {sizeOptions.length &&
+              sizeOptions.map((s) => (
+                <Option value={s} key={s}>
+                  {s}
+                </Option>
+              ))}
+          </Select>
         </div>
         <div className="form-group">
           <label>Category</label>

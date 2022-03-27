@@ -48,12 +48,14 @@ const Cart = ({ history }) => {
         <thead className="thead-light">
           <tr>
             <th scope="col">Image</th>
-            <th scope="col">Title</th>
+            <th scope="col">Name</th>
             <th scope="col">Price</th>
-            <th scope="col">Type</th>
+            <th scope="col">Fabric</th>
             <th scope="col">Color</th>
+            <th scope="col">Size</th>
             <th scope="col">Count</th>
-            <th scope="col">Shipping</th>
+
+            <th scope="col">Preorder</th>
             <th scope="col">Remove</th>
           </tr>
         </thead>
@@ -119,7 +121,7 @@ const Cart = ({ history }) => {
                   state: { from: "cart" },
                 }}
               >
-                Login to Chectout
+                Login to Checkout
               </Link>
             </button>
           )}

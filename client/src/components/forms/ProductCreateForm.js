@@ -11,22 +11,26 @@ const ProductCreateForm = ({
   handleCategoryChange,
   subOptions,
   showSub,
+  sizeOptions,
 }) => {
   //Destructure useState values
   const {
     title,
+    name,
     description,
     price,
     quantity,
     categories,
     category,
     subcates,
-    shipping,
+    preorder,
     images,
     colors,
-    types,
+    fabrics,
+    sizes,
     color,
-    type,
+    fabric,
+    size,
   } = values;
   return (
     <div>
@@ -41,6 +45,17 @@ const ProductCreateForm = ({
             onChange={handleChange}
           />
           <p className="text-danger">Title need More then 3 Character</p>
+        </div>
+        <div className="form-group">
+          <label>Name</label>
+          <input
+            type="text"
+            name="name"
+            className="form-control"
+            value={name}
+            onChange={handleChange}
+          />
+          <p className="text-danger">Name need More then 3 Character</p>
         </div>
         <div className="form-group">
           <label>Description</label>
@@ -62,9 +77,9 @@ const ProductCreateForm = ({
             />
           </div>
           <div className="form-group">
-            <label>Shipping</label>
+            <label>Preorder Only</label>
             <select
-              name="shipping"
+              name="preorder"
               className="form-control"
               onChange={handleChange}
             >
@@ -99,19 +114,36 @@ const ProductCreateForm = ({
             </select>
           </div>
           <div className="form-group">
-            <label>Type</label>
+            <label>Fabric</label>
             <select
-              name="type"
+              name="fabric"
               className="form-control"
               onChange={handleChange}
             >
               <option>Plese Select</option>
-              {types.map((t) => (
-                <option key={t} value={t}>
-                  {t}
+              {fabrics.map((f) => (
+                <option key={f} value={f}>
+                  {f}
                 </option>
               ))}
             </select>
+          </div>
+          <div>
+            <label>Size</label>
+            <Select
+              mode="multiple"
+              style={{ width: "100%" }}
+              placeholder="Plese select"
+              value={sizes}
+              onChange={(value) => setValues({ ...values, sizes: value })}
+            >
+              {sizeOptions.length &&
+                sizeOptions.map((s) => (
+                  <Option value={s} key={s}>
+                    {s}
+                  </Option>
+                ))}
+            </Select>
           </div>
         </div>
         <div className="form-group">
@@ -130,9 +162,7 @@ const ProductCreateForm = ({
               ))}
           </select>
         </div>
-
         {/* Ant design select option */}
-
         {showSub && (
           <div>
             <label>Sub Categories</label>
@@ -153,8 +183,8 @@ const ProductCreateForm = ({
           </div>
         )}
         {/* ____ */}
-        {/* {subOptions ? subOptions.length : "no subs yet"} */}
         <br />
+        {/* {subOptions ? subOptions.length : "no subs yet"} */}
         <button className="btn btn-info btn-block">Save</button>
       </form>
     </div>

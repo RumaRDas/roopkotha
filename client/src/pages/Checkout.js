@@ -15,7 +15,11 @@ const Checkout = ({ history }) => {
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
   const [address, setAddress] = useState("");
+
   const [addressSaved, setAddressSaved] = useState(false);
+  const [mobileNo, setMobileNo] = useState("");
+  const [mobileNoSaved, setMobileNoSaved] = useState(false);
+  const [message, setMessage] = useState("");
   const [coupon, setCoupon] = useState("");
   const [totalAfterDiscount, setTotalAfterDiscount] = useState(0);
   const [discountError, setDiscountError] = useState("");
@@ -54,11 +58,12 @@ const Checkout = ({ history }) => {
   };
   const saveAddressToDb = () => {
     // const address = editor.getText();
-    saveUserAddress(user.token, address).then((res) => {
+    saveUserAddress(user.token, address, mobileNo, message).then((res, err) => {
       if (res.data.ok) {
-        setAddressSaved(true);
+        setMobileNoSaved(true);
         toast.success("Address saved");
       }
+      // console.log("SAVE ADDRESS ERROR", err);
     });
   };
   const applyDiscountCoupon = () => {
@@ -88,7 +93,27 @@ const Checkout = ({ history }) => {
   const showAddress = () => {
     return (
       <>
-        <ReactQuill theme={"snow"} value={address} onChange={setAddress} />
+        <label> Mobile No </label>
+        <input
+          type="number"
+          className="form-control"
+          value={mobileNo}
+          onChange={(e) => setMobileNo(e.target.value)}
+          placeholder="Mobile No"
+          autoFocus
+        />
+        <label> Address </label>
+        <input
+          type="text"
+          className="form-control"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+          placeholder="Address"
+          autoFocus
+        />
+
+        <label> Message </label>
+        <ReactQuill theme={"snow"} value={message} onChange={setMessage} />
         <br />
         <button
           className="btn btn-primary mt-2 btn-block"
@@ -106,7 +131,7 @@ const Checkout = ({ history }) => {
           <div key={i}>
             <p>
               {/* getting user prefered color */}
-              {p.product.title}({p.color}) X {p.count} = $
+              {p.product.name}({p.color}) X {p.count} = $
               {p.product.price * p.count}
             </p>
           </div>
@@ -203,7 +228,7 @@ const Checkout = ({ history }) => {
               {COD ? (
                 <button
                   className="btn btn-primary mt-2 btn-block"
-                  disabled={!addressSaved || !products.length}
+                  disabled={!mobileNoSaved || !products.length}
                   onClick={createCashOrder}
                 >
                   Place Order
@@ -211,7 +236,7 @@ const Checkout = ({ history }) => {
               ) : (
                 <button
                   className="btn btn-primary mt-2 btn-block"
-                  disabled={!addressSaved || !products.length}
+                  disabled={!mobileNoSaved || !products.length}
                   onClick={() => history.push("/payment")}
                 >
                   Place Order

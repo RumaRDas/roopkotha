@@ -2,10 +2,19 @@ import React, { useState, useEffect } from "react";
 import AdminNav from "../../../components/nav/AdminNav";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import { updateCategory, getCategory } from "../../../functions/category";
+import FileUpload from "../../../components/forms/FileUpload";
+import {
+  updateCategory,
+  getCategory,
+  getCategoryList,
+} from "../../../functions/category";
 import UpdateCategoryForm from "../../../components/forms/UpdateCategoryForm ";
 
+const initialState = {
+  images: [],
+};
 const UpdateCategory = ({ history, match }) => {
+  const [values, setValues] = useState(initialState);
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -19,9 +28,11 @@ const UpdateCategory = ({ history, match }) => {
 
   // getting selected sategory
   const loadCategory = () =>
-    getCategory(match.params.slug).then((c) => {
-      // console.log(product.data);
+    // getCategory(match.params.slug).then((c) => {
+    getCategoryList(match.params.slug).then((c) => {
+      console.log(c.data);
       setName(c.data.name);
+      setValues(c.data);
     });
 
   //for creating a new category
@@ -29,7 +40,11 @@ const UpdateCategory = ({ history, match }) => {
     e.preventDefault(e);
     // console.log(name);
     setLoading(true);
-    updateCategory(match.params.slug, { name }, user.token)
+    updateCategory(
+      match.params.slug,
+      { name, images: values.images },
+      user.token
+    )
       .then((res) => {
         // console.log("category_Create:", res.data);
         setLoading(false);
@@ -58,6 +73,13 @@ const UpdateCategory = ({ history, match }) => {
           ) : (
             <h4>Update Categry</h4>
           )}
+          <div className="p-3">
+            <FileUpload
+              values={values}
+              setValues={setValues}
+              setLoading={setLoading}
+            />
+          </div>
           <UpdateCategoryForm
             handleSubmit={handleSubmit}
             name={name}

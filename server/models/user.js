@@ -18,6 +18,8 @@ const userSchema = new mongoose.Schema(
       default: [],
     },
     address: String,
+    mobileNo:Number,
+    message: String,
     wishlist: [{ type: ObjectId, ref: "Product" }],
   },
   { timestamps: true }

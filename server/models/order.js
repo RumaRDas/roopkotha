@@ -13,6 +13,7 @@ const orderSchema = new mongoose.Schema(
         },
         count: Number,
         color: String,
+        size: String,
       },
     ],
     paymentIntent: {},
