@@ -1,13 +1,10 @@
 const Product = require("../models/product");
 const User = require("../models/user");
 const slugify = require("slugify");
-const { query } = require("express");
-const { aggregate } = require("../models/product");
-const { json } = require("body-parser");
 
 exports.create = async (req, res) => {
   try {
-    console.log(req.body);
+    // console.log(req.body);
     req.body.slug = slugify(req.body.title);
 
     const newProduct = await new Product(req.body).save();

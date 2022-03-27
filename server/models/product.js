@@ -17,6 +17,13 @@ const productSchema = new mongoose.Schema(
       lowercase: true,
       index: true,
     },
+    name: {
+      type: String,
+      trim: true, //remove white spaces
+      required: true,
+      text: true,
+      minlength: [3, "Too short"],
+    },
     description: {
       type: String,
       trim: true, //remove white spaces
@@ -48,7 +55,7 @@ const productSchema = new mongoose.Schema(
     images: {
       type: Array,
     },
-    shipping: {
+    preorder: {
       type: String,
       enum: ["Yes", "No"],
     },
@@ -65,7 +72,7 @@ const productSchema = new mongoose.Schema(
         "Others",
       ],
     },
-    type: {
+    fabric: {
       type: String,
       enum: [
         "Cotton",
@@ -79,6 +86,12 @@ const productSchema = new mongoose.Schema(
         "Others",
       ],
     },
+    sizes: [
+      {
+        type: String,
+        enum: ["32", "34", "36", "38", "40", "42", "44", "46"],
+      },
+    ],
     ratings: [
       {
         star: Number,
