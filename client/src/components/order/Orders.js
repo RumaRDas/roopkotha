@@ -11,26 +11,30 @@ const Orders = ({ orders, handleStatusChange }) => {
         <tr>
           <th scope="col">Title</th>
           <th scope="col">Price</th>
-          <th scope="col">Type</th>
+          <th scope="col">Febric</th>
           <th scope="col">Color</th>
+          <th scope="col">Size</th>
           <th scope="col">Count</th>
-          <th scope="col">Shipping</th>
+          <th scope="col">Preorder</th>
           <th scope="col">OrderedBy</th>
           <th scope="col">Address</th>
+          <th scope="col">MobileNo</th>
+          <th scope="col">Message</th>
         </tr>
       </thead>
       <tbody>
         {order.products.map((p, i) => (
           <tr key={i}>
             <td>
-              <b>{p.product.title}</b>
+              <b>{p.product.name}</b>
             </td>
             <td>$ {p.product.price}</td>
-            <td>{p.product.type}</td>
+            <td>{p.product.fabric}</td>
             <td>{p.color}</td>
+            <td>{p.size}</td>
             <td>{p.count}</td>
             <td>
-              {p.product.shipping === "Yes" ? (
+              {p.product.preorder === "Yes" ? (
                 <CheckCircleOutlined style={{ color: "green" }} />
               ) : (
                 <CloseCircleOutlined style={{ color: "red" }} />
@@ -38,6 +42,8 @@ const Orders = ({ orders, handleStatusChange }) => {
             </td>
             <td>{order.orderedBy.name}</td>
             <td>{order.orderedBy.address}</td>
+            <td>{order.orderedBy.mobileNo}</td>
+            <td>{order.orderedBy.message}</td>
           </tr>
         ))}
       </tbody>

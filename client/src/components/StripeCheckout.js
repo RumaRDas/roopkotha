@@ -5,7 +5,7 @@ import { createPaymentIntent } from "../functions/stripe";
 import { Link } from "react-router-dom";
 import { Card } from "antd";
 import { DollarOutlined, CheckOutlined } from "@ant-design/icons";
-import Laptop from "../images/laptop.jpg";
+import BankCard from "../images/card.jpg";
 import { creatOrder, emptyUserCart } from "../functions/user";
 
 const StripeCheckout = ({ history }) => {
@@ -69,7 +69,7 @@ const StripeCheckout = ({ history }) => {
         }
       });
       // empty user cart from redux store and local storage
-      emptyUserCart(user.token)
+      emptyUserCart(user.token);
       // console.log(JSON.stringify(payload, null, 4));
       setError(null);
       setProcessing(false);
@@ -115,7 +115,7 @@ const StripeCheckout = ({ history }) => {
         <Card
           cover={
             <img
-              src={Laptop}
+              src={BankCard}
               style={{
                 height: "200px",
                 objectFit: "cover",

@@ -4,6 +4,7 @@ import SingleProduct from "../components/cards/SingleProduct";
 import ProductCard from "../components/cards/ProductCard";
 import { useSelector } from "react-redux";
 import RelatedProducts from "../components/home/RelatedProducts";
+import "./style.css";
 
 const Product = ({ match }) => {
   const [product, setProduct] = useState({});
@@ -49,26 +50,29 @@ const Product = ({ match }) => {
   return (
     <>
       <div className="container-fluid">
-        <div className="row pt-4">
+        <div className="row pt-4 pb-5">
           <SingleProduct
             product={product}
             onStarClick={onStarClick}
             star={star}
           />
         </div>
+        <div className="  productBack">
+          <div className="productrBackHover">
+            <div className="container bg-light  ">
+              <h3
+                className="text-center p-5 mb-3   "
+                style={{ color: "#a38051", fontSize: "30px" }}
+              >
+                Related Products
+              </h3>
 
-        <div className="row ">
-          <div className="col text-center pt-5 pb-5">
-            <hr />
-            <h4>Related Products</h4>
-            <hr />
-            {/* {JSON.stringify(related)} */}
+              <RelatedProducts slug={slug} />
+            </div>
+
+            {/* {------} */}
           </div>
         </div>
-        <div className="row pb-5 text-center">
-          <RelatedProducts slug={slug} />
-        </div>
-        {/* {------} */}
       </div>
     </>
   );

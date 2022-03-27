@@ -10,7 +10,8 @@ import {
 import { getCategories } from "../../../functions/category";
 import { Link } from "react-router-dom";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import CategoryForm from "../../../components/forms/CategoryForm";
+//import CategoryForm from "../../../components/forms/CategoryForm";
+import SubCategoryForm from "../../../components/forms/SubCategoryForm";
 import LocalSearch from "../../../components/forms/LocalSearch";
 
 const SubCateCreate = () => {
@@ -32,7 +33,7 @@ const SubCateCreate = () => {
   // getting all  Categories for creating sub
   const loadCategories = () =>
     getCategories().then((product) => {
-      // console.log(product.data);
+      console.log(product.data);
       setCategories(product.data);
     });
 
@@ -117,7 +118,12 @@ const SubCateCreate = () => {
             </select>
           </div>
 
-          <CategoryForm
+          {/* <CategoryForm
+            handleSubmit={handleSubmit}
+            name={name}
+            setName={setName}
+          /> */}
+          <SubCategoryForm
             handleSubmit={handleSubmit}
             name={name}
             setName={setName}

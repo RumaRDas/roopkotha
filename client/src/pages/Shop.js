@@ -7,14 +7,14 @@ import { getCategories } from "../functions/category";
 import { getSubCates } from "../functions/subcate";
 import { useSelector, useDispatch } from "react-redux";
 import ProductCard from "../components/cards/ProductCard";
-import { Menu, Slider, Checkbox, Radio } from "antd";
+import { Menu, Slider, Checkbox, Radio, Layout } from "antd";
 import {
   DollarOutlined,
   DownSquareOutlined,
   StarOutlined,
 } from "@ant-design/icons";
 import Star from "../components/forms/Star";
-
+import "./style.css";
 const { SubMenu, ItemGroup } = Menu;
 
 const Shop = () => {
@@ -28,7 +28,7 @@ const Shop = () => {
   const [subcates, setSubcates] = useState([]);
   const [subcate, setSubcate] = useState("");
   const [star, setStar] = useState("");
-  const [types, setTypes] = useState([
+  const [fabrics, setFabrics] = useState([
     "Cotton",
     "Muslin",
     "Silk",
@@ -39,7 +39,7 @@ const Shop = () => {
     "PartyWare",
     "Others",
   ]);
-  const [type, setType] = useState("");
+  const [fabric, setFabric] = useState("");
   const [colors, setColors] = useState([
     "White",
     "Black",
@@ -51,7 +51,7 @@ const Shop = () => {
     "Others",
   ]);
   const [color, setColor] = useState("");
-  const [shipping, setShipping] = useState("");
+  const [preorder, setPreorder] = useState("");
   const { search } = useSelector((state) => ({ ...state }));
   const { text } = search;
 
@@ -85,8 +85,8 @@ const Shop = () => {
     //for delaying request to backend for few milisecends using setTimeout()
     const delayed = setTimeout(() => {
       fetchProducts({ query: text });
-      if(!text){
-        loadAllProducts()
+      if (!text) {
+        loadAllProducts();
       }
     }, 300);
     return () => clearTimeout(delayed);
@@ -115,9 +115,9 @@ const Shop = () => {
     setPrice(value);
     setStar("");
     setSubcate("");
-    setType("");
+    setFabric("");
     setColor("");
-    setShipping("");
+    setPreorder("");
     setTimeout(() => {
       setOk(!ok);
     }, 300);
@@ -159,9 +159,9 @@ const Shop = () => {
     setPrice([0, 0]);
     setSubcate("");
     setStar("");
-    setType("");
+    setFabric("");
     setColor("");
-    setShipping("");
+    setPreorder("");
     // console.log(e.target.value);
     const inTheState = [...categoriesChecked];
     const justChecked = e.target.value;
@@ -189,9 +189,9 @@ const Shop = () => {
     setSubcate("");
     setCategoriesChecked([]);
     setStar(num);
-    setType("");
+    setFabric("");
     setColor("");
-    setShipping("");
+    setPreorder("");
     fetchProducts({ stars: num });
   };
   const showStars = () => (
@@ -211,8 +211,7 @@ const Shop = () => {
       <div
         key={s._id}
         onClick={() => handleSubcate(s)}
-        className="p-3 m-1 badge-secondary"
-        style={{ cursor: "pointer" }}
+        className=" p-3 m-1 badge-warning"
       >
         {s.name}
       </div>
@@ -226,33 +225,33 @@ const Shop = () => {
       payload: { text: "" },
     });
     setPrice([0, 0]);
-    setType("");
+    setFabric("");
     setCategoriesChecked([]);
     setStar("");
     setColor("");
-    setShipping("");
+    setPreorder("");
     fetchProducts({ subcate: sub });
   };
 
   //.6 show Products based on type
 
-  const showType = () =>
-    types.map((t) => (
+  const showFabric = () =>
+    fabrics.map((f) => (
       <Radio
-        key={t}
-        value={t}
-        name={t}
-        checked={t === type}
+        key={f}
+        value={f}
+        name={f}
+        checked={f === fabric}
         onChange={handleType}
         className="pb-1 pl-1 pr-5 mr-5"
       >
-        {t}
+        {f}
       </Radio>
     ));
 
   const handleType = (e) => {
     // console.log("Sub", sub);
-    setType(e.target.value);
+    setFabric(e.target.value);
     dispatch({
       type: "SEARCH_QUERY",
       payload: { text: "" },
@@ -262,7 +261,7 @@ const Shop = () => {
     setCategoriesChecked([]);
     setStar("");
     setColor("");
-    setShipping("");
+    setPreorder("");
     fetchProducts({ type: e.target.value });
   };
   //.7 show Products based on Color
@@ -292,37 +291,37 @@ const Shop = () => {
     setSubcate("");
     setCategoriesChecked([]);
     setStar("");
-    setType("");
-    setShipping("");
+    setFabric("");
+    setPreorder("");
     fetchProducts({ color: e.target.value });
   };
 
   //.8 show Products based on Shipping
-  const showShipping = () => {
+  const showPreOrder = () => {
     return (
       <>
         <Checkbox
           className="pb-2 pl-4 pr-4"
-          onChange={handleShippingChange}
+          onChange={handlePreOrderChange}
           value="Yes"
-          checked={shipping === "Yes"}
+          checked={preorder === "Yes"}
         >
           Yes
         </Checkbox>
         <Checkbox
           className="pb-2 pl-4 pr-4"
-          onChange={handleShippingChange}
+          onChange={handlePreOrderChange}
           value="No"
-          checked={shipping === "No"}
+          checked={preorder === "No"}
         >
           No
         </Checkbox>
       </>
     );
   };
-  const handleShippingChange = (e) => {
+  const handlePreOrderChange = (e) => {
     // console.log("Sub", sub);
-    setShipping(e.target.value);
+    setPreorder(e.target.value);
     dispatch({
       type: "SEARCH_QUERY",
       payload: { text: "" },
@@ -331,33 +330,42 @@ const Shop = () => {
     setSubcate("");
     setCategoriesChecked([]);
     setStar("");
-    setType("");
+    setFabric("");
     setColor("");
     fetchProducts({ shipping: e.target.value });
   };
   //return
   return (
-    <div className="container-fluid">
+    <div className="container-fluid productBack">
       <div className="row">
-        <div className="col-md-3 pt-3">
+        <div
+          className="col-md-3 pt-5 mt-3"
+          style={{ backgroundColor: "#dca04f" }}
+        >
           <h4>Search/Filter</h4>
           <hr />
+
           <Menu
             mode="inline"
-            defaultOpenKeys={["1", "2", "3", "4", "5", "6", "7"]}
+            defaultOpenKeys={["2", "3"]}
+            className="sidebar"
+            breakpoint={"lg"}
+            theme="light"
+            collapsedWidth={0}
+            trigger={null}
           >
             {/* Price */}
             <SubMenu
               key="1"
               title={
-                <span className="h6 text-info">
+                <span className="textsubNav">
                   <DollarOutlined /> Price
                 </span>
               }
             >
-              <div>
+              <div className="textsubNav">
                 <Slider
-                  className="ml-4 mr-4"
+                  className="ml-4 mr-4 "
                   tipFormatter={(v) => `$${v}`}
                   range
                   value={price}
@@ -370,7 +378,7 @@ const Shop = () => {
             <SubMenu
               key="2"
               title={
-                <span className="h6 text-info pb-5">
+                <span className="textsubNav pb-5">
                   <DownSquareOutlined /> Categories
                 </span>
               }
@@ -384,7 +392,7 @@ const Shop = () => {
             <SubMenu
               key="3"
               title={
-                <span className="h6 text-info pb-5">
+                <span className="textsubNav pb-5">
                   <DownSquareOutlined /> Sub Categories
                 </span>
               }
@@ -398,7 +406,7 @@ const Shop = () => {
             <SubMenu
               key="4"
               title={
-                <span className="h6 text-info">
+                <span className="textsubNav">
                   <StarOutlined /> Rating
                 </span>
               }
@@ -411,20 +419,20 @@ const Shop = () => {
             <SubMenu
               key="5"
               title={
-                <span className="h6 text-info pb-5">
+                <span className="textsubNav pb-5">
                   <DownSquareOutlined /> Type
                 </span>
               }
             >
               <div style={{ marginTop: "-10px" }} className="pr-5">
-                {showType()}
+                {showFabric()}
               </div>
             </SubMenu>
             {/* Colors*/}
             <SubMenu
               key="6"
               title={
-                <span className="h6 text-info pb-5">
+                <span className="textsubNav pb-5">
                   <DownSquareOutlined /> Colors
                 </span>
               }
@@ -437,25 +445,25 @@ const Shop = () => {
             <SubMenu
               key="7"
               title={
-                <span className="h6 text-info pb-5">
-                  <DownSquareOutlined /> Shipping
+                <span className="textsubNav pb-5">
+                  <DownSquareOutlined /> Preorder Only
                 </span>
               }
             >
               <div style={{ marginTop: "-10px" }} className="pr-5">
-                {showShipping()}
+                {showPreOrder()}
               </div>
             </SubMenu>
           </Menu>
         </div>
-        <div className="col-md-9 pt-3">
+        <div className="col-md-9 pt-3 ">
           {loading ? (
             <h4 className="text-danger">Loading...</h4>
           ) : (
             <h4 className="text-info">Products</h4>
           )}
           {products.length < 1 && <h5>No products Found</h5>}
-          <div className="row">
+          <div className="row productrBackHover">
             {products.map((p) => (
               <div key={p._id} className="col-md-4">
                 <ProductCard product={p} />

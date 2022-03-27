@@ -34,17 +34,19 @@ const Invoice = ({ order }) => {
             <TableCell>Title</TableCell>
             <TableCell>Price</TableCell>
             <TableCell>Quantity</TableCell>
-            <TableCell>Type</TableCell>
+            <TableCell>Febric</TableCell>
             <TableCell>Color</TableCell>
+            <TableCell>Size</TableCell>
           </TableHeader>
         </Table>
         <Table data={order.products}>
           <TableBody>
-            <DataTableCell getContent={(x) => x.product.title} />
+            <DataTableCell getContent={(x) => x.product.name} />
             <DataTableCell getContent={(x) => ` $${x.product.price}`} />
             <DataTableCell getContent={(x) => x.count} />
-            <DataTableCell getContent={(x) => x.product.type} />
+            <DataTableCell getContent={(x) => x.product.fabric} />
             <DataTableCell getContent={(x) => x.color} />
+            <DataTableCell getContent={(x) => x.size} />
           </TableBody>
         </Table>
         <Text style={styles.text}>

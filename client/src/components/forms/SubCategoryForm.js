@@ -1,11 +1,6 @@
 import React from "react";
 
-const CategoryForm = ({
-  handleSubmit,
-  name,
-  setName,
-}) => {
-
+const SubCategoryForm = ({ handleSubmit, name, setName }) => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-group">
@@ -24,4 +19,4 @@ const CategoryForm = ({
     </form>
   );
 };
-export default CategoryForm;
+export default SubCategoryForm;

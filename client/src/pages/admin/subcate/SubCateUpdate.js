@@ -3,7 +3,9 @@ import AdminNav from "../../../components/nav/AdminNav";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { getCategories } from "../../../functions/category";
-import UpdateCategoryForm from "../../../components/forms/UpdateCategoryForm ";
+//import UpdateCategoryForm from "../../../components/forms/UpdateCategoryForm ";
+import SubUpdateCategoryForm from "../../../components/forms/SubUpdateCategoryForm";
+
 import { updateSubCate, getSubCate } from "../../../functions/subcate";
 
 const SubCateUpdate = ({ history, match }) => {
@@ -85,7 +87,12 @@ const SubCateUpdate = ({ history, match }) => {
                 ))}
             </select>
           </div>
-          <UpdateCategoryForm
+          {/* <UpdateCategoryForm
+            handleSubmit={handleSubmit}
+            name={name}
+            setName={setName}
+          /> */}
+          <SubUpdateCategoryForm
             handleSubmit={handleSubmit}
             name={name}
             setName={setName}

@@ -15,11 +15,12 @@ import { getProduct, updateProduct } from "../../../functions/product";
 
 const initialState = {
   title: "",
+  name: "",
   description: "",
   price: "",
   category: "",
   subcates: [],
-  shipping: "",
+  preorder: "",
   quantity: "",
   images: [],
   //  shipping: ["Yes", "No"],
@@ -33,7 +34,7 @@ const initialState = {
     "Yellow",
     "Others",
   ],
-  types: [
+  fabrics: [
     "Cotton",
     "Muslin",
     "Silk",
@@ -44,8 +45,10 @@ const initialState = {
     "PartyWare",
     "Others",
   ],
+  sizes: ["32", "34", "36", "38", "40", "42", "44", "46"],
   color: "",
-  type: "",
+  fabric: "",
+  size: [],
 };
 const ProductUpdate = ({ match, history }) => {
   //state for all values from initialState
@@ -55,6 +58,17 @@ const ProductUpdate = ({ match, history }) => {
   const [loading, setLoading] = useState(false);
   const [arrayOfSubIds, setArrayOfSubIds] = useState([]);
   const [selectedCatogory, setSelectedCatogory] = useState();
+  const [arrayOfSizes, setArrayOfSizes] = useState([]);
+  const [sizeOptions, setSizesOptions] = useState([
+    "32",
+    "34",
+    "36",
+    "38",
+    "40",
+    "42",
+    "44",
+    "46",
+  ]);
 
   const { user } = useSelector((state) => ({ ...state }));
   const { slug } = match.params;
@@ -81,9 +95,14 @@ const ProductUpdate = ({ match, history }) => {
         p.data.subcates.map((s) => {
           arr.push(s._id);
         });
-        console.log("ARR :", arr);
-        setArrayOfSubIds((pre) => arr); //this is required ant design select option
+        //console.log("ARR :", arr);
+        //this is required ant design select option
+        setArrayOfSizes((pre) => arr);
+        let arrS=[]
+        p.data.sizes.map((s) => arrS.push(s))
+        setArrayOfSizes((pre)=>arrS)
       })
+    
       .catch((err) => {});
   };
 
@@ -98,6 +117,7 @@ const ProductUpdate = ({ match, history }) => {
     e.preventDefault();
     setLoading(true);
     values.subcates = arrayOfSubIds;
+    values.sizes = arrayOfSizes;
     values.category = selectedCatogory ? selectedCatogory : values.category;
     updateProduct(slug, values, user.token)
       .then((res) => {
@@ -135,7 +155,6 @@ const ProductUpdate = ({ match, history }) => {
     }
     //clear old sub categoryID
     setArrayOfSubIds([]);
-
   };
   return (
     <div className="container-fluid">
@@ -170,6 +189,9 @@ const ProductUpdate = ({ match, history }) => {
             arrayOfSubIds={arrayOfSubIds}
             setArrayOfSubIds={setArrayOfSubIds}
             selectedCatogory={selectedCatogory}
+            arrayOfSizes={arrayOfSizes}
+            setArrayOfSizes={setArrayOfSizes}
+            sizeOptions={sizeOptions}
           />
           <hr />
         </div>

@@ -1,4 +1,4 @@
-.slider img, 
+
 .card-image{
     height: 450px;
     object-fit:cover;
@@ -7,3 +7,15 @@
 .pointer{
     cursor: pointer
 }
+
+.jumbotron{
+    background-image: url("../src/images/back.jpg");
+    background-size: cover;
+}
+.modified-item.active{
+    border-bottom: none;
+}
+.modified-item:hover {
+    border-bottom: none;
+    color: inherit !important;
+  }

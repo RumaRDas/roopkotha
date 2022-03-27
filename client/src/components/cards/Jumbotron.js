@@ -4,11 +4,11 @@ import Typewriter from "typewriter-effect";
 const Jumbotron = ({ text }) => {
   return (
     <Typewriter
+      cursorColor="black"
       options={{
         strings: text,
         autoStart: true,
         loop: true,
-    
       }}
     />
   );

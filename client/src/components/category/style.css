@@ -1,0 +1,45 @@
+
+.column{
+
+padding:0;
+position: relative;
+
+}
+.image {
+    opacity: 1;
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: .5s ease;
+    backface-visibility: hidden;
+ 
+ 
+  }
+  .column:hover .image{
+      opacity: 0.3;
+      transform: scale(1.1);
+
+  }
+  .column:hover .textBack{
+    opacity: 1;
+    transform: scale(1.1);
+  }
+
+.textBack{
+    position: absolute; 
+    bottom: 30%; 
+    background: #dca04f;
+    background: rgba(209, 155, 82, ); /* Black see-through */
+    
+    width: 100%;
+    transition: .5s ease;
+    opacity:0.5;
+
+    padding: 20px;
+    text-align: center;
+}
+.imageText{
+  color: #0c0303; 
+  font-weight: 400;
+  font-size: 20px;
+}

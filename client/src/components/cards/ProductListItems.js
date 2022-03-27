@@ -7,12 +7,14 @@ const ProductListItems = ({ product }) => {
     quantity,
     category,
     subcates,
-    shipping,
+    preorder,
     sold,
     colors,
-    types,
+    fabrics,
+    sizes,
+    fabric,
     color,
-    type,
+    size,
   } = product;
 
   return (
@@ -30,7 +32,6 @@ const ProductListItems = ({ product }) => {
           <Link
             to={`/category/${category.slug}`}
             className="label label-default label-pill pull-xs-right float-end"
-
           >
             {category.name}
           </Link>
@@ -44,7 +45,7 @@ const ProductListItems = ({ product }) => {
             <Link
               to={`/subcat/${s.slug}`}
               key={s._id}
-              className="label label-default label-pill pull-xs-right float-end ml-5"
+              className="label label-default label-pill pull-xs-right float-end ml-5 border-left border-info pl-3"
             >
               {s.name}
             </Link>
@@ -53,10 +54,10 @@ const ProductListItems = ({ product }) => {
       )}
 
       <li className="list-group-item">
-        Shipping
-        {shipping ? (
+        Preorder only
+        {preorder ? (
           <span className="label label-default label-pill pull-xs-right float-end">
-            {shipping}
+            {preorder}
           </span>
         ) : (
           <p className="label label-default label-pill pull-xs-right float-end">
@@ -72,11 +73,25 @@ const ProductListItems = ({ product }) => {
         </span>
       </li>
       <li className="list-group-item">
-        Type{" "}
+        Fabric{" "}
         <span className="label label-default label-pill pull-xs-right float-end">
-          {type}
+          {fabric}
         </span>
       </li>
+
+      {sizes && (
+        <li className="list-group-item">
+          Size
+          {sizes.map((s, i) => (
+            <span
+              key={i}
+              className="label label-default label-pill pull-xs-right float-end ml-5 border-left border-warning pl-3"
+            >
+              {s}
+            </span>
+          ))}
+        </li>
+      )}
       <li className="list-group-item">
         Available{" "}
         <span className="label label-default label-pill pull-xs-right float-end">
