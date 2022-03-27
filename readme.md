@@ -5,12 +5,14 @@ Roop kotha Bosson Its a traditional Indian fashion house, where you can find all
 
 ## Table of content
 - [Descriptin](#Descrption)
+- [Screenshot](#Roopkotha_boson_Screenshot)
 - [Installation Frontend](#Installation_FrontEnd)
-- [Installation Backend](#Installation_BackEnd)
-- [Screenshot](#Screenshot)
+- [Database](#For_database)
 - [API Integration](#API)
 - [How to Run](#Rum)
 - [Contributing](#Contributing)
+- [Questions](#Questions)
+- [License](#License)
 
 ## Descrption
 ```md
@@ -98,6 +100,34 @@ THEN I am taken to the page of change password options
 
 ```
 
+##  Roopkotha_boson_Screenshot
+
+[![Screenshot](./images/video_1.gif)]
+
+##  Roopkotha_boson_Screenshot
+
+[![Screenshot](./images/video_2.gif)]
+
+##  Roopkotha_boson_Screenshot
+### Log in as user
+
+[![Screenshot](./images/video_3.gif)]
+
+##  Roopkotha_boson_Screenshot
+### Checkout
+
+[![Screenshot](./images/video_6.gif)]
+
+##  Roopkotha_boson_Screenshot
+### Log in as admin
+
+[![Screenshot](./images/video_4.gif)]
+
+##  Roopkotha_boson_Screenshot
+### Log in as admin
+
+[![Screenshot](./images/video_5.gif)]
+
 ## Installation_Frontend
 ```md
  ### For frontend (client) 
@@ -143,7 +173,7 @@ For Bootstrap material design : https://mdbootstrap.com/
 For ant design : https://ant.design/
 
 ```
-## For database
+## For_database
 ```md
 In the command prompt 
 run mongoose 
@@ -153,7 +183,7 @@ Also, install Studio 3T
 for database, you can import and export data using Studio 3T
 
 ```
-## Installation_Backend
+## API
 ```md
 npm install dotenv
 npm install nodemon
@@ -167,35 +197,6 @@ npm install stripe
 
 
 ```
-##  Roopkotha boson Screenshot
-
-[![Screenshot](./images/video_1.gif)]
-
-##  Roopkotha boson Screenshot 
-
-[![Screenshot](./images/video_2.gif)]
-
-##  Roopkotha boson Screenshot
-### Log in as user
-
-[![Screenshot](./images/video_3.gif)]
-
-##  Roopkotha boson Screenshot
-### Checkout
-
-[![Screenshot](./images/video_6.gif)]
-
-##  Roopkotha boson Screenshot
-### Log in as admin
-
-[![Screenshot](./images/video_4.gif)]
-
-
-##  Roopkotha boson Screenshot
-### Log in as admin
-
-[![Screenshot](./images/video_5.gif)]
-
 ## Run
 On Localhost:
 For client side: npm start
