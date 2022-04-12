@@ -14,11 +14,11 @@ const app = express();
 //db
 mongoose
   //.connect(process.env.DATABASE, {
-  .connect(process.env.MONGO_URI ||DATABASE , {
-    useFindAndModify: false,
+  .connect(process.env.MONGO_URI, {
+    // useFindAndModify: false,
     useUnifiedTopology: true,
     useNewUrlParser: true,
-    useCreateIndex: true,
+   // useCreateIndex: true,
     // useFindAndModify: false
   })
   //mongoose.connect("mongodb://localhost:27017/User", { useNewUrlParser: true })
