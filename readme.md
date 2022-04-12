@@ -132,7 +132,7 @@ THEN I am taken to the page of change password options
 
 ```md
 
- ## For frontend (client) 
+### For frontend (client) 
 run cd client >>
 
 // For creating REACT APP
@@ -201,7 +201,7 @@ npm install stripe
 ```
 ## Run
 ```md
-##  On Localhost:
+## On Localhost:
 ### For client side: npm start
 ### For server side: npm start
 
